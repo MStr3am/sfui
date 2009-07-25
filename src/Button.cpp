@@ -21,6 +21,8 @@
 
 namespace sf
 {
+    namespace ui
+    {
         Button::Button(const Unicode::Text& caption, float size)
             :   Widget(),
                 mCaption(caption, size),
@@ -80,5 +82,6 @@ namespace sf
             Widget::OnPaint(target);
         }
 
+    }
 
 }

@@ -20,14 +20,16 @@
 
 namespace sf
 {
-    void    KeyListener::OnKeyEvent(const Event& event)
+    namespace ui
     {
-        if (event.Type == Event::KeyPressed)
-            OnKeyPressed(event);
-        else if (event.Type == Event::KeyReleased)
-            OnKeyReleased(event);
-        else if (event.Type == Event::TextEntered)
-            OnTextEntered(event);
+        void    KeyListener::OnKeyEvent(const Event& event)
+        {
+            if (event.Type == Event::KeyPressed)
+                OnKeyPressed(event);
+            else if (event.Type == Event::KeyReleased)
+                OnKeyReleased(event);
+            else if (event.Type == Event::TextEntered)
+                OnTextEntered(event);
+        }
     }
-
 }

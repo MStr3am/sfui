@@ -23,22 +23,24 @@
 
 namespace sf
 {
-    class MouseListener
+    namespace ui
     {
-        public :
+        class MouseListener
+        {
+            public :
 
-            void            OnMouseEvent(const Event& event);
+                void            OnMouseEvent(const Event& event);
 
-        protected :
+            protected :
 
-            virtual void    OnMousePressed(const Event& event) {};
-            virtual void    OnMouseReleased(const Event& event) {};
-            virtual void    OnMouseEntered(const Event& event) {};
-            virtual void    OnMouseLeft(const Event& event) {};
-            virtual void    OnMouseMoved(const Event& event) {};
+                virtual void    OnMousePressed(const Event& event) {};
+                virtual void    OnMouseReleased(const Event& event) {};
+                virtual void    OnMouseEntered(const Event& event) {};
+                virtual void    OnMouseLeft(const Event& event) {};
+                virtual void    OnMouseMoved(const Event& event) {};
 
-    };
-
+        };
+    }
 }
 
 #endif // MOUSELISTENER_HPP_INCLUDED

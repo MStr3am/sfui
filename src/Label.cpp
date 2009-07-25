@@ -23,67 +23,80 @@
 
 namespace sf
 {
-    Label::Label(const Unicode::Text& caption, float textSize)
-        :   Widget(),
-            mCaption(caption, Font::GetDefaultFont(), textSize)
+    namespace ui
     {
-        const FloatRect&    rect = mCaption.GetRect();
 
-        SetSize(rect.GetWidth(), rect.GetHeight());
-    }
-
-    void    Label::OnChange(Widget::Property property)
-    {
-        if (property == Widget::COLOR)
+        Label::Label(const Unicode::Text& caption, float textSize)
+            :   Widget(),
+                mCaption(caption, Font::GetDefaultFont(), textSize)
         {
-            mCaption.SetColor(GetColor());
+            const FloatRect&    rect = mCaption.GetRect();
+
+            SetSize(rect.GetWidth(), rect.GetHeight());
         }
-    }
 
-    void    Label::OnPaint(RenderTarget& target) const
-    {
-        const Unicode::UTF32String& Text = mCaption.GetText();
-        const Font& font = mCaption.GetFont();
-
-        if (Text.empty())
-            return;
-
-        float CharSize =  static_cast<float>(font.GetCharacterSize());
-        float Factor   = mCaption.GetSize() / CharSize;
-        glScalef(Factor, Factor, 1.f);
-
-        font.GetImage().Bind();
-
-        float X = 0.f;
-        float Y = CharSize;
-
-        glBegin(GL_QUADS);
-
-        for (std::size_t i = 0; i < Text.size(); ++i)
+        void    Label::SetCaption(const Unicode::Text& caption)
         {
-            Uint32           CurChar  = Text[i];
-            const Glyph&     CurGlyph = font.GetGlyph(CurChar);
-            int              Advance  = CurGlyph.Advance;
-            const IntRect&   Rect     = CurGlyph.Rectangle;
-            const FloatRect& Coord    = CurGlyph.TexCoords;
+            mCaption.SetText(caption);
+        }
 
-            switch (CurChar)
+        const Unicode::Text&    Label::GetCaption() const
+        {
+            return mCaption.GetText();
+        }
+
+        void    Label::OnChange(Widget::Property property)
+        {
+            if (property == Widget::COLOR)
             {
-                case L' ' :  X += Advance;         continue;
-                case L'\n' : Y += CharSize; X = 0; continue;
-                case L'\t' : X += Advance  * 4;    continue;
-                case L'\v' : Y += CharSize * 4;    continue;
+                mCaption.SetColor(GetColor());
             }
-
-            glTexCoord2f(Coord.Left,  Coord.Top);    glVertex2f(X + Rect.Left, Y + Rect.Top);
-            glTexCoord2f(Coord.Left,  Coord.Bottom); glVertex2f(X + Rect.Left, Y + Rect.Bottom);
-            glTexCoord2f(Coord.Right, Coord.Bottom); glVertex2f(X + Rect.Right, Y + Rect.Bottom);
-            glTexCoord2f(Coord.Right, Coord.Top);    glVertex2f(X + Rect.Right, Y + Rect.Top);
-
-            X += Advance;
         }
-        glEnd();
 
+        void    Label::OnPaint(RenderTarget& target) const
+        {
+            const Unicode::UTF32String& Text = mCaption.GetText();
+            const Font& font = mCaption.GetFont();
+
+            if (Text.empty())
+                return;
+
+            float CharSize =  static_cast<float>(font.GetCharacterSize());
+            float Factor   = mCaption.GetSize() / CharSize;
+            glScalef(Factor, Factor, 1.f);
+
+            font.GetImage().Bind();
+
+            float X = 0.f;
+            float Y = CharSize;
+
+            glBegin(GL_QUADS);
+
+            for (std::size_t i = 0; i < Text.size(); ++i)
+            {
+                Uint32           CurChar  = Text[i];
+                const Glyph&     CurGlyph = font.GetGlyph(CurChar);
+                int              Advance  = CurGlyph.Advance;
+                const IntRect&   Rect     = CurGlyph.Rectangle;
+                const FloatRect& Coord    = CurGlyph.TexCoords;
+
+                switch (CurChar)
+                {
+                    case L' ' :  X += Advance;                  continue;
+                    case L'\n' : Y += CharSize; X = 0;          continue;
+                    case L'\t' : X += font.GetGlyph(' ').Advance * 4;   continue;
+                    case L'\v' : Y += CharSize * 4;             continue;
+                }
+
+                glTexCoord2f(Coord.Left,  Coord.Top);    glVertex2f(X + Rect.Left, Y + Rect.Top);
+                glTexCoord2f(Coord.Left,  Coord.Bottom); glVertex2f(X + Rect.Left, Y + Rect.Bottom);
+                glTexCoord2f(Coord.Right, Coord.Bottom); glVertex2f(X + Rect.Right, Y + Rect.Bottom);
+                glTexCoord2f(Coord.Right, Coord.Top);    glVertex2f(X + Rect.Right, Y + Rect.Top);
+
+                X += Advance;
+            }
+            glEnd();
+
+        }
     }
-
 }

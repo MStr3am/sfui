@@ -24,105 +24,106 @@
 #include <SFML/Window/Event.hpp>
 #include <SFML/Graphics/Rect.hpp>
 
+#include "Area.hpp"
+
 namespace sf
 {
-    class Widget;
-    class GuiRenderer;
-    class MouseListener;
-    class KeyListener;
-
-    typedef std::vector<Widget*> Widgets;
-    typedef std::vector<MouseListener*> MouseListeners;
-    typedef std::vector<KeyListener*> KeyListeners;
-
-    class Widget : public Drawable
+    namespace ui
     {
-        friend class GuiRenderer;
+        class Widget;
+        class GuiRenderer;
+        class MouseListener;
+        class KeyListener;
 
-        public:
+        typedef std::vector<Widget*> Widgets;
+        typedef std::vector<MouseListener*> MouseListeners;
+        typedef std::vector<KeyListener*> KeyListeners;
 
-            typedef enum
-            {
-                NONE = 0,
+        class Widget : public Drawable
+        {
+            friend class GuiRenderer;
 
-                COLOR,
-                SIZE,
-                ENABLE,
-                VISIBLE,
-                FOCUSABLE,
+            public:
 
-                NB_STATES
-            } Property;
+                typedef enum
+                {
+                    NONE = 0,
 
+                    COLOR,
+                    SIZE,
+                    ENABLE,
+                    VISIBLE,
+                    FOCUSABLE,
 
-            Widget(Vector2f pos = Vector2f(0, 0), Vector2f size = Vector2f(20, 20));
-            ~Widget();
-
-            void                SetColor(const Color& color);
-
-            void                SetSize(const Vector2f& size);
-            void                SetSize(float width, float height);
-            void                SetWidth(float width);
-            void                SetHeight(float height);
-
-            const Vector2f&     GetSize() const;
-            float               GetWidth() const;
-            float               GetHeight() const;
-
-            FloatRect           GetRect(bool absolute) const;
-
-            Vector2f            GetAbsolutePosition() const;
-
-            void                SetEnabled(bool enable);
-            void                SetVisible(bool visible);
-            void                SetFocusable(bool focusable);
-
-            bool                IsEnabled() const;
-            bool                IsVisible() const;
-            bool                IsFocusable() const;
-
-            bool                HasFocus() const;
-
-            void                Add(Widget* widget);
-            void                Remove(Widget* widget);
-
-            const Widgets&      GetChildren() const;
-
-            Widget*             GetParent() const;
+                    NB_STATES
+                } Property;
 
 
-            void                AddMouseListener(MouseListener* mouseListener);
-            void                AddKeyListener(KeyListener* keyListener);
+                Widget(Vector2f pos = Vector2f(0, 0), Vector2f size = Vector2f(20, 20));
+                ~Widget();
 
+                void                SetColor(const Color& color);
 
-        protected:
-            virtual void        Render(RenderTarget& target) const;
-            virtual void        OnPaint(RenderTarget& target) const;
-            virtual void        OnChange(Property property) {};
+                void                SetSize(const Vector2f& size);
+                void                SetSize(float width, float height);
+                void                SetWidth(float width);
+                void                SetHeight(float height);
 
-        private:
-            void                DistributeEvent(const Event& event);
-            void                RenderChildren(RenderTarget& target) const;
+                const Vector2f&     GetSize() const;
+                float               GetWidth() const;
+                float               GetHeight() const;
 
-            Widgets::iterator   Find(const Widget* widget);
+                FloatRect           GetRect(bool absolute) const;
 
-            Vector2f            mSize;
-            Widgets             mChildren;
-            Widget*             mParent;
+                Vector2f            GetAbsolutePosition() const;
 
-            bool                mEnabled;
-            bool                mVisible;
-            bool                mFocusable;
+                void                SetEnabled(bool enable);
+                void                SetVisible(bool visible);
+                void                SetFocusable(bool focusable);
 
-            MouseListeners      mMouseListeners;
-            KeyListeners        mKeyListeners;
+                bool                IsEnabled() const;
+                bool                IsVisible() const;
+                bool                IsFocusable() const;
 
-            static Widget*      mFocusedWidget;
+                bool                HasFocus() const;
 
+                void                Add(Widget* widget);
+                void                Remove(Widget* widget);
 
+                const Widgets&      GetChildren() const;
 
-    };
+                Widget*             GetParent() const;
 
+                void                AddMouseListener(MouseListener* mouseListener);
+                void                AddKeyListener(KeyListener* keyListener);
+
+            protected:
+                virtual void        Render(RenderTarget& target) const;
+                virtual void        OnPaint(RenderTarget& target) const;
+                virtual void        OnChange(Property property) {};
+
+            private:
+                void                DistributeEvent(const Event& event);
+                void                RenderChildren(RenderTarget& target) const;
+
+                Widgets::iterator   Find(const Widget* widget);
+
+                Vector2f            mSize;
+                Widgets             mChildren;
+                Widget*             mParent;
+
+                bool                mEnabled;
+                bool                mVisible;
+                bool                mFocusable;
+
+                MouseListeners      mMouseListeners;
+                KeyListeners        mKeyListeners;
+
+                static Widget*      mFocusedWidget;
+
+        };
+
+    }
 
 
 }
