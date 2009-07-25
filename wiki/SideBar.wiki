@@ -2,9 +2,9 @@
 
 = Menu =
 
-  * [ HomePage Home ]
+  * [ HomePage Home ] Home
 
 = Edition =
 
-  * [ http://code.google.com/p/sfui/w/new ] New 
-  * [ http://code.google.com/p/sfui/w/edit ] Edit 
+  * [ http://code.google.com/p/sfui/w/new New] New 
+  * [ http://code.google.com/p/sfui/w/edit Edit] Edit 
