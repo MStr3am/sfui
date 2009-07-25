@@ -1,0 +1,10 @@
+#summary SideBar of the wiki
+
+= Menu =
+
+  * [ HomePage Home ]
+
+= Edition =
+
+  * [ http://code.google.com/p/sfui/w/new New ]
+  * [ http://code.google.com/p/sfui/w/edit Edit ]
