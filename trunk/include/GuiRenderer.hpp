@@ -25,37 +25,40 @@
 
 namespace sf
 {
-    class GuiRenderer
+    namespace ui
     {
-        public:
-            GuiRenderer(RenderWindow& renderWindow);
-            ~GuiRenderer();
+        typedef     Vector2<unsigned int>   Vector2ui;
 
-            void    InjectEvent(const Event& event);
+        class GuiRenderer
+        {
+            public:
+                GuiRenderer(RenderWindow& renderWindow);
+                ~GuiRenderer();
 
-            void    Resize(const Vector2<unsigned int>& size);
-            void    Resize(unsigned int width, unsigned int height);
+                void                InjectEvent(const Event& event);
 
-            void    Display();
+                void                Resize(const Vector2ui& size);
+                void                Resize(unsigned int width, unsigned int height);
 
-            Widget& GetTopWidget();
-            Widget* GetFocusedWidget() const;
+                void                Display();
 
-        protected:
-            void    HandleFocus();
+                Widget&             GetTopWidget();
+                Widget*             GetFocusedWidget() const;
 
-            View            mView;
+            protected:
+                void                HandleFocus();
 
-        private:
-            bool    SetFocusUnderMouse(Widget* widget, const Vector2<unsigned int>& mouse, Vector2f initialPosition);
+                View                mView;
 
-            RenderWindow&   mRenderWindow;
-            Widget          mTopWidget;
-            bool            mMouseInside;
+            private:
+                bool                SetFocusUnderMouse(Widget* widget, const Vector2ui& mouse, Vector2f initialPosition);
 
+                RenderWindow&       mRenderWindow;
+                Widget              mTopWidget;
+                bool                mMouseInside;
+        };
 
-    };
-
+    }
 
 }
 

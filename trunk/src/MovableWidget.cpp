@@ -21,63 +21,66 @@
 
 namespace sf
 {
-    MovableWidget::MovableWidget()
-        :   Widget(),
-            mMovable(true),
-            mDragged(false),
-            mDragOffset(0.f, 0.f),
-            mNeedUpdate(false)
+    namespace ui
     {
-        AddMouseListener(this);
-    }
 
-    void    MovableWidget::OnMousePressed(const Event& event)
-    {
-        if (!mMovable)
-            return;
-
-        mDragged = true;
-        mNeedUpdate = true;
-    }
-
-    void    MovableWidget::OnMouseReleased(const Event& event)
-    {
-        mDragged = false;
-    }
-
-    void    MovableWidget::OnMouseMoved(const Event& event)
-    {
-        if (mDragged && mMovable)
+        MovableWidget::MovableWidget()
+            :   Widget(),
+                mMovable(true),
+                mDragged(false),
+                mDragOffset(0.f, 0.f),
+                mNeedUpdate(false)
         {
-            const Vector2f& mousePos = Vector2f(event.MouseMove.X, event.MouseMove.Y);
-            const Vector2f& absPos = GetAbsolutePosition();
+            AddMouseListener(this);
+        }
 
-            if (mNeedUpdate)
+        void    MovableWidget::OnMousePressed(const Event& event)
+        {
+            if (!mMovable)
+                return;
+
+            mDragged = true;
+            mNeedUpdate = true;
+        }
+
+        void    MovableWidget::OnMouseReleased(const Event& event)
+        {
+            mDragged = false;
+        }
+
+        void    MovableWidget::OnMouseMoved(const Event& event)
+        {
+            if (mDragged && mMovable)
             {
-                mNeedUpdate = false;
-                mDragOffset = mousePos - absPos;
+                const Vector2f& mousePos = Vector2f(event.MouseMove.X, event.MouseMove.Y);
+                const Vector2f& absPos = GetAbsolutePosition();
+
+                if (mNeedUpdate)
+                {
+                    mNeedUpdate = false;
+                    mDragOffset = mousePos - absPos;
+                }
+
+                Vector2f newPos = mousePos - mDragOffset;
+                Widget* parent = GetParent();
+
+                if (parent)
+                {
+                    const Vector2f& limitPos = absPos - GetPosition();
+
+                    if (newPos.x < limitPos.x)
+                        newPos.x = limitPos.x;
+                    else if (newPos.x + GetWidth() > limitPos.x + parent->GetWidth())
+                        newPos.x = limitPos.x + parent->GetWidth() - GetWidth();
+
+                    if (newPos.y < limitPos.y)
+                        newPos.y = limitPos.y;
+                    else if (newPos.y + GetHeight() > limitPos.y + parent->GetHeight())
+                        newPos.y = limitPos.y + parent->GetHeight() - GetHeight();
+                }
+
+                Move(newPos - absPos);
             }
-
-            Vector2f newPos = mousePos - mDragOffset;
-            Widget* parent = GetParent();
-
-            if (parent)
-            {
-                const Vector2f& limitPos = absPos - GetPosition();
-
-                if (newPos.x < limitPos.x)
-                    newPos.x = limitPos.x;
-                else if (newPos.x + GetWidth() > limitPos.x + parent->GetWidth())
-                    newPos.x = limitPos.x + parent->GetWidth() - GetWidth();
-
-                if (newPos.y < limitPos.y)
-                    newPos.y = limitPos.y;
-                else if (newPos.y + GetHeight() > limitPos.y + parent->GetHeight())
-                    newPos.y = limitPos.y + parent->GetHeight() - GetHeight();
-            }
-
-            Move(newPos - absPos);
         }
     }
-
 }

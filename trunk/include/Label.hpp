@@ -24,20 +24,26 @@
 
 namespace sf
 {
-    class Label : public Widget
+    namespace ui
     {
-        public :
-            Label(const Unicode::Text& caption, float textSize = 15.f);
+        class Label : public Widget
+        {
+            public :
+                Label(const Unicode::Text& caption, float textSize = 15.f);
 
-        protected :
-            virtual void    OnPaint(RenderTarget& target) const;
-            virtual void    OnChange(Widget::Property property);
+                void                    SetCaption(const Unicode::Text& caption);
+                const Unicode::Text&    GetCaption() const;
 
-        private :
-            String          mCaption;
+            protected :
+                virtual void            OnPaint(RenderTarget& target) const;
+                virtual void            OnChange(Widget::Property property);
 
-    };
+            private :
+                String          mCaption;
 
+        };
+
+    }
 
 }
 

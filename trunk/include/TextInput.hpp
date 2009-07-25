@@ -1,5 +1,5 @@
-#ifndef BUTTON_HPP_INCLUDED
-#define BUTTON_HPP_INCLUDED
+#ifndef TEXTINPUT_HPP_INCLUDED
+#define TEXTINPUT_HPP_INCLUDED
 
 /*
     This file is part of SFUI (by Robin RUAUX).
@@ -20,37 +20,49 @@
 */
 
 #include "Label.hpp"
-#include "MouseListener.hpp"
+#include "KeyListener.hpp"
 
 namespace sf
 {
     namespace ui
     {
-        class Button : public Widget, public MouseListener
+        class TextInput : public Widget, public KeyListener
         {
             public :
-                Button(const Unicode::Text& caption, float size = 20.f);
+                TextInput(const Unicode::Text& text = L"");
 
-                bool            IsPressed() const;
+                void                    SetText(const Unicode::Text& text);
+                const Unicode::Text&    GetText() const;
+
+                void                    SetMaxLength(unsigned int maxLength);
+                unsigned int            GetMaxLength() const;
 
             protected :
 
-                // Inherited from MouseListener.
-                virtual void    OnMousePressed(const Event& event);
-                virtual void    OnMouseReleased(const Event& event);
-                virtual void    OnMouseLeft(const Event& event);
-
                 // Inherited from Widget
-                virtual void    OnPaint(RenderTarget& target) const;
                 virtual void    OnChange(Widget::Property property);
+                virtual void    OnPaint(RenderTarget& target) const;
+
+                // Inherited from KeyListener
+                virtual void    OnKeyPressed(const Event& event);
+                virtual void    OnTextEntered(const Event& event);
+
 
             private :
-                Label           mCaption;
-                bool            mPressed;
+                Label           mString;
+                unsigned int    mMaxLength;
+                unsigned int    mCursorPosition;
+
+
+
+
 
         };
+
+
+
     }
 
 }
 
-#endif // BUTTON_HPP_INCLUDED
+#endif // TEXTINPUT_HPP_INCLUDED

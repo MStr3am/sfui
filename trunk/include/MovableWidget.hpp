@@ -24,30 +24,32 @@
 
 namespace sf
 {
-    class MovableWidget : public Widget, public MouseListener
+    namespace ui
     {
-        public :
+        class MovableWidget : public Widget, public MouseListener
+        {
+            public :
 
-            MovableWidget();
+                MovableWidget();
 
-            void            SetMovable(bool movable);
-            bool            IsMovable();
+                void            SetMovable(bool movable);
+                bool            IsMovable();
 
-        protected :
-            virtual void    OnMousePressed(const Event& event);
-            virtual void    OnMouseReleased(const Event& event);
-            virtual void    OnMouseMoved(const Event& event);
+            protected :
+                virtual void    OnMousePressed(const Event& event);
+                virtual void    OnMouseReleased(const Event& event);
+                virtual void    OnMouseMoved(const Event& event);
 
-        private :
-            bool            mMovable;
+            private :
+                bool            mMovable;
 
-            bool            mDragged;
-            Vector2f        mDragOffset;
-            bool            mNeedUpdate;
+                bool            mDragged;
+                Vector2f        mDragOffset;
+                bool            mNeedUpdate;
 
-    };
+        };
 
-
+    }
 
 }
 

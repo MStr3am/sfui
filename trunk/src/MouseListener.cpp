@@ -20,19 +20,20 @@
 
 namespace sf
 {
-    void    MouseListener::OnMouseEvent(const Event& event)
+    namespace ui
     {
-        if (event.Type == Event::MouseButtonPressed)
-            OnMousePressed(event);
-        else if (event.Type == Event::MouseButtonReleased)
-            OnMouseReleased(event);
-        else if (event.Type == Event::MouseEntered)
-            OnMouseEntered(event);
-        else if (event.Type == Event::MouseLeft)
-            OnMouseLeft(event);
-        else if (event.Type == Event::MouseMoved)
-            OnMouseMoved(event);
+        void    MouseListener::OnMouseEvent(const Event& event)
+        {
+            if (event.Type == Event::MouseButtonPressed)
+                OnMousePressed(event);
+            else if (event.Type == Event::MouseButtonReleased)
+                OnMouseReleased(event);
+            else if (event.Type == Event::MouseEntered)
+                OnMouseEntered(event);
+            else if (event.Type == Event::MouseLeft)
+                OnMouseLeft(event);
+            else if (event.Type == Event::MouseMoved)
+                OnMouseMoved(event);
+        }
     }
-
-
 }

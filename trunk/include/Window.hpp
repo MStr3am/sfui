@@ -1,5 +1,5 @@
-#ifndef KEYLISTENER_HPP_INCLUDED
-#define KEYLISTENER_HPP_INCLUDED
+#ifndef WINDOW_HPP_INCLUDED
+#define WINDOW_HPP_INCLUDED
 
 /*
     This file is part of SFUI (by Robin RUAUX).
@@ -19,24 +19,24 @@
 
 */
 
-#include <SFML/Window/Event.hpp>
+#include "MovableWidget.hpp"
+#include "Label.hpp"
 
 namespace sf
 {
     namespace ui
     {
-        class KeyListener
+        class Window : public MovableWidget
         {
             public :
-
-                void            OnKeyEvent(const Event& event);
+                Window(const Unicode::Text& title);
 
             protected :
+                virtual void    OnChange(Widget::Property property);
 
-                virtual void    OnKeyPressed(const Event& event) {};
-                virtual void    OnKeyReleased(const Event& event) {};
+            private :
+                Label   mTitle;
 
-                virtual void    OnTextEntered(const Event& event) {};
 
         };
 
@@ -45,4 +45,4 @@ namespace sf
 
 }
 
-#endif // KEYLISTENER_HPP_INCLUDED
+#endif // WINDOW_HPP_INCLUDED
