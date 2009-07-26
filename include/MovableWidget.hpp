@@ -32,8 +32,11 @@ namespace sf
 
                 MovableWidget();
 
-                void            SetMovable(bool movable);
-                bool            IsMovable();
+                void            SetMovable(bool movable = true);
+                void            SetBlocked(bool blocked = true);
+
+                bool            IsMovable() const;
+                bool            IsBlocked() const;
 
             protected :
                 virtual void    OnMousePressed(const Event::MouseButtonEvent& button);
@@ -42,6 +45,7 @@ namespace sf
 
             private :
                 bool            mMovable;
+                bool            mBlocked;
 
                 bool            mDragged;
                 Vector2f        mDragOffset;

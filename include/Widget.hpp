@@ -75,9 +75,9 @@ namespace sf
 
                 Vector2f            GetAbsolutePosition() const;
 
-                void                SetEnabled(bool enable);
-                void                SetVisible(bool visible);
-                void                SetFocusable(bool focusable);
+                void                SetEnabled(bool enable = true);
+                void                SetVisible(bool visible = true);
+                void                SetFocusable(bool focusable = true);
 
                 bool                IsEnabled() const;
                 bool                IsVisible() const;
