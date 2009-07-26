@@ -32,7 +32,10 @@ namespace sf
                 Label(const Unicode::Text& caption, float textSize = 15.f);
 
                 void                    SetCaption(const Unicode::Text& caption);
-                const Unicode::Text&    GetCaption() const;
+                void                    SetFont(const Font& font);
+                void                    SetFontSize(float size);
+
+                const String&           GetString() const;
 
             protected :
                 virtual void            OnPaint(RenderTarget& target) const;
