@@ -25,11 +25,11 @@ namespace sf
         void    KeyListener::OnKeyEvent(const Event& event)
         {
             if (event.Type == Event::KeyPressed)
-                OnKeyPressed(event);
+                OnKeyPressed(event.Key);
             else if (event.Type == Event::KeyReleased)
-                OnKeyReleased(event);
+                OnKeyReleased(event.Key);
             else if (event.Type == Event::TextEntered)
-                OnTextEntered(event);
+                OnTextEntered(event.Text);
         }
     }
 }

@@ -45,7 +45,17 @@ namespace sf
             }
         }
 
-        void    Button::OnMousePressed(const Event& event)
+        void    Button::SetTextColor(const Color& color)
+        {
+            mCaption.SetColor(color);
+        }
+
+        const Color&    Button::GetTextColor() const
+        {
+            return mCaption.GetColor();
+        }
+
+        void    Button::OnMousePressed(const Event::MouseButtonEvent& button)
         {
             if (!mPressed)
             {
@@ -54,7 +64,7 @@ namespace sf
             }
         }
 
-        void    Button::OnMouseReleased(const Event& event)
+        void    Button::OnMouseReleased(const Event::MouseButtonEvent& button)
         {
             if (mPressed)
             {
@@ -63,7 +73,7 @@ namespace sf
             }
         }
 
-        void    Button::OnMouseLeft(const Event& event)
+        void    Button::OnMouseLeft(const Event::MouseMoveEvent& mouse)
         {
             if (mPressed)
             {

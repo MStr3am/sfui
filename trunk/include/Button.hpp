@@ -33,12 +33,15 @@ namespace sf
 
                 bool            IsPressed() const;
 
+                void            SetTextColor(const Color& color);
+                const Color&    GetTextColor() const;
+
             protected :
 
                 // Inherited from MouseListener.
-                virtual void    OnMousePressed(const Event& event);
-                virtual void    OnMouseReleased(const Event& event);
-                virtual void    OnMouseLeft(const Event& event);
+                virtual void    OnMousePressed(const Event::MouseButtonEvent& button);
+                virtual void    OnMouseReleased(const Event::MouseButtonEvent& button);
+                virtual void    OnMouseLeft(const Event::MouseMoveEvent& mouse);
 
                 // Inherited from Widget
                 virtual void    OnPaint(RenderTarget& target) const;

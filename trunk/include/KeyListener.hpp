@@ -33,10 +33,10 @@ namespace sf
 
             protected :
 
-                virtual void    OnKeyPressed(const Event& event) {};
-                virtual void    OnKeyReleased(const Event& event) {};
+                virtual void    OnKeyPressed(const Event::KeyEvent& key) {};
+                virtual void    OnKeyReleased(const Event::KeyEvent& key) {};
 
-                virtual void    OnTextEntered(const Event& event) {};
+                virtual void    OnTextEntered(const Event::TextEvent& text) {};
 
         };
 

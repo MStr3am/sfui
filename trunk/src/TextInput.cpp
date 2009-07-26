@@ -68,19 +68,19 @@ namespace sf
             return mMaxLength;
         }
 
-        void    TextInput::OnKeyPressed(const Event& event)
+        void    TextInput::OnKeyPressed(const Event::KeyEvent& key)
         {
-            if (event.Key.Code == Key::Left && mCursorPosition)
+            if (key.Code == Key::Left && mCursorPosition)
                 --mCursorPosition;
-            else if (event.Key.Code == Key::Right)
+            else if (key.Code == Key::Right)
                 ++mCursorPosition;
         }
 
-        void    TextInput::OnTextEntered(const Event& event)
+        void    TextInput::OnTextEntered(const Event::TextEvent& text)
         {
             std::wstring currentText = GetText();
 
-            switch (event.Text.Unicode)
+            switch (text.Unicode)
             {
                 case 8:
                     if (!currentText.empty())
@@ -89,7 +89,7 @@ namespace sf
 
                 default :
                     if (currentText.length() < mMaxLength || !mMaxLength)
-                        currentText += event.Text.Unicode;
+                        currentText += text.Unicode;
                 break;
             };
 

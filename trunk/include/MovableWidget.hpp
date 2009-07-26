@@ -36,9 +36,9 @@ namespace sf
                 bool            IsMovable();
 
             protected :
-                virtual void    OnMousePressed(const Event& event);
-                virtual void    OnMouseReleased(const Event& event);
-                virtual void    OnMouseMoved(const Event& event);
+                virtual void    OnMousePressed(const Event::MouseButtonEvent& button);
+                virtual void    OnMouseReleased(const Event::MouseButtonEvent& button);
+                virtual void    OnMouseMoved(const Event::MouseMoveEvent& mouse);
 
             private :
                 bool            mMovable;

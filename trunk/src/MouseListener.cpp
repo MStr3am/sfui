@@ -25,15 +25,15 @@ namespace sf
         void    MouseListener::OnMouseEvent(const Event& event)
         {
             if (event.Type == Event::MouseButtonPressed)
-                OnMousePressed(event);
+                OnMousePressed(event.MouseButton);
             else if (event.Type == Event::MouseButtonReleased)
-                OnMouseReleased(event);
+                OnMouseReleased(event.MouseButton);
             else if (event.Type == Event::MouseEntered)
-                OnMouseEntered(event);
+                OnMouseEntered(event.MouseMove);
             else if (event.Type == Event::MouseLeft)
-                OnMouseLeft(event);
+                OnMouseLeft(event.MouseMove);
             else if (event.Type == Event::MouseMoved)
-                OnMouseMoved(event);
+                OnMouseMoved(event.MouseMove);
         }
     }
 }

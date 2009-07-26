@@ -24,8 +24,6 @@
 #include <SFML/Window/Event.hpp>
 #include <SFML/Graphics/Rect.hpp>
 
-#include "Area.hpp"
-
 namespace sf
 {
     namespace ui
