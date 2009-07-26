@@ -245,9 +245,6 @@ namespace sf
         {
             OnPaint(target);
             RenderChildren(target);
-
-            // Reinitialize the scissor
-            glScissor(0, 0, target.GetWidth(), target.GetHeight());
         }
     }
 }

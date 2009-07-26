@@ -112,9 +112,7 @@ namespace sf
         {
             mRenderWindow.SetView(mView);
 
-            glEnable(GL_SCISSOR_TEST);
             mRenderWindow.Draw(mTopWidget);
-            glDisable(GL_SCISSOR_TEST);
 
             mRenderWindow.SetView(mRenderWindow.GetDefaultView());
         }

@@ -41,20 +41,21 @@ namespace sf
 
                 // Inherited from Widget
                 virtual void    OnChange(Widget::Property property);
-                virtual void    OnPaint(RenderTarget& target) const;
+                virtual void    Render(RenderTarget& target) const;
 
                 // Inherited from KeyListener
                 virtual void    OnKeyPressed(const Event::KeyEvent& key);
                 virtual void    OnTextEntered(const Event::TextEvent& text);
 
+                static float    mStringOffset;
+
             private :
+                void            AdjustRect();
+
                 Label           mString;
                 unsigned int    mMaxLength;
                 unsigned int    mCursorPosition;
-
-
-
-
+                int             mCursorOffset;
 
         };
 

@@ -40,9 +40,19 @@ namespace sf
             mCaption.SetText(caption);
         }
 
-        const Unicode::Text&    Label::GetCaption() const
+        void    Label::SetFont(const Font& font)
         {
-            return mCaption.GetText();
+            mCaption.SetFont(font);
+        }
+
+        void    Label::SetFontSize(float size)
+        {
+            mCaption.SetSize(size);
+        }
+
+        const String&           Label::GetString() const
+        {
+            return mCaption;
         }
 
         void    Label::OnChange(Widget::Property property)
@@ -50,6 +60,10 @@ namespace sf
             if (property == Widget::COLOR)
             {
                 mCaption.SetColor(GetColor());
+            }
+            else if (property == Widget::SIZE)
+            {
+                mCaption.SetSize(GetHeight());
             }
         }
 
@@ -72,6 +86,7 @@ namespace sf
 
             glBegin(GL_QUADS);
 
+            // Adapted from sf::String (by Laurent Gomila)
             for (std::size_t i = 0; i < Text.size(); ++i)
             {
                 Uint32           CurChar  = Text[i];
