@@ -34,13 +34,17 @@ namespace sf
                 mString(string),
                 mMaxLength(0),
                 mCursorPosition(0),
-                mCursorOffset(0)
+                mCursorOffset(0),
+                mSelectionDragged(false),
+                mSelectionIndexes(0, 0)
         {
             mString.SetFocusable(false);
 
             Add(&mString);
-            AddKeyListener(this);
             AdjustRect();
+
+            AddKeyListener(this);
+            AddMouseListener(this);
         }
 
         void    TextInput::SetText(const Unicode::Text& text)
@@ -71,14 +75,64 @@ namespace sf
             return mMaxLength;
         }
 
+        unsigned int    TextInput::GetCharacterAtPos(float xOffset)
+        {
+            const Unicode::UTF16String& text = GetText();
+
+            for (unsigned int i = 0; i < text.length(); ++i)
+            {
+                mString.SetCaption(text.substr(0, i));
+                const FloatRect& rect = mString.GetString().GetRect();
+                mString.SetCaption(text);
+
+                if (rect.GetWidth() > xOffset)
+                    return i;
+            }
+            return text.length();
+        }
+
+        void    TextInput::OnMousePressed(const Event::MouseButtonEvent& button)
+        {
+            mCursorPosition = GetCharacterAtPos(button.X - GetAbsolutePosition().x - mStringOffset + mCursorOffset);
+            mSelectionDragged = true;
+            mSelectionIndexes.x = mSelectionIndexes.y = mCursorPosition;
+
+            AdjustRect();
+        }
+
+        void    TextInput::OnMouseReleased(const Event::MouseButtonEvent& button)
+        {
+            if (mSelectionDragged)
+                mSelectionDragged = false;
+        }
+
+        void    TextInput::OnMouseMoved(const Event::MouseMoveEvent& mouse)
+        {
+            if (mSelectionDragged)
+            {
+                mCursorPosition = GetCharacterAtPos(mouse.X - GetAbsolutePosition().x - mStringOffset + mCursorOffset);
+                mSelectionIndexes.y = mCursorPosition;
+
+                AdjustRect();
+            }
+        }
+
         void    TextInput::OnKeyPressed(const Event::KeyEvent& key)
         {
-            std::wstring text = GetText();
+            const Unicode::UTF16String& text = GetText();
 
-            if (key.Code == Key::Left && mCursorPosition)
-                --mCursorPosition;
-            else if (key.Code == Key::Right && mCursorPosition < text.length())
-                ++mCursorPosition;
+            if (key.Code == Key::Left)
+            {
+                if (mCursorPosition)
+                    --mCursorPosition;
+                mSelectionIndexes.x = mSelectionIndexes.y = mCursorPosition;
+            }
+            else if (key.Code == Key::Right)
+            {
+                if (mCursorPosition < text.length())
+                    ++mCursorPosition;
+                mSelectionIndexes.x = mSelectionIndexes.y = mCursorPosition;
+            }
             else if (key.Code == Key::Home)
                 mCursorPosition = 0;
             else if (key.Code == Key::End)
@@ -89,29 +143,49 @@ namespace sf
 
         void    TextInput::OnTextEntered(const Event::TextEvent& text)
         {
-            std::wstring currentText = GetText();
+            Unicode::UTF16String currentText = GetText();
 
             switch (text.Unicode)
             {
                 case 8:
-                    if (!currentText.empty() && mCursorPosition)
+                    if (currentText.empty())
+                        break;
+                    if (mCursorPosition && mSelectionIndexes.x == mSelectionIndexes.y)
                     {
                         currentText.erase(mCursorPosition - 1, 1);
                         --mCursorPosition;
                     }
+                    else
+                    {
+                        currentText.erase(std::min(mSelectionIndexes.x, mSelectionIndexes.y), std::abs(mSelectionIndexes.y - mSelectionIndexes.x));
+                        mSelectionIndexes.x = mSelectionIndexes.y = mCursorPosition = std::min(mSelectionIndexes.x, mSelectionIndexes.y);
+                    }
                 break;
 
                 case 127:
-                    if (!currentText.empty() && mCursorPosition < currentText.length())
+                    if (currentText.empty())
+                        break;
+                    if (mSelectionIndexes.x == mSelectionIndexes.y && mCursorPosition < currentText.length())
                     {
                         currentText.erase(mCursorPosition, 1);
+                    }
+                    else
+                    {
+                        currentText.erase(std::min(mSelectionIndexes.x, mSelectionIndexes.y), std::abs(mSelectionIndexes.y - mSelectionIndexes.x));
+                        mSelectionIndexes.x = mSelectionIndexes.y = mCursorPosition = std::min(mSelectionIndexes.x, mSelectionIndexes.y);
                     }
                 break;
 
                 default :
                     if (currentText.length() < mMaxLength || !mMaxLength)
                     {
-                        std::wstring c(L"");
+                        if (mSelectionIndexes.x != mSelectionIndexes.y)
+                        {
+                            currentText.erase(std::min(mSelectionIndexes.x, mSelectionIndexes.y), std::abs(mSelectionIndexes.y - mSelectionIndexes.x));
+                            mSelectionIndexes.x = mSelectionIndexes.y = mCursorPosition = std::min(mSelectionIndexes.x, mSelectionIndexes.y);
+                        }
+
+                        Unicode::UTF16String c;
                         c += text.Unicode;
                         currentText.insert(mCursorPosition, c);
                         ++mCursorPosition;
@@ -126,13 +200,11 @@ namespace sf
 
         void    TextInput::AdjustRect()
         {
-            // temporary new text for getting size
-            const String&   str = mString.GetString();
-            const std::wstring& textSaved = str.GetText();
+            const Unicode::UTF16String& text = GetText();
 
-            mString.SetCaption(textSaved.substr(0, mCursorPosition));
-            const FloatRect& rect = str.GetRect();
-            mString.SetCaption(textSaved);
+            mString.SetCaption(text.substr(0, mCursorPosition));
+            const FloatRect& rect = mString.GetString().GetRect();
+            mString.SetCaption(text);
 
             if (rect.GetWidth() - mCursorOffset >= GetWidth() - mStringOffset)
             {
@@ -141,7 +213,6 @@ namespace sf
             else if (rect.GetWidth() - mCursorOffset <= 0)
             {
                 mCursorOffset = rect.GetWidth() - GetWidth() / (mStringOffset / 2);
-
             }
 
             if (mCursorOffset < 0)
@@ -162,21 +233,39 @@ namespace sf
             // Draws the cursor with real position
             if (HasFocus())
             {
-                const String&   rStr = mString.GetString();
+                const String& rStr = mString.GetString();
                 float factor = rStr.GetSize() / rStr.GetFont().GetCharacterSize();
+                float yPos = 2.f / factor;
                 glScalef(factor, factor, 1.f);
 
-                Vector2f realPos(0.f, (GetHeight() - 2.f) / factor);
-
-                const Vector2f& pos = rStr.GetCharacterPos(mCursorPosition);
-                realPos.x = (pos.x - mCursorOffset + mStringOffset) / factor;
+                Vector2f realPos = rStr.GetCharacterPos(mCursorPosition);
+                realPos.x = (realPos.x - mCursorOffset + mStringOffset) / factor;
+                realPos.y = (GetHeight() - 2.f) / factor;
 
                 glDisable(GL_TEXTURE_2D);
 
                 glBegin(GL_LINES);
-                    glVertex2f(realPos.x, 2.f / factor);
+                    glVertex2f(realPos.x, yPos);
                     glVertex2f(realPos.x, realPos.y);
                 glEnd();
+
+                // Draws the current selection
+                if (mSelectionIndexes.x != mSelectionIndexes.y)
+                {
+                    Vector2f selectionPos(rStr.GetCharacterPos(mSelectionIndexes.x).x, rStr.GetCharacterPos(mSelectionIndexes.y).x);
+                    selectionPos.x = (selectionPos.x - mCursorOffset + mStringOffset) / factor;
+                    selectionPos.y = (selectionPos.y - mCursorOffset + mStringOffset) / factor;
+
+                    const Color& col = mString.GetColor();
+                    glColor4f(col.r / 255.f, col.g / 255.f, col.b / 255.f, col.a / 785.f);
+
+                    glBegin(GL_QUADS);
+                        glVertex2f(selectionPos.x, yPos);
+                        glVertex2f(selectionPos.y, yPos);
+                        glVertex2f(selectionPos.y, realPos.y);
+                        glVertex2f(selectionPos.x, realPos.y);
+                    glEnd();
+                }
             }
 
             glDisable(GL_SCISSOR_TEST);

@@ -21,12 +21,13 @@
 
 #include "Label.hpp"
 #include "KeyListener.hpp"
+#include "MouseListener.hpp"
 
 namespace sf
 {
     namespace ui
     {
-        class TextInput : public Widget, public KeyListener
+        class TextInput : public Widget, public KeyListener, public MouseListener
         {
             public :
                 TextInput(const Unicode::Text& text = L"");
@@ -47,15 +48,24 @@ namespace sf
                 virtual void    OnKeyPressed(const Event::KeyEvent& key);
                 virtual void    OnTextEntered(const Event::TextEvent& text);
 
+                // Inhertied from MouseListener
+                virtual void    OnMousePressed(const Event::MouseButtonEvent& button);
+                virtual void    OnMouseReleased(const Event::MouseButtonEvent& button);
+                virtual void    OnMouseMoved(const Event::MouseMoveEvent& mouse);
+
                 static float    mStringOffset;
 
             private :
                 void            AdjustRect();
+                unsigned int    GetCharacterAtPos(float xOffset);
 
                 Label           mString;
                 unsigned int    mMaxLength;
                 unsigned int    mCursorPosition;
                 int             mCursorOffset;
+
+                bool            mSelectionDragged;
+                Vector2i        mSelectionIndexes;
 
         };
 
