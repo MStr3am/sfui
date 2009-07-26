@@ -44,9 +44,8 @@ namespace sf
                 virtual void    OnPaint(RenderTarget& target) const;
 
                 // Inherited from KeyListener
-                virtual void    OnKeyPressed(const Event& event);
-                virtual void    OnTextEntered(const Event& event);
-
+                virtual void    OnKeyPressed(const Event::KeyEvent& key);
+                virtual void    OnTextEntered(const Event::TextEvent& text);
 
             private :
                 Label           mString;

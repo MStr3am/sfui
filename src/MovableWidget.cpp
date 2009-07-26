@@ -34,7 +34,7 @@ namespace sf
             AddMouseListener(this);
         }
 
-        void    MovableWidget::OnMousePressed(const Event& event)
+        void    MovableWidget::OnMousePressed(const Event::MouseButtonEvent& button)
         {
             if (!mMovable)
                 return;
@@ -43,16 +43,16 @@ namespace sf
             mNeedUpdate = true;
         }
 
-        void    MovableWidget::OnMouseReleased(const Event& event)
+        void    MovableWidget::OnMouseReleased(const Event::MouseButtonEvent& button)
         {
             mDragged = false;
         }
 
-        void    MovableWidget::OnMouseMoved(const Event& event)
+        void    MovableWidget::OnMouseMoved(const Event::MouseMoveEvent& mouse)
         {
             if (mDragged && mMovable)
             {
-                const Vector2f& mousePos = Vector2f(event.MouseMove.X, event.MouseMove.Y);
+                const Vector2f& mousePos = Vector2f(mouse.X, mouse.Y);
                 const Vector2f& absPos = GetAbsolutePosition();
 
                 if (mNeedUpdate)

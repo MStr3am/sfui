@@ -39,7 +39,7 @@ namespace sf
                 virtual void            OnChange(Widget::Property property);
 
             private :
-                String          mCaption;
+                String                  mCaption;
 
         };
 

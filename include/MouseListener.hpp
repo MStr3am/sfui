@@ -33,11 +33,12 @@ namespace sf
 
             protected :
 
-                virtual void    OnMousePressed(const Event& event) {};
-                virtual void    OnMouseReleased(const Event& event) {};
-                virtual void    OnMouseEntered(const Event& event) {};
-                virtual void    OnMouseLeft(const Event& event) {};
-                virtual void    OnMouseMoved(const Event& event) {};
+                virtual void    OnMousePressed(const Event::MouseButtonEvent& button) {};
+                virtual void    OnMouseReleased(const Event::MouseButtonEvent& button) {};
+
+                virtual void    OnMouseEntered(const Event::MouseMoveEvent& mouse) {};
+                virtual void    OnMouseLeft(const Event::MouseMoveEvent& mouse) {};
+                virtual void    OnMouseMoved(const Event::MouseMoveEvent& mouse) {};
 
         };
     }
