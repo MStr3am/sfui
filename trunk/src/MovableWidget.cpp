@@ -27,11 +27,32 @@ namespace sf
         MovableWidget::MovableWidget()
             :   Widget(),
                 mMovable(true),
+                mBlocked(false),
                 mDragged(false),
                 mDragOffset(0.f, 0.f),
                 mNeedUpdate(false)
         {
             AddMouseListener(this);
+        }
+
+        void    MovableWidget::SetMovable(bool movable)
+        {
+            mMovable = movable;
+        }
+
+        void    MovableWidget::SetBlocked(bool blocked)
+        {
+            mBlocked = blocked;
+        }
+
+        bool    MovableWidget::IsMovable() const
+        {
+            return mMovable;
+        }
+
+        bool    MovableWidget::IsBlocked() const
+        {
+            return mBlocked;
         }
 
         void    MovableWidget::OnMousePressed(const Event::MouseButtonEvent& button)
@@ -64,7 +85,7 @@ namespace sf
                 Vector2f newPos = mousePos - mDragOffset;
                 Widget* parent = GetParent();
 
-                if (parent)
+                if (parent && mBlocked)
                 {
                     const Vector2f& limitPos = absPos - GetPosition();
 
