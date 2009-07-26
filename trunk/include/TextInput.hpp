@@ -32,40 +32,42 @@ namespace sf
             public :
                 TextInput(const Unicode::Text& text = L"");
 
-                void                    SetText(const Unicode::Text& text);
-                const Unicode::Text&    GetText() const;
+                void                        SetText(const Unicode::Text& text);
+                const Unicode::Text&        GetText() const;
 
-                void                    SetMaxLength(unsigned int maxLength);
-                unsigned int            GetMaxLength() const;
+                void                        SetMaxLength(unsigned int maxLength);
+                unsigned int                GetMaxLength() const;
+
+                Unicode::Text               GetSelection() const;
 
             protected :
 
                 // Inherited from Widget
-                virtual void    OnChange(Widget::Property property);
-                virtual void    Render(RenderTarget& target) const;
+                virtual void                OnChange(Widget::Property property);
+                virtual void                Render(RenderTarget& target) const;
 
                 // Inherited from KeyListener
-                virtual void    OnKeyPressed(const Event::KeyEvent& key);
-                virtual void    OnTextEntered(const Event::TextEvent& text);
+                virtual void                OnKeyPressed(const Event::KeyEvent& key);
+                virtual void                OnTextEntered(const Event::TextEvent& text);
 
-                // Inhertied from MouseListener
-                virtual void    OnMousePressed(const Event::MouseButtonEvent& button);
-                virtual void    OnMouseReleased(const Event::MouseButtonEvent& button);
-                virtual void    OnMouseMoved(const Event::MouseMoveEvent& mouse);
+                // Inherited from MouseListener
+                virtual void                OnMousePressed(const Event::MouseButtonEvent& button);
+                virtual void                OnMouseReleased(const Event::MouseButtonEvent& button);
+                virtual void                OnMouseMoved(const Event::MouseMoveEvent& mouse);
 
-                static float    mStringOffset;
+                static float                mStringOffset;
 
             private :
-                void            AdjustRect();
-                unsigned int    GetCharacterAtPos(float xOffset);
+                void                        AdjustRect();
+                unsigned int                GetCharacterAtPos(float xOffset);
 
-                Label           mString;
-                unsigned int    mMaxLength;
-                unsigned int    mCursorPosition;
-                int             mCursorOffset;
+                Label                       mString;
+                unsigned int                mMaxLength;
+                unsigned int                mCursorPosition;
+                int                         mCursorOffset;
 
-                bool            mSelectionDragged;
-                Vector2i        mSelectionIndexes;
+                bool                        mSelectionDragged;
+                Vector2i                    mSelectionIndexes;
 
         };
 

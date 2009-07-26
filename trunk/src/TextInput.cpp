@@ -75,6 +75,12 @@ namespace sf
             return mMaxLength;
         }
 
+        Unicode::Text   TextInput::GetSelection() const
+        {
+            const Unicode::UTF16String& text = GetText();
+            return text.substr(std::min(mSelectionIndexes.x, mSelectionIndexes.y), std::abs(mSelectionIndexes.y - mSelectionIndexes.x));
+        }
+
         unsigned int    TextInput::GetCharacterAtPos(float xOffset)
         {
             const Unicode::UTF16String& text = GetText();
@@ -158,7 +164,7 @@ namespace sf
                     else
                     {
                         currentText.erase(std::min(mSelectionIndexes.x, mSelectionIndexes.y), std::abs(mSelectionIndexes.y - mSelectionIndexes.x));
-                        mSelectionIndexes.x = mSelectionIndexes.y = mCursorPosition = std::min(mSelectionIndexes.x, mSelectionIndexes.y);
+                        mSelectionIndexes.x = mSelectionIndexes.y = mCursorPosition;
                     }
                 break;
 
@@ -172,7 +178,7 @@ namespace sf
                     else
                     {
                         currentText.erase(std::min(mSelectionIndexes.x, mSelectionIndexes.y), std::abs(mSelectionIndexes.y - mSelectionIndexes.x));
-                        mSelectionIndexes.x = mSelectionIndexes.y = mCursorPosition = std::min(mSelectionIndexes.x, mSelectionIndexes.y);
+                        mSelectionIndexes.x = mSelectionIndexes.y = mCursorPosition;
                     }
                 break;
 
