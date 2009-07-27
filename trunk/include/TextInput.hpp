@@ -30,7 +30,7 @@ namespace sf
         class TextInput : public Widget, public KeyListener, public MouseListener
         {
             public :
-                TextInput(const Unicode::Text& text = L"");
+                TextInput(const Unicode::Text& text = std::wstring(L"", 255));
 
                 void                        SetText(const Unicode::Text& text);
                 const Unicode::Text&        GetText() const;
