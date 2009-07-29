@@ -61,10 +61,6 @@ namespace sf
             {
                 mCaption.SetColor(GetColor());
             }
-            else if (property == Widget::SIZE)
-            {
-                mCaption.SetSize(GetHeight());
-            }
         }
 
         void    Label::OnPaint(RenderTarget& target) const

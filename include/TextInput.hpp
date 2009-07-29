@@ -30,7 +30,7 @@ namespace sf
         class TextInput : public Widget, public KeyListener, public MouseListener
         {
             public :
-                TextInput(const Unicode::Text& text = std::wstring(L"", 255));
+                TextInput(const Unicode::Text& text = std::wstring(L""));
 
                 void                        SetText(const Unicode::Text& text);
                 const Unicode::Text&        GetText() const;
@@ -38,6 +38,8 @@ namespace sf
                 void                        SetMaxLength(unsigned int maxLength);
                 unsigned int                GetMaxLength() const;
 
+                void                        ClearSelection();
+                void                        SetSelection(unsigned int start, unsigned int cursorPosition);
                 Unicode::Text               GetSelection() const;
 
             protected :
@@ -60,14 +62,16 @@ namespace sf
             private :
                 void                        AdjustRect();
                 unsigned int                GetCharacterAtPos(float xOffset);
+                unsigned int                GetSelectionSize() const;
 
                 Label                       mString;
                 unsigned int                mMaxLength;
+
                 unsigned int                mCursorPosition;
                 int                         mCursorOffset;
 
                 bool                        mSelectionDragged;
-                Vector2i                    mSelectionIndexes;
+                unsigned int                mSelectionStart;
 
         };
 
