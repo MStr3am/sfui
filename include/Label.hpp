@@ -34,12 +34,13 @@ namespace sf
                 void                    SetCaption(const Unicode::Text& caption);
                 void                    SetFont(const Font& font);
                 void                    SetFontSize(float size);
+                void                    SetFontColor(const Color& color);
 
                 const String&           GetString() const;
 
             protected :
                 virtual void            OnPaint(RenderTarget& target) const;
-                virtual void            OnChange(Widget::Property property);
+                virtual void            AdjustSize();
 
             private :
                 String                  mCaption;

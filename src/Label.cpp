@@ -21,6 +21,8 @@
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Window/OpenGL.hpp>
 
+#include <iostream>
+
 namespace sf
 {
     namespace ui
@@ -30,14 +32,14 @@ namespace sf
             :   Widget(),
                 mCaption(caption, Font::GetDefaultFont(), textSize)
         {
-            const FloatRect&    rect = mCaption.GetRect();
-
-            SetSize(rect.GetWidth(), rect.GetHeight());
+            SetColor(Color(0, 0, 0, 0));
+            AdjustSize();
         }
 
         void    Label::SetCaption(const Unicode::Text& caption)
         {
             mCaption.SetText(caption);
+            AdjustSize();
         }
 
         void    Label::SetFont(const Font& font)
@@ -48,6 +50,12 @@ namespace sf
         void    Label::SetFontSize(float size)
         {
             mCaption.SetSize(size);
+            AdjustSize();
+        }
+
+        void    Label::SetFontColor(const Color& color)
+        {
+            mCaption.SetColor(color);
         }
 
         const String&           Label::GetString() const
@@ -55,16 +63,20 @@ namespace sf
             return mCaption;
         }
 
-        void    Label::OnChange(Widget::Property property)
+        void    Label::AdjustSize()
         {
-            if (property == Widget::COLOR)
-            {
-                mCaption.SetColor(GetColor());
-            }
+            const FloatRect& newRect = mCaption.GetRect();
+
+            if (newRect.GetWidth() > GetWidth())
+                SetWidth(newRect.GetWidth());
+            if (newRect.GetHeight() > GetHeight())
+                SetHeight(newRect.GetHeight());
         }
 
         void    Label::OnPaint(RenderTarget& target) const
         {
+            Widget::OnPaint(target);
+
             const Unicode::UTF32String& Text = mCaption.GetText();
             const Font& font = mCaption.GetFont();
 
@@ -73,6 +85,9 @@ namespace sf
 
             float CharSize =  static_cast<float>(font.GetCharacterSize());
             float Factor   = mCaption.GetSize() / CharSize;
+            const Color& color = mCaption.GetColor();
+
+            glColor4ub(color.r, color.g, color.b, color.a);
             glScalef(Factor, Factor, 1.f);
 
             font.GetImage().Bind();
