@@ -36,9 +36,12 @@ namespace sf
                 mCursorPosition(0),
                 mCursorOffset(0),
                 mSelectionDragged(false),
-                mSelectionIndexes(0, 0)
+                mSelectionStart(0)
         {
             mString.SetFocusable(false);
+            mString.SetColor(Color(0, 0, 0));
+
+            SetSize(150, mString.GetString().GetSize() + mStringOffset);
 
             Add(&mString);
             AdjustRect();
@@ -61,7 +64,7 @@ namespace sf
         {
             if (property == Widget::SIZE)
             {
-                mString.SetY((GetHeight() - mString.GetSize().y) / 2 - 2);
+                mString.SetY((GetHeight() - mString.GetString().GetSize()) / 2 - 2);
             }
         }
 
@@ -75,10 +78,30 @@ namespace sf
             return mMaxLength;
         }
 
+        void            TextInput::ClearSelection()
+        {
+            mSelectionStart = mCursorPosition;
+        }
+
+        void            TextInput::SetSelection(unsigned int start, unsigned int cursorPosition)
+        {
+            const Unicode::UTF16String& text = GetText();
+
+            mSelectionStart = start;
+            mCursorPosition = (cursorPosition > text.length()) ? text.length() : cursorPosition;
+        }
+
         Unicode::Text   TextInput::GetSelection() const
         {
             const Unicode::UTF16String& text = GetText();
-            return text.substr(std::min(mSelectionIndexes.x, mSelectionIndexes.y), std::abs(mSelectionIndexes.y - mSelectionIndexes.x));
+            return text.substr(std::min(mSelectionStart, mCursorPosition), GetSelectionSize());
+        }
+
+        unsigned int    TextInput::GetSelectionSize() const
+        {
+            if (mSelectionStart < mCursorPosition)
+                return mCursorPosition - mSelectionStart;
+            return mSelectionStart - mCursorPosition;
         }
 
         unsigned int    TextInput::GetCharacterAtPos(float xOffset)
@@ -101,7 +124,7 @@ namespace sf
         {
             mCursorPosition = GetCharacterAtPos(button.X - GetAbsolutePosition().x - mStringOffset + mCursorOffset);
             mSelectionDragged = true;
-            mSelectionIndexes.x = mSelectionIndexes.y = mCursorPosition;
+            ClearSelection();
 
             AdjustRect();
         }
@@ -117,8 +140,6 @@ namespace sf
             if (mSelectionDragged)
             {
                 mCursorPosition = GetCharacterAtPos(mouse.X - GetAbsolutePosition().x - mStringOffset + mCursorOffset);
-                mSelectionIndexes.y = mCursorPosition;
-
                 AdjustRect();
             }
         }
@@ -131,76 +152,63 @@ namespace sf
             {
                 if (mCursorPosition)
                     --mCursorPosition;
-                mSelectionIndexes.x = mSelectionIndexes.y = mCursorPosition;
+                ClearSelection();
             }
             else if (key.Code == Key::Right)
             {
                 if (mCursorPosition < text.length())
                     ++mCursorPosition;
-                mSelectionIndexes.x = mSelectionIndexes.y = mCursorPosition;
+                ClearSelection();
             }
             else if (key.Code == Key::Home)
+            {
                 mCursorPosition = 0;
+                ClearSelection();
+            }
             else if (key.Code == Key::End)
+            {
                 mCursorPosition = text.length();
-
+                ClearSelection();
+            }
             AdjustRect();
         }
 
         void    TextInput::OnTextEntered(const Event::TextEvent& text)
         {
             Unicode::UTF16String currentText = GetText();
+            bool    selectionDeleted = false;
 
-            switch (text.Unicode)
+            if (mSelectionStart != mCursorPosition)
             {
-                case 8:
-                    if (currentText.empty())
-                        break;
-                    if (mCursorPosition && mSelectionIndexes.x == mSelectionIndexes.y)
-                    {
-                        currentText.erase(mCursorPosition - 1, 1);
-                        --mCursorPosition;
-                    }
-                    else
-                    {
-                        currentText.erase(std::min(mSelectionIndexes.x, mSelectionIndexes.y), std::abs(mSelectionIndexes.y - mSelectionIndexes.x));
-                        mSelectionIndexes.x = mSelectionIndexes.y = mCursorPosition;
-                    }
-                break;
+                unsigned int newPos = std::min(mSelectionStart, mCursorPosition);
+                currentText.erase(newPos, GetSelectionSize());
+                mCursorPosition = newPos;
+                selectionDeleted = true;
+            }
 
-                case 127:
-                    if (currentText.empty())
-                        break;
-                    if (mSelectionIndexes.x == mSelectionIndexes.y && mCursorPosition < currentText.length())
-                    {
-                        currentText.erase(mCursorPosition, 1);
-                    }
-                    else
-                    {
-                        currentText.erase(std::min(mSelectionIndexes.x, mSelectionIndexes.y), std::abs(mSelectionIndexes.y - mSelectionIndexes.x));
-                        mSelectionIndexes.x = mSelectionIndexes.y = mCursorPosition;
-                    }
-                break;
-
-                default :
-                    if (currentText.length() < mMaxLength || !mMaxLength)
-                    {
-                        if (mSelectionIndexes.x != mSelectionIndexes.y)
-                        {
-                            currentText.erase(std::min(mSelectionIndexes.x, mSelectionIndexes.y), std::abs(mSelectionIndexes.y - mSelectionIndexes.x));
-                            mSelectionIndexes.x = mSelectionIndexes.y = mCursorPosition = std::min(mSelectionIndexes.x, mSelectionIndexes.y);
-                        }
-
-                        Unicode::UTF16String c;
-                        c += text.Unicode;
-                        currentText.insert(mCursorPosition, c);
-                        ++mCursorPosition;
-                    }
-                break;
-            };
+            if (text.Unicode == 8)
+            {
+                if (!currentText.empty() && mCursorPosition && !selectionDeleted)
+                {
+                    currentText.erase(mCursorPosition - 1, 1);
+                    --mCursorPosition;
+                }
+            }
+            else if (text.Unicode == 127)
+            {
+                if (mCursorPosition < currentText.length() && !selectionDeleted)
+                    currentText.erase(mCursorPosition, 1);
+            }
+            else if (currentText.length() < mMaxLength || !mMaxLength)
+            {
+                Unicode::UTF16String c;
+                c += text.Unicode;
+                currentText.insert(mCursorPosition, c);
+                ++mCursorPosition;
+            }
 
             SetText(currentText);
-
+            ClearSelection();
             AdjustRect();
         }
 
@@ -256,14 +264,14 @@ namespace sf
                 glEnd();
 
                 // Draws the current selection
-                if (mSelectionIndexes.x != mSelectionIndexes.y)
+                if (mSelectionStart != mCursorPosition)
                 {
-                    Vector2f selectionPos(rStr.GetCharacterPos(mSelectionIndexes.x).x, rStr.GetCharacterPos(mSelectionIndexes.y).x);
+                    Vector2f selectionPos(rStr.GetCharacterPos(mSelectionStart).x, rStr.GetCharacterPos(mCursorPosition).x);
                     selectionPos.x = (selectionPos.x - mCursorOffset + mStringOffset) / factor;
                     selectionPos.y = (selectionPos.y - mCursorOffset + mStringOffset) / factor;
 
                     const Color& col = mString.GetColor();
-                    glColor4f(col.r / 255.f, col.g / 255.f, col.b / 255.f, col.a / 785.f);
+                    glColor4ub(col.r , col.g , col.b, col.a / 3);
 
                     glBegin(GL_QUADS);
                         glVertex2f(selectionPos.x, yPos);
@@ -277,9 +285,6 @@ namespace sf
             glDisable(GL_SCISSOR_TEST);
         }
 
-
-
     }
-
 
 }

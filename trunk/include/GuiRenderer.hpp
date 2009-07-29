@@ -43,6 +43,8 @@ namespace sf
                 void                Display();
 
                 Widget&             GetTopWidget();
+
+                void                SetFocusedWidget(Widget* widget);
                 Widget*             GetFocusedWidget() const;
 
             protected:

@@ -44,6 +44,11 @@ namespace sf
             return mTopWidget;
         }
 
+        void    GuiRenderer::SetFocusedWidget(Widget* widget)
+        {
+            Widget::mFocusedWidget = widget;
+        }
+
         Widget* GuiRenderer::GetFocusedWidget() const
         {
             return Widget::mFocusedWidget;
