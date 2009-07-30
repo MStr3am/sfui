@@ -139,6 +139,13 @@ namespace sf
             return mFocusable;
         }
 
+        void    Widget::GiveFocusTo(Widget* widget)
+        {
+            if (!HasFocus())
+                return;
+            Widget::mFocusedWidget = widget;
+        }
+
         bool    Widget::HasFocus() const
         {
             return Widget::mFocusedWidget == this;
