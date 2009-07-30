@@ -18,7 +18,6 @@
 
 #include "GuiRenderer.hpp"
 #include <SFML/Window/OpenGL.hpp>
-#include <iostream>
 
 namespace sf
 {

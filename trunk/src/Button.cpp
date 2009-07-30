@@ -17,50 +17,24 @@
 */
 
 #include "Button.hpp"
-#include <iostream>
 
 namespace sf
 {
     namespace ui
     {
-        Button::Button(const Unicode::Text& caption, float size)
+        Button::Button()
             :   Widget(),
-                mCaption(caption, size),
                 mPressed(false)
         {
-            mCaption.SetFocusable(false);
-
             AddMouseListener(this);
-            Add(&mCaption);
-
-            SetSize(mCaption.GetSize() + Vector2f(18, 10));
-        }
-
-        void    Button::OnChange(Widget::Property property)
-        {
-            if (property == Widget::SIZE)
-            {
-                mCaption.SetX((GetWidth() - mCaption.GetSize().x) / 2);
-                mCaption.SetY((GetHeight() - mCaption.GetSize().y) / 2 - 2);
-            }
-        }
-
-        void    Button::SetTextColor(const Color& color)
-        {
-            mCaption.SetColor(color);
-        }
-
-        const Color&    Button::GetTextColor() const
-        {
-            return mCaption.GetColor();
         }
 
         void    Button::OnMousePressed(const Event::MouseButtonEvent& button)
         {
             if (!mPressed)
             {
-                mCaption.Move(2.f, 2.f);
                 mPressed = true;
+                OnPressed();
             }
         }
 
@@ -68,8 +42,8 @@ namespace sf
         {
             if (mPressed)
             {
-                mCaption.Move(-2.f, -2.f);
                 mPressed = false;
+                OnReleased();
             }
         }
 
@@ -77,8 +51,8 @@ namespace sf
         {
             if (mPressed)
             {
-                mCaption.Move(-2.f, -2.f);
                 mPressed = false;
+                OnReleased();
             }
         }
 
@@ -87,10 +61,6 @@ namespace sf
             return mPressed;
         }
 
-        void    Button::OnPaint(RenderTarget& target) const
-        {
-            Widget::OnPaint(target);
-        }
 
     }
 

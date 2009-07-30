@@ -17,7 +17,6 @@
 */
 
 #include "Window.hpp"
-#include <iostream>
 
 namespace sf
 {

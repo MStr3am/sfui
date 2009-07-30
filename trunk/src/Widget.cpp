@@ -22,8 +22,6 @@
 #include "MouseListener.hpp"
 #include "KeyListener.hpp"
 
-#include <iostream>
-
 namespace sf
 {
     namespace ui
