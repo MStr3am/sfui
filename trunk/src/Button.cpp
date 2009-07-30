@@ -56,6 +56,11 @@ namespace sf
             }
         }
 
+        void    Button::SetPressed(bool pressed)
+        {
+            mPressed = pressed;
+        }
+
         bool    Button::IsPressed() const
         {
             return mPressed;
