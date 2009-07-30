@@ -1,5 +1,5 @@
-#ifndef BUTTON_HPP_INCLUDED
-#define BUTTON_HPP_INCLUDED
+#ifndef IMAGEBUTTON_HPP_INCLUDED
+#define IMAGEBUTTON_HPP_INCLUDED
 
 /*
     This file is part of SFUI (by Robin RUAUX).
@@ -19,37 +19,37 @@
 
 */
 
-#include "Label.hpp"
-#include "MouseListener.hpp"
+#include "Button.hpp"
+#include <SFML/Graphics/Sprite.hpp>
 
 namespace sf
 {
     namespace ui
     {
-        class Button : public Widget, public MouseListener
+        class ImageButton : public Button
         {
             public :
-                Button();
-
-                void            SetPressed(bool pressed = true);
-                bool            IsPressed() const;
+                ImageButton(const Image& imgPressed, const Image& imgReleased);
 
             protected :
 
-                virtual void    OnPressed() {};
-                virtual void    OnReleased() {};
+                // Inherited from Button
+                virtual void    OnPressed();
+                virtual void    OnReleased();
 
-                // Inherited from MouseListener.
-                virtual void    OnMousePressed(const Event::MouseButtonEvent& button);
-                virtual void    OnMouseReleased(const Event::MouseButtonEvent& button);
-                virtual void    OnMouseLeft(const Event::MouseMoveEvent& mouse);
+                // Inherited from Widget
+                virtual void    OnPaint(RenderTarget& target) const;
+                virtual void    OnChange(Widget::Property property);
 
             private :
-                bool            mPressed;
+                Image           mImages[2];
+                Sprite          mCurrentSprite;
+
+
 
         };
     }
-
 }
 
-#endif // BUTTON_HPP_INCLUDED
+
+#endif // IMAGEBUTTON_HPP_INCLUDED
