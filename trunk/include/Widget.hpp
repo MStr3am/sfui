@@ -83,6 +83,7 @@ namespace sf
                 bool                IsVisible() const;
                 bool                IsFocusable() const;
 
+                void                GiveFocusTo(Widget* widget);
                 bool                HasFocus() const;
 
                 void                Add(Widget* widget);
