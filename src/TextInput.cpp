@@ -21,8 +21,6 @@
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Window/OpenGL.hpp>
 
-#include <iostream>
-
 namespace sf
 {
     namespace ui
@@ -52,12 +50,12 @@ namespace sf
 
         void    TextInput::SetText(const Unicode::Text& text)
         {
-            mString.SetCaption(text);
+            mString.SetText(text);
         }
 
         const Unicode::Text& TextInput::GetText() const
         {
-            return mString.GetString().GetText();
+            return mString.GetText();
         }
 
         void    TextInput::OnChange(Widget::Property property)
@@ -110,9 +108,9 @@ namespace sf
 
             for (unsigned int i = 0; i < text.length(); ++i)
             {
-                mString.SetCaption(text.substr(0, i));
+                mString.SetText(text.substr(0, i));
                 const FloatRect& rect = mString.GetString().GetRect();
-                mString.SetCaption(text);
+                mString.SetText(text);
 
                 if (rect.GetWidth() > xOffset)
                     return i;
@@ -216,9 +214,9 @@ namespace sf
         {
             const Unicode::UTF16String& text = GetText();
 
-            mString.SetCaption(text.substr(0, mCursorPosition));
+            mString.SetText(text.substr(0, mCursorPosition));
             const FloatRect& rect = mString.GetString().GetRect();
-            mString.SetCaption(text);
+            mString.SetText(text);
 
             if (rect.GetWidth() - mCursorOffset >= GetWidth() - mStringOffset)
             {

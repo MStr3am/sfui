@@ -1,5 +1,5 @@
-#ifndef LABEL_HPP_INCLUDED
-#define LABEL_HPP_INCLUDED
+#ifndef CHECKBOX_HPP_INCLUDED
+#define CHECKBOX_HPP_INCLUDED
 
 /*
     This file is part of SFUI (by Robin RUAUX).
@@ -19,38 +19,40 @@
 
 */
 
-#include "Widget.hpp"
-#include <SFML/Graphics/String.hpp>
+#include "Label.hpp"
+#include "MouseListener.hpp"
 
 namespace sf
 {
     namespace ui
     {
-        class Label : public Widget
+        class CheckBox : public Widget, public MouseListener
         {
             public :
-                Label(const Unicode::Text& caption, float textSize = 15.f);
+                CheckBox(const Unicode::Text& caption);
 
                 void                    SetText(const Unicode::Text& caption);
                 const Unicode::Text&    GetText() const;
 
-                void                    SetFont(const Font& font);
-                const Font&             GetFont() const;
-
-                void                    SetTextSize(float size);
-                float                   GetTextSize() const;
-
                 void                    SetTextColor(const Color& color);
                 const Color&            GetTextColor() const;
 
-                const String&           GetString() const;
+                void                    SetChecked(bool checked = true);
+                bool                    IsChecked() const;
 
             protected :
+
+                // Inherited from MouseListener
+                virtual void            OnMousePressed(const Event::MouseButtonEvent& button);
+
+                // Inherited from Widget
+                virtual void            Render(RenderTarget& target) const;
                 virtual void            OnPaint(RenderTarget& target) const;
-                virtual void            AdjustSize();
+                virtual void            OnChange(Widget::Property property);
 
             private :
-                String                  mCaption;
+                Label                   mCaption;
+                bool                    mChecked;
 
         };
 
@@ -58,4 +60,4 @@ namespace sf
 
 }
 
-#endif // LABEL_HPP_INCLUDED
+#endif // CHECKBOX_HPP_INCLUDED

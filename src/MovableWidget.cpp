@@ -17,7 +17,6 @@
 */
 
 #include "MovableWidget.hpp"
-#include <iostream>
 
 namespace sf
 {

@@ -21,8 +21,6 @@
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Window/OpenGL.hpp>
 
-#include <iostream>
-
 namespace sf
 {
     namespace ui
@@ -36,10 +34,15 @@ namespace sf
             AdjustSize();
         }
 
-        void    Label::SetCaption(const Unicode::Text& caption)
+        void    Label::SetText(const Unicode::Text& caption)
         {
             mCaption.SetText(caption);
             AdjustSize();
+        }
+
+        const Unicode::Text&    Label::GetText() const
+        {
+            return mCaption.GetText();
         }
 
         void    Label::SetFont(const Font& font)
@@ -47,15 +50,30 @@ namespace sf
             mCaption.SetFont(font);
         }
 
-        void    Label::SetFontSize(float size)
+        const Font& Label::GetFont() const
+        {
+            return mCaption.GetFont();
+        }
+
+        void    Label::SetTextSize(float size)
         {
             mCaption.SetSize(size);
             AdjustSize();
         }
 
-        void    Label::SetFontColor(const Color& color)
+        float   Label::GetTextSize() const
+        {
+            return mCaption.GetSize();
+        }
+
+        void    Label::SetTextColor(const Color& color)
         {
             mCaption.SetColor(color);
+        }
+
+        const Color&    Label::GetTextColor() const
+        {
+            return mCaption.GetColor();
         }
 
         const String&           Label::GetString() const

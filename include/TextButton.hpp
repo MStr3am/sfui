@@ -1,5 +1,5 @@
-#ifndef BUTTON_HPP_INCLUDED
-#define BUTTON_HPP_INCLUDED
+#ifndef TEXTBUTTON_HPP_INCLUDED
+#define TEXTBUTTON_HPP_INCLUDED
 
 /*
     This file is part of SFUI (by Robin RUAUX).
@@ -19,36 +19,39 @@
 
 */
 
-#include "Label.hpp"
-#include "MouseListener.hpp"
+#include "Button.hpp"
 
 namespace sf
 {
     namespace ui
     {
-        class Button : public Widget, public MouseListener
+        class TextButton : public Button
         {
             public :
-                Button();
+                TextButton(const Unicode::Text& caption, float textSize = 15.f);
 
-                bool            IsPressed() const;
+                void            SetTextColor(const Color& color);
+                const Color&    GetTextColor() const;
+
+                void            SetTextSize(float size);
+                float           GetTextSize() const;
 
             protected :
+                // Inherited from Widget
+                virtual void    OnChange(Widget::Property property);
 
-                virtual void    OnPressed() {};
-                virtual void    OnReleased() {};
-
-                // Inherited from MouseListener.
-                virtual void    OnMousePressed(const Event::MouseButtonEvent& button);
-                virtual void    OnMouseReleased(const Event::MouseButtonEvent& button);
-                virtual void    OnMouseLeft(const Event::MouseMoveEvent& mouse);
+                // Inherited from Button
+                virtual void    OnPressed();
+                virtual void    OnReleased();
 
             private :
-                bool            mPressed;
+                Label           mCaption;
+
+
 
         };
-    }
 
+    }
 }
 
-#endif // BUTTON_HPP_INCLUDED
+#endif // TEXTBUTTON_HPP_INCLUDED
