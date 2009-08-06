@@ -24,6 +24,8 @@
 
 namespace sf
 {
+    class Image;
+
     namespace ui
     {
         class CheckBox : public Widget, public MouseListener

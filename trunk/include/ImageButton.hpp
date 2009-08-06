@@ -29,7 +29,7 @@ namespace sf
         class ImageButton : public Button
         {
             public :
-                ImageButton(const Image& imgPressed, const Image& imgReleased);
+                ImageButton(const Image& imgReleased, const Image& imgHover, const Image& imgPressed);
 
             protected :
 
@@ -37,12 +37,16 @@ namespace sf
                 virtual void    OnPressed();
                 virtual void    OnReleased();
 
+                // Inherited from MouseListener
+                virtual void    OnMouseEntered(const Event::MouseMoveEvent& mouse);
+                virtual void    OnMouseLeft(const Event::MouseMoveEvent& mouse);
+
                 // Inherited from Widget
                 virtual void    OnPaint(RenderTarget& target) const;
                 virtual void    OnChange(Widget::Property property);
 
             private :
-                Image           mImages[2];
+                Image           mImages[3];
                 Sprite          mCurrentSprite;
 
 

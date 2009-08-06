@@ -23,12 +23,13 @@ namespace sf
 {
     namespace ui
     {
-        ImageButton::ImageButton(const Image& imgPressed, const Image& imgReleased)
+        ImageButton::ImageButton(const Image& imgReleased, const Image& imgHover, const Image& imgPressed)
             :   Button(),
                 mCurrentSprite(imgReleased)
         {
-            mImages[0] = imgPressed;
-            mImages[1] = imgReleased;
+            mImages[0] = imgReleased;
+            mImages[1] = imgHover;
+            mImages[2] = imgPressed;
 
             SetSize(mCurrentSprite.GetSize().x, mCurrentSprite.GetSize().y);
         }
@@ -36,12 +37,22 @@ namespace sf
 
         void    ImageButton::OnPressed()
         {
-            mCurrentSprite.SetImage(mImages[0]);
+            mCurrentSprite.SetImage(mImages[2]);
         }
 
         void    ImageButton::OnReleased()
         {
             mCurrentSprite.SetImage(mImages[1]);
+        }
+
+        void    ImageButton::OnMouseEntered(const Event::MouseMoveEvent& mouse)
+        {
+            mCurrentSprite.SetImage(mImages[1]);
+        }
+
+        void    ImageButton::OnMouseLeft(const Event::MouseMoveEvent& mouse)
+        {
+            mCurrentSprite.SetImage(mImages[0]);
         }
 
         void    ImageButton::OnChange(Widget::Property property)

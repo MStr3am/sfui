@@ -47,13 +47,15 @@ namespace sf
                 void                SetFocusedWidget(Widget* widget);
                 Widget*             GetFocusedWidget() const;
 
+                Widget*             GetHoveredWidget() const;
+
             protected:
                 void                HandleFocus();
 
                 View                mView;
 
             private:
-                bool                SetFocusUnderMouse(Widget* widget, const Vector2ui& mouse, Vector2f initialPosition);
+                void                SetHoveredWidget(Widget* widget, const Vector2ui& mouse, Vector2f initialPosition);
 
                 RenderWindow&       mRenderWindow;
                 Widget              mTopWidget;
