@@ -82,6 +82,7 @@ namespace sf
                 bool                IsEnabled() const;
                 bool                IsVisible() const;
                 bool                IsFocusable() const;
+                bool                IsHovered() const;
 
                 void                GiveFocusTo(Widget* widget);
                 bool                HasFocus() const;
@@ -119,6 +120,7 @@ namespace sf
                 KeyListeners        mKeyListeners;
 
                 static Widget*      mFocusedWidget;
+                static Widget*      mHoveredWidget;
 
         };
 

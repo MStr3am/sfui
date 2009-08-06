@@ -27,6 +27,7 @@ namespace sf
     namespace ui
     {
         Widget*     Widget::mFocusedWidget = 0;
+        Widget*     Widget::mHoveredWidget = 0;
 
         Widget::Widget(Vector2f pos, Vector2f size)
             :   Drawable(pos),
@@ -137,6 +138,11 @@ namespace sf
         bool    Widget::IsFocusable() const
         {
             return mFocusable;
+        }
+
+        bool    Widget::IsHovered() const
+        {
+            return Widget::mHoveredWidget == this;
         }
 
         void    Widget::GiveFocusTo(Widget* widget)

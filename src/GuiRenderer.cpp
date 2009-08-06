@@ -17,7 +17,6 @@
 */
 
 #include "GuiRenderer.hpp"
-#include <SFML/Window/OpenGL.hpp>
 
 namespace sf
 {
@@ -31,6 +30,8 @@ namespace sf
         {
             Resize(renderWindow.GetWidth(), renderWindow.GetHeight());
             mTopWidget.SetColor(Color(0, 0, 0, 0));
+
+            Widget::mFocusedWidget = Widget::mHoveredWidget = &mTopWidget;
         }
 
         GuiRenderer::~GuiRenderer()
@@ -53,6 +54,35 @@ namespace sf
             return Widget::mFocusedWidget;
         }
 
+        Widget* GuiRenderer::GetHoveredWidget() const
+        {
+            return Widget::mHoveredWidget;
+        }
+
+        void    GuiRenderer::SetHoveredWidget(Widget* widget, const Vector2ui& mouse, Vector2f absPos)
+        {
+            Widgets&  widgets = widget->mChildren;
+
+            for (Widgets::reverse_iterator it = widgets.rbegin(); it != widgets.rend(); ++it)
+            {
+                Widget* currentWidget = *it;
+
+                if (currentWidget->IsVisible() && currentWidget->IsFocusable())
+                {
+                    absPos += currentWidget->GetPosition();
+
+                    if (mouse.x >= absPos.x && mouse.x <= absPos.x + currentWidget->mSize.x &&
+                        mouse.y >= absPos.y && mouse.y <= absPos.y + currentWidget->mSize.y)
+                    {
+                        Widget::mHoveredWidget = currentWidget;
+                        SetHoveredWidget(currentWidget, mouse, absPos);
+                        return;
+                    }
+                    absPos -= currentWidget->GetPosition();
+                }
+            }
+        }
+
         void    GuiRenderer::InjectEvent(const Event& event)
         {
             // We left the injection for unwanted events
@@ -72,33 +102,37 @@ namespace sf
             {
                 HandleFocus();
             }
-
-            if (Widget::mFocusedWidget)
+            // Set the hovered widget
+            else if (event.Type == Event::MouseMoved)
             {
-                // We have to simulate the MouseEntered and MouseLeft events for Widgets.
-                if (event.Type == Event::MouseMoved)
+                static Widget*  lastHovered = &mTopWidget;
+
+                Widget::mHoveredWidget = &mTopWidget;
+                SetHoveredWidget(&mTopWidget, Vector2ui(event.MouseMove.X, event.MouseMove.Y), mTopWidget.GetPosition());
+
+                if (lastHovered != Widget::mHoveredWidget)
                 {
-                    const Input& input = mRenderWindow.GetInput();
-                    bool inside = Widget::mFocusedWidget->GetRect(true).Contains(input.GetMouseX(), input.GetMouseY());
+                    sf::Event newEvent = event;
 
-                    Event newEvent = event;
+                    newEvent.Type = Event::MouseLeft;
+                    lastHovered->DistributeEvent(newEvent);
 
-                    if (inside && !mMouseInside)
-                    {
-                        newEvent.Type = Event::MouseEntered;
-                        mMouseInside = inside;
-                    }
-                    else if (!inside && mMouseInside)
-                    {
-                        newEvent.Type = Event::MouseLeft;
-                        mMouseInside = inside;
-                    }
-                    Widget::mFocusedWidget->DistributeEvent(newEvent);
+                    newEvent.Type = Event::MouseEntered;
+                    Widget::mHoveredWidget->DistributeEvent(newEvent);
+
+                    lastHovered = Widget::mHoveredWidget;
                 }
-                else
-                    Widget::mFocusedWidget->DistributeEvent(event);
             }
+            if (Widget::mFocusedWidget)
+                Widget::mFocusedWidget->DistributeEvent(event);
+        }
 
+
+        void    GuiRenderer::HandleFocus()
+        {
+            if (Widget::mHoveredWidget)
+                if (Widget::mHoveredWidget->IsFocusable())
+                    Widget::mFocusedWidget = Widget::mHoveredWidget;
         }
 
         void    GuiRenderer::Resize(const Vector2ui& size)
@@ -114,51 +148,11 @@ namespace sf
 
         void    GuiRenderer::Display()
         {
+            const View& otherView = mRenderWindow.GetView();
+
             mRenderWindow.SetView(mView);
-
             mRenderWindow.Draw(mTopWidget);
-
-            mRenderWindow.SetView(mRenderWindow.GetDefaultView());
-        }
-
-
-        void    GuiRenderer::HandleFocus()
-        {
-            const Input& input = mRenderWindow.GetInput();
-
-            Vector2<unsigned int> mousePos(input.GetMouseX(), input.GetMouseY());
-
-            // We detect if the focus have been activated for a widget
-            if (!SetFocusUnderMouse(&mTopWidget, mousePos, mTopWidget.GetPosition()))
-            {
-                Widget::mFocusedWidget = 0;
-            }
-        }
-
-        bool    GuiRenderer::SetFocusUnderMouse(Widget* widget, const Vector2ui& mouse, Vector2f absPos)
-        {
-            Widgets&  widgets = widget->mChildren;
-
-            for (Widgets::reverse_iterator it = widgets.rbegin(); it != widgets.rend(); ++it)
-            {
-                Widget* currentWidget = *it;
-
-                if (currentWidget->IsFocusable())
-                {
-                    absPos += currentWidget->GetPosition();
-
-                    if (mouse.x >= absPos.x && mouse.x <= absPos.x + currentWidget->mSize.x &&
-                        mouse.y >= absPos.y && mouse.y <= absPos.y + currentWidget->mSize.y)
-                    {
-                        Widget::mFocusedWidget = currentWidget;
-                        mMouseInside = true;
-                        SetFocusUnderMouse(currentWidget, mouse, absPos);
-                        return true;
-                    }
-                    absPos -= currentWidget->GetPosition();
-                }
-            }
-            return false;
+            mRenderWindow.SetView(otherView);
         }
 
     }
