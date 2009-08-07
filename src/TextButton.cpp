@@ -17,6 +17,8 @@
 */
 
 #include "TextButton.hpp"
+#include <SFML/Window/OpenGL.hpp>
+#include <SFML/Graphics/RenderTarget.hpp>
 
 namespace sf
 {
@@ -31,30 +33,43 @@ namespace sf
 
             SetSize(mCaption.GetSize() + Vector2f(18, 10));
             SetColor(Color(123, 123, 123));
+
+            LoadTemplate("BI_TextButton");
+        }
+
+        void    TextButton::LoadTemplate(const std::string& nameTpl)
+        {
+            Widget::LoadTemplate(nameTpl);
+
+            TemplateProperties& properties = TemplateManager::Get()->GetTemplate(nameTpl);
+
+            SetTextSize(TemplateManager::GetValue(properties["textSize"], GetTextSize()));
+            SetTextColor(TemplateManager::GetColorValue(properties["textColor"], GetTextColor()));
         }
 
         void    TextButton::OnChange(Widget::Property property)
         {
             if (property == Widget::SIZE)
             {
-                mCaption.SetX((GetWidth() - mCaption.GetSize().x) / 2);
-                mCaption.SetY((GetHeight() - mCaption.GetSize().y) / 2);
+                mCaption.SetPosition((GetWidth() - mCaption.GetSize().x) / 2, (GetHeight() - mCaption.GetSize().y) / 2);
             }
         }
 
         void    TextButton::SetTextColor(const Color& color)
         {
-            mCaption.SetColor(color);
+            mCaption.SetTextColor(color);
         }
 
         const Color&    TextButton::GetTextColor() const
         {
-            return mCaption.GetColor();
+            return mCaption.GetTextColor();
         }
 
         void    TextButton::SetTextSize(float size)
         {
             mCaption.SetTextSize(size);
+
+            OnChange(Widget::SIZE);
         }
 
         float   TextButton::GetTextSize() const
@@ -70,6 +85,18 @@ namespace sf
         void    TextButton::OnReleased()
         {
             mCaption.Move(-2.f, -2.f);
+        }
+
+        void    TextButton::Render(RenderTarget& target) const
+        {
+            const Vector2f& absPos = GetAbsolutePosition();
+
+            glEnable(GL_SCISSOR_TEST);
+            glScissor(absPos.x, target.GetHeight() - GetHeight() - absPos.y, GetWidth(), GetHeight());
+
+            Widget::Render(target);
+
+            glDisable(GL_SCISSOR_TEST);
         }
 
     }

@@ -44,6 +44,23 @@ namespace sf
 
         }
 
+        void    Widget::LoadTemplate(const std::string& nameTpl)
+        {
+            TemplateProperties& properties = TemplateManager::Get()->GetTemplate(nameTpl);
+
+            SetWidth(TemplateManager::GetValue(properties["width"], GetWidth()));
+            SetHeight(TemplateManager::GetValue(properties["height"], GetHeight()));
+
+            SetX(TemplateManager::GetValue(properties["x"], GetPosition().x));
+            SetY(TemplateManager::GetValue(properties["y"], GetPosition().y));
+
+            SetColor(TemplateManager::GetColorValue(properties["color"], GetColor()));
+
+            SetEnabled(TemplateManager::GetValue(properties["enabled"], IsEnabled()));
+            SetVisible(TemplateManager::GetValue(properties["visible"], IsVisible()));
+            SetFocusable(TemplateManager::GetValue(properties["focusable"], IsFocusable()));
+        }
+
         void    Widget::SetColor(const Color& color)
         {
             Drawable::SetColor(color);
@@ -222,7 +239,6 @@ namespace sf
             {
                 (*it)->OnKeyEvent(event);
             }
-
         }
 
         void    Widget::RenderChildren(RenderTarget& target) const
@@ -237,7 +253,6 @@ namespace sf
                 if (widg->IsVisible())
                     target.Draw(*widg);
             }
-
         }
 
         void    Widget::OnPaint(RenderTarget& target) const

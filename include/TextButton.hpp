@@ -39,6 +39,8 @@ namespace sf
             protected :
                 // Inherited from Widget
                 virtual void    OnChange(Widget::Property property);
+                virtual void    LoadTemplate(const std::string& nameTpl);
+                virtual void    Render(RenderTarget& target) const;
 
                 // Inherited from Button
                 virtual void    OnPressed();

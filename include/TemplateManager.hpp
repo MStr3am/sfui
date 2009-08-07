@@ -26,6 +26,8 @@
 
 namespace sf
 {
+    class Color;
+
     namespace ui
     {
         typedef std::map<std::string, std::string> TemplateProperties;
@@ -35,14 +37,6 @@ namespace sf
         {
             public :
 
-                enum Type
-                {
-                    NUMBER,
-                    STRING,
-                    RGB_COLOR,
-                    HEX_COLOR
-                };
-
                 static TemplateManager*     Get();
                 static void                 Kill();
 
@@ -50,22 +44,17 @@ namespace sf
                 bool                        AddTemplatesFromFile(const std::string& filename);
 
                 template<typename T>
-                static  T   GetValue(enum Type convert, const std::string& value, const T& defaultValue)
+                static  T   GetValue(const std::string& value, const T& defaultValue)
                 {
                     T   retValue;
 
-                    if (convert == STRING || convert == NUMBER)
-                    {
-                        std::istringstream iss(value);
-                        if (iss >> retValue)
-                            return retValue;
-                    }
-                    else if (convert == RGB_COLOR || convert == HEX_COLOR)
-                    {
-                        // TODO
-                    }
+                    std::istringstream iss(value);
+                    if (iss >> retValue)
+                        return retValue;
                     return (retValue = defaultValue);
                 }
+
+                static Color GetColorValue(const std::string& value, const Color& defaultValue);
 
             private :
                 TemplateManager();
