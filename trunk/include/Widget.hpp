@@ -24,6 +24,8 @@
 #include <SFML/Window/Event.hpp>
 #include <SFML/Graphics/Rect.hpp>
 
+#include "TemplateManager.hpp"
+
 namespace sf
 {
     namespace ui
@@ -59,6 +61,8 @@ namespace sf
 
                 Widget(Vector2f pos = Vector2f(0, 0), Vector2f size = Vector2f(20, 20));
                 ~Widget();
+
+                virtual void        LoadTemplate(const std::string& nameTpl);
 
                 void                SetColor(const Color& color);
 

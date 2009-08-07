@@ -17,6 +17,7 @@
 */
 
 #include "GuiRenderer.hpp"
+#include "TemplateManager.hpp"
 
 namespace sf
 {
@@ -32,11 +33,13 @@ namespace sf
             mTopWidget.SetColor(Color(0, 0, 0, 0));
 
             Widget::mFocusedWidget = Widget::mHoveredWidget = &mTopWidget;
+
+            TemplateManager::Get()->AddTemplatesFromFile("./data/test.xml");
         }
 
         GuiRenderer::~GuiRenderer()
         {
-
+            TemplateManager::Kill();
         }
 
         Widget& GuiRenderer::GetTopWidget()

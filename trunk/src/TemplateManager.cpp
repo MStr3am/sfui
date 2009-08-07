@@ -17,8 +17,12 @@
 */
 
 #include "TemplateManager.hpp"
-#include <tinyxml.h>
+
 #include <iostream>
+#include <vector>
+
+#include <tinyxml.h>
+#include <SFML/Graphics/Color.hpp>
 
 namespace sf
 {
@@ -49,6 +53,94 @@ namespace sf
         {
             delete mInstance;
             mInstance = 0;
+        }
+
+        int    _GetValueFromHex(char hex)
+        {
+            if (hex >= '0' && hex <= '9')
+                return hex - '0';
+            else if (hex >= 'A' && hex <= 'F')
+                return hex - 'A' + 10;
+            else if (hex >= 'a' && hex <= 'f')
+                return hex - 'f' + 10;
+            return 0;
+        }
+
+        Uint8   _GetElementFromHex(const std::string& str)
+        {
+            if (str.length() != 2)
+                return 0;
+            return static_cast<Uint8>(_GetValueFromHex(str[0]) * 16 + _GetValueFromHex(str[1]));
+        }
+
+        void    _GetElementsFromString(std::string str, char separator, std::vector<std::string>* results)
+        {
+            size_t found = str.find_first_of(separator);
+
+            while (found != std::string::npos)
+            {
+                if(found > 0)
+                {
+                    results->push_back(str.substr(0, found));
+                }
+                str = str.substr(found + 1);
+                found = str.find_first_of(separator);
+            }
+            if (str.length() > 0)
+            {
+                results->push_back(str);
+            }
+        }
+
+        Color   TemplateManager::GetColorValue(const std::string& value, const Color& defaultValue)
+        {
+            Color   retValue;
+
+            if (value.length() == 0)
+                return defaultValue;
+
+            if (value.substr(0, 1) == "#" && value.length() == 7)
+            {
+                retValue.r = _GetElementFromHex(value.substr(1, 2));
+                retValue.g = _GetElementFromHex(value.substr(3, 2));
+                retValue.b = _GetElementFromHex(value.substr(5, 2));
+                retValue.a = 255;
+
+                return retValue;
+            }
+            else if (value.substr(0, 4) == "rgb:")
+            {
+                std::vector<std::string> vectEls;
+                _GetElementsFromString(value.substr(4, value.length() - 4), ',', &vectEls);
+
+                if (vectEls.size() == 3)
+                {
+                    retValue.r = GetValue(vectEls[0], 255);
+                    retValue.g = GetValue(vectEls[1], 255);
+                    retValue.b = GetValue(vectEls[2], 255);
+                    retValue.a = 255;
+
+                    return retValue;
+                }
+            }
+            else if (value.substr(0, 5) == "rgba:")
+            {
+                std::vector<std::string> vectEls;
+                _GetElementsFromString(value.substr(5, value.length() - 5), ',', &vectEls);
+
+                if (vectEls.size() == 4)
+                {
+                    retValue.r = GetValue(vectEls[0], 255);
+                    retValue.g = GetValue(vectEls[1], 255);
+                    retValue.b = GetValue(vectEls[2], 255);
+                    retValue.a = GetValue(vectEls[3], 255);
+
+                    std::cout << vectEls[3] << std::endl;
+
+                    return retValue;
+                }
+            }
+            return (retValue = defaultValue);
         }
 
         TemplateProperties&   TemplateManager::GetTemplate(const std::string& name)
