@@ -38,10 +38,10 @@ namespace sf
         {
             Widget::LoadTemplate(nameTpl);
 
-            TemplateProperties& properties = TemplateManager::Get()->GetTemplate(nameTpl);
+            TemplateProperties& properties = ResourceManager::Get()->GetTemplate(nameTpl);
 
-            SetTextSize(TemplateManager::GetValue(properties["textSize"], GetTextSize()));
-            SetTextColor(TemplateManager::GetColorValue(properties["textColor"], GetTextColor()));
+            SetTextSize(ResourceManager::GetValue(properties["textSize"], GetTextSize()));
+            SetTextColor(ResourceManager::GetColorValue(properties["textColor"], GetTextColor()));
         }
 
         void    TextButton::OnChange(Widget::Property property)

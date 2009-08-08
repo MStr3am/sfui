@@ -17,7 +17,7 @@
 */
 
 #include "GuiRenderer.hpp"
-#include "TemplateManager.hpp"
+#include "ResourceManager.hpp"
 
 namespace sf
 {
@@ -34,12 +34,12 @@ namespace sf
 
             Widget::mFocusedWidget = Widget::mHoveredWidget = &mTopWidget;
 
-            TemplateManager::Get()->AddTemplatesFromFile("./data/test.xml");
+            ResourceManager::Get()->AddTemplatesFromFile("./data/test.xml");
         }
 
         GuiRenderer::~GuiRenderer()
         {
-            TemplateManager::Kill();
+            ResourceManager::Kill();
         }
 
         Widget& GuiRenderer::GetTopWidget()

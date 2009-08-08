@@ -21,6 +21,8 @@
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Window/OpenGL.hpp>
 
+#include "ResourceManager.hpp"
+
 namespace sf
 {
     namespace ui
@@ -85,10 +87,23 @@ namespace sf
         {
             Widget::LoadTemplate(nameTpl);
 
-            TemplateProperties& properties = TemplateManager::Get()->GetTemplate(nameTpl);
+            TemplateProperties& properties = ResourceManager::Get()->GetTemplate(nameTpl);
 
-            SetTextSize(TemplateManager::GetValue(properties["textSize"], GetTextSize()));
-            SetTextColor(TemplateManager::GetColorValue(properties["textColor"], GetTextColor()));
+            SetTextSize(ResourceManager::GetValue(properties["textSize"], GetTextSize()));
+            SetTextColor(ResourceManager::GetColorValue(properties["textColor"], GetTextColor()));
+
+            if (properties["font"] != "")
+            {
+                Font*   newFont = ResourceManager::Get()->GetFont(properties["font"], GetTextSize());
+                if (newFont)
+                {
+                    SetFont(*newFont);
+                }
+                else
+                {
+                    SetFont(Font::GetDefaultFont());
+                }
+            }
 
             if (properties["textSize"] != "")
             {

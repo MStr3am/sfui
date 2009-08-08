@@ -16,40 +16,46 @@
 
 */
 
-#include "TemplateManager.hpp"
+#include "ResourceManager.hpp"
 
 #include <iostream>
 #include <vector>
 
 #include <tinyxml.h>
 #include <SFML/Graphics/Color.hpp>
+#include <SFML/Graphics/Font.hpp>
 
 namespace sf
 {
     namespace ui
     {
-        TemplateManager* TemplateManager::mInstance = 0;
+        ResourceManager* ResourceManager::mInstance = 0;
 
-        TemplateManager* TemplateManager::Get()
+        ResourceManager* ResourceManager::Get()
         {
             if (!mInstance)
             {
-                mInstance = new TemplateManager();
+                mInstance = new ResourceManager();
             }
             return mInstance;
         }
 
-        TemplateManager::TemplateManager()
+        ResourceManager::ResourceManager()
         {
 
         }
 
-        TemplateManager::~TemplateManager()
+        ResourceManager::~ResourceManager()
         {
-
+            // Delete all fonts in memory
+            for (Fonts::iterator it = mFonts.begin(); it != mFonts.end(); ++it)
+            {
+                delete it->second;
+                mFonts.erase(it);
+            }
         }
 
-        void TemplateManager::Kill()
+        void ResourceManager::Kill()
         {
             delete mInstance;
             mInstance = 0;
@@ -92,7 +98,7 @@ namespace sf
             }
         }
 
-        Color   TemplateManager::GetColorValue(const std::string& value, const Color& defaultValue)
+        Color   ResourceManager::GetColorValue(const std::string& value, const Color& defaultValue)
         {
             Color   retValue;
 
@@ -141,12 +147,31 @@ namespace sf
             return (retValue = defaultValue);
         }
 
-        TemplateProperties&   TemplateManager::GetTemplate(const std::string& name)
+        TemplateProperties&   ResourceManager::GetTemplate(const std::string& name)
         {
             return mTemplates[name];
         }
 
-        bool    TemplateManager::AddTemplatesFromFile(const std::string& filename)
+        Font*     ResourceManager::GetFont(const std::string& name, float size)
+        {
+            Font*   font = 0;
+            Fonts::iterator it = mFonts.find(name);
+
+            if (it != mFonts.end())
+                font = it->second;
+            else
+            {
+                font = new Font();
+                if (!font->LoadFromFile(name, size))
+                {
+                    delete font;
+                    font = 0;
+                }
+            }
+            return font;
+        }
+
+        bool    ResourceManager::AddTemplatesFromFile(const std::string& filename)
         {
             TiXmlDocument file(filename);
 
