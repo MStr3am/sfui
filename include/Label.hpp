@@ -29,7 +29,7 @@ namespace sf
         class Label : public Widget
         {
             public :
-                Label(const Unicode::Text& caption, float textSize = 15.f);
+                Label(const Unicode::Text& caption, float textSize = 30.f);
 
                 void                    SetText(const Unicode::Text& caption);
                 const Unicode::Text&    GetText() const;
@@ -46,8 +46,11 @@ namespace sf
                 const String&           GetString() const;
 
             protected :
-                virtual void            OnPaint(RenderTarget& target) const;
-                virtual void            AdjustSize();
+
+                // Inherited from Widget
+                virtual void            Render(RenderTarget& target) const;
+                virtual void            LoadTemplate(const std::string& nameTpl);
+
 
             private :
                 String                  mCaption;

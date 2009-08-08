@@ -30,14 +30,15 @@ namespace sf
             :   Widget(),
                 mCaption(caption, Font::GetDefaultFont(), textSize)
         {
-            SetColor(Color(0, 0, 0, 0));
-            AdjustSize();
+            const FloatRect& rect = mCaption.GetRect();
+            SetSize(rect.GetWidth(), rect.GetHeight());
+
+            LoadTemplate("BI_Label");
         }
 
         void    Label::SetText(const Unicode::Text& caption)
         {
             mCaption.SetText(caption);
-            AdjustSize();
         }
 
         const Unicode::Text&    Label::GetText() const
@@ -58,7 +59,6 @@ namespace sf
         void    Label::SetTextSize(float size)
         {
             mCaption.SetSize(size);
-            AdjustSize();
         }
 
         float   Label::GetTextSize() const
@@ -76,23 +76,38 @@ namespace sf
             return mCaption.GetColor();
         }
 
-        const String&           Label::GetString() const
+        const String&   Label::GetString() const
         {
             return mCaption;
         }
 
-        void    Label::AdjustSize()
+        void    Label::LoadTemplate(const std::string& nameTpl)
         {
-            const FloatRect& newRect = mCaption.GetRect();
+            Widget::LoadTemplate(nameTpl);
 
-            if (newRect.GetWidth() > GetWidth())
-                SetWidth(newRect.GetWidth());
-            if (newRect.GetHeight() > GetHeight())
-                SetHeight(newRect.GetHeight());
+            TemplateProperties& properties = TemplateManager::Get()->GetTemplate(nameTpl);
+
+            SetTextSize(TemplateManager::GetValue(properties["textSize"], GetTextSize()));
+            SetTextColor(TemplateManager::GetColorValue(properties["textColor"], GetTextColor()));
+
+            if (properties["textSize"] != "")
+            {
+                const FloatRect& rect = mCaption.GetRect();
+
+                if (properties["width"] == "")
+                    SetWidth(rect.GetWidth());
+                if (properties["height"] == "")
+                    SetHeight(rect.GetHeight());
+            }
         }
 
-        void    Label::OnPaint(RenderTarget& target) const
+        void    Label::Render(RenderTarget& target) const
         {
+            const Vector2f& absPos = GetAbsolutePosition();
+
+            glEnable(GL_SCISSOR_TEST);
+            glScissor(absPos.x, target.GetHeight() - GetHeight() - absPos.y, GetWidth(), GetHeight());
+
             Widget::OnPaint(target);
 
             const Unicode::UTF32String& Text = mCaption.GetText();
@@ -115,7 +130,7 @@ namespace sf
 
             glBegin(GL_QUADS);
 
-            // Adapted from sf::String (by Laurent Gomila)
+            // Adapted from sf::String (originally coded by Laurent Gomila - SFML)
             for (std::size_t i = 0; i < Text.size(); ++i)
             {
                 Uint32           CurChar  = Text[i];
@@ -140,6 +155,8 @@ namespace sf
                 X += Advance;
             }
             glEnd();
+
+            glDisable(GL_SCISSOR_TEST);
 
         }
     }

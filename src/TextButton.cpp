@@ -28,12 +28,9 @@ namespace sf
             :   Button(),
                 mCaption(caption, size)
         {
-            mCaption.SetFocusable(false);
             Add(&mCaption);
 
             SetSize(mCaption.GetSize() + Vector2f(18, 10));
-            SetColor(Color(123, 123, 123));
-
             LoadTemplate("BI_TextButton");
         }
 
