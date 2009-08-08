@@ -55,7 +55,7 @@ namespace sf
             mInstance = 0;
         }
 
-        int    _GetValueFromHex(char hex)
+        static int    _GetValueFromHex(char hex)
         {
             if (hex >= '0' && hex <= '9')
                 return hex - '0';
@@ -66,14 +66,14 @@ namespace sf
             return 0;
         }
 
-        Uint8   _GetElementFromHex(const std::string& str)
+        static Uint8   _GetElementFromHex(const std::string& str)
         {
             if (str.length() != 2)
                 return 0;
             return static_cast<Uint8>(_GetValueFromHex(str[0]) * 16 + _GetValueFromHex(str[1]));
         }
 
-        void    _GetElementsFromString(std::string str, char separator, std::vector<std::string>* results)
+        static void    _GetElementsFromString(std::string str, char separator, std::vector<std::string>* results)
         {
             size_t found = str.find_first_of(separator);
 
@@ -135,8 +135,6 @@ namespace sf
                     retValue.b = GetValue(vectEls[2], 255);
                     retValue.a = GetValue(vectEls[3], 255);
 
-                    std::cout << vectEls[3] << std::endl;
-
                     return retValue;
                 }
             }
@@ -170,21 +168,31 @@ namespace sf
 
             while (t)
             {
-                TemplateProperties  properties;
-
-                const std::string& nameTpl = t->Attribute("name");
-
-                TiXmlHandle hdlTpl(t);
-                TiXmlElement *p = hdlTpl.FirstChildElement().Element();
-
-                while (p)
+                if (t->ValueStr() == "template")
                 {
-                    properties[p->Attribute("name")] = p->Attribute("value");
-                    p = p->NextSiblingElement();
+                    TemplateProperties  properties;
+
+                    const TiXmlAttribute* attr = t->FirstAttribute();
+                    std::string nameTpl;
+
+                    while (attr)
+                    {
+                        std::string nameAttr(attr->Name());
+
+                        if (nameAttr == "name")
+                            nameTpl = attr->ValueStr();
+                        else
+                            properties[nameAttr] = attr->ValueStr();
+                        attr = attr->Next();
+                    }
+
+                    if (nameTpl.size() == 0)
+                    {
+                        std::cerr << "Unable to parse template file. A template has no name." << std::endl;
+                        return false;
+                    }
+                    mTemplates[nameTpl] = properties;
                 }
-
-                mTemplates[nameTpl] = properties;
-
                 t = t->NextSiblingElement();
             }
 
