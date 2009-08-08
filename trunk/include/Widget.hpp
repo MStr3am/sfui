@@ -24,7 +24,7 @@
 #include <SFML/Window/Event.hpp>
 #include <SFML/Graphics/Rect.hpp>
 
-#include "TemplateManager.hpp"
+#include "ResourceManager.hpp"
 
 namespace sf
 {

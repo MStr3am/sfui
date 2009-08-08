@@ -1,5 +1,5 @@
-#ifndef TEMPLATEMANAGER_HPP_INCLUDED
-#define TEMPLATEMANAGER_HPP_INCLUDED
+#ifndef RESOURCEMANAGER_HPP_INCLUDED
+#define RESOURCEMANAGER_HPP_INCLUDED
 
 /*
     This file is part of SFUI (by Robin RUAUX).
@@ -27,17 +27,20 @@
 namespace sf
 {
     class Color;
+    class Font;
 
     namespace ui
     {
         typedef std::map<std::string, std::string> TemplateProperties;
         typedef std::map<std::string, TemplateProperties> Templates;
 
-        class TemplateManager
+        typedef std::map<std::string, Font*>         Fonts;
+
+        class ResourceManager
         {
             public :
 
-                static TemplateManager*     Get();
+                static ResourceManager*     Get();
                 static void                 Kill();
 
                 TemplateProperties&         GetTemplate(const std::string& name);
@@ -56,14 +59,19 @@ namespace sf
 
                 static Color GetColorValue(const std::string& value, const Color& defaultValue);
 
-            private :
-                TemplateManager();
-                ~TemplateManager();
+                Font*       GetFont(const std::string& name, float size = 30.f);
 
-                static  TemplateManager*    mInstance;
+            private :
+                ResourceManager();
+                ~ResourceManager();
+
+                static  ResourceManager*    mInstance;
+
+                /* --- Resources --- */
                 Templates                   mTemplates;
+                Fonts                       mFonts;
         };
     }
 }
 
-#endif // TEMPLATEMANAGER_HPP_INCLUDED
+#endif // RESOURCEMANAGER_HPP_INCLUDED

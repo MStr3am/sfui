@@ -1,5 +1,5 @@
 
-<template name="BI_Label" color="rgba:0,0,0,0" x="5" y="5" focusable="false" textColor="#000000" />
+<template name="BI_Label" color="rgba:0,0,0,0" x="5" y="5" focusable="false" textColor="#000000" font="data/yorkville.ttf" textSize="20" />
 
 <template name="BI_TextButton" x="123" y="123" height="30" color="rgb: 150, 150, 150" textColor="rgb: 255, 255, 255" textSize="15" />
 
