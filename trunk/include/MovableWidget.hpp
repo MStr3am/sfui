@@ -38,6 +38,8 @@ namespace sf
                 bool            IsMovable() const;
                 bool            IsBlocked() const;
 
+                virtual void    LoadTemplate(const std::string& nameTpl);
+
             protected :
                 virtual void    OnMousePressed(const Event::MouseButtonEvent& button);
                 virtual void    OnMouseReleased(const Event::MouseButtonEvent& button);

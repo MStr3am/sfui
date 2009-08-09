@@ -1,5 +1,5 @@
 
-<template name="BI_Label" color="rgba:0,0,0,0" focusable="0" textColor="#000000" textSize="15" width="23" height="23" />
+<template name="BI_Label" color="rgba:0,0,0,0" focusable="0" textColor="#000000" textSize="15" />
 
 <template name="BI_TextInput" color="rgb:123,123,123" width="200" height="20" textColor="#FFFFFF" textSize="15" maxLength="0" selectionColor="rgba: 255, 255, 255, 123" />
 
@@ -8,3 +8,8 @@
 <template name="BI_ImageButton_Normal" image="data/btnNormal.png" />
 <template name="BI_ImageButton_Pressed" image="data/btnPressed.png" />
 <template name="BI_ImageButton_Hovered" image="data/btnHover.png" />
+
+<template name="BI_MovableWidget" blocked="1" movable="1" />
+
+<template name="BI_Window" color="rgba:123,100,195,123" width="300" height="320" />
+<template name="BI_Window_Title" textColor="#FFFFFF" textSize="30" font="data/yorkville.ttf" focusable="1" />

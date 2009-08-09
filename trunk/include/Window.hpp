@@ -31,11 +31,13 @@ namespace sf
             public :
                 Window(const Unicode::Text& title);
 
-            protected :
-                virtual void    OnChange(Widget::Property property);
+                void                    SetTitle(const Unicode::Text& text);
+                const Unicode::Text&    GetTitle() const;
 
-            private :
-                Label   mTitle;
+                virtual void            LoadTemplate(const std::string& nameTpl);
+
+            protected :
+                Label                   mTitle;
 
 
         };
