@@ -46,19 +46,21 @@ namespace sf
 
         void    Widget::LoadTemplate(const std::string& nameTpl)
         {
-            TemplateProperties& properties = ResourceManager::Get()->GetTemplate(nameTpl);
+            ResourceManager* rm = ResourceManager::Get();
 
-            SetWidth(ResourceManager::GetValue(properties["width"], GetWidth()));
-            SetHeight(ResourceManager::GetValue(properties["height"], GetHeight()));
+            TemplateProperties& properties = rm->GetTemplate(nameTpl);
 
-            SetX(ResourceManager::GetValue(properties["x"], GetPosition().x));
-            SetY(ResourceManager::GetValue(properties["y"], GetPosition().y));
+            SetWidth(rm->GetValue(properties["width"], GetWidth()));
+            SetHeight(rm->GetValue(properties["height"], GetHeight()));
 
-            SetColor(ResourceManager::GetColorValue(properties["color"], GetColor()));
+            SetX(rm->GetValue(properties["x"], GetPosition().x));
+            SetY(rm->GetValue(properties["y"], GetPosition().y));
 
-            SetEnabled(ResourceManager::GetValue(properties["enabled"], IsEnabled()));
-            SetVisible(ResourceManager::GetValue(properties["visible"], IsVisible()));
-            SetFocusable(ResourceManager::GetValue(properties["focusable"], IsFocusable()));
+            SetColor(rm->GetColorValue(properties["color"], GetColor()));
+
+            SetEnabled(rm->GetValue(properties["enabled"], IsEnabled()));
+            SetVisible(rm->GetValue(properties["visible"], IsVisible()));
+            SetFocusable(rm->GetValue(properties["focusable"], IsFocusable()));
         }
 
         void    Widget::SetColor(const Color& color)

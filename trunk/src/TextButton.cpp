@@ -24,32 +24,28 @@ namespace sf
 {
     namespace ui
     {
-        TextButton::TextButton(const Unicode::Text& caption, float size)
-            :   Button(),
-                mCaption(caption, size)
+        TextButton::TextButton(const Unicode::Text& caption)
+            :   ImageButton(),
+                mCaption(caption)
         {
             Add(&mCaption);
-
-            SetSize(mCaption.GetSize() + Vector2f(18, 10));
-            LoadTemplate("BI_TextButton");
+            AdjustSize();
         }
 
         void    TextButton::LoadTemplate(const std::string& nameTpl)
         {
-            Widget::LoadTemplate(nameTpl);
+            ImageButton::LoadTemplate(nameTpl);
 
-            TemplateProperties& properties = ResourceManager::Get()->GetTemplate(nameTpl);
+            ResourceManager* rm = ResourceManager::Get();
+            TemplateProperties& properties = rm->GetTemplate(nameTpl);
 
-            SetTextSize(ResourceManager::GetValue(properties["textSize"], GetTextSize()));
-            SetTextColor(ResourceManager::GetColorValue(properties["textColor"], GetTextColor()));
+            SetTextSize(rm->GetValue(properties["textSize"], GetTextSize()));
+            SetTextColor(rm->GetColorValue(properties["textColor"], GetTextColor()));
         }
 
-        void    TextButton::OnChange(Widget::Property property)
+        void    TextButton::AdjustSize()
         {
-            if (property == Widget::SIZE)
-            {
-                mCaption.SetPosition((GetWidth() - mCaption.GetSize().x) / 2, (GetHeight() - mCaption.GetSize().y) / 2);
-            }
+            mCaption.SetPosition((GetWidth() - mCaption.GetSize().x) / 2, (GetHeight() - mCaption.GetSize().y) / 2);
         }
 
         void    TextButton::SetTextColor(const Color& color)
@@ -65,8 +61,7 @@ namespace sf
         void    TextButton::SetTextSize(float size)
         {
             mCaption.SetTextSize(size);
-
-            OnChange(Widget::SIZE);
+            AdjustSize();
         }
 
         float   TextButton::GetTextSize() const
@@ -76,12 +71,14 @@ namespace sf
 
         void    TextButton::OnPressed()
         {
-            mCaption.Move(2.f, 2.f);
+            ImageButton::OnPressed();
+            mCaption.Move(1.f, 1.f);
         }
 
         void    TextButton::OnReleased()
         {
-            mCaption.Move(-2.f, -2.f);
+            ImageButton::OnReleased();
+            mCaption.Move(-1.f, -1.f);
         }
 
         void    TextButton::Render(RenderTarget& target) const

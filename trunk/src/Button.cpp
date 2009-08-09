@@ -49,11 +49,7 @@ namespace sf
 
         void    Button::OnMouseLeft(const Event::MouseMoveEvent& mouse)
         {
-            if (mPressed)
-            {
-                mPressed = false;
-                OnReleased();
-            }
+            mPressed = false;
         }
 
         void    Button::SetPressed(bool pressed)

@@ -47,11 +47,18 @@ namespace sf
 
         ResourceManager::~ResourceManager()
         {
-            // Delete all fonts in memory
+            // Delete all resources
+
             for (Fonts::iterator it = mFonts.begin(); it != mFonts.end(); ++it)
             {
                 delete it->second;
                 mFonts.erase(it);
+            }
+
+            for (Images::iterator it = mImages.begin(); it != mImages.end(); ++it)
+            {
+                delete it->second;
+                mImages.erase(it);
             }
         }
 
@@ -162,13 +169,26 @@ namespace sf
             else
             {
                 font = new Font();
-                if (!font->LoadFromFile(name, size))
-                {
-                    delete font;
-                    font = 0;
-                }
+                if (font->LoadFromFile(name, size))
+                    mFonts[name] = font;
             }
             return font;
+        }
+
+        Image*  ResourceManager::GetImage(const std::string& name)
+        {
+            Image*  image = 0;
+            Images::iterator it = mImages.find(name);
+
+            if (it != mImages.end())
+                image = it->second;
+            else
+            {
+                image = new Image();
+                if (image->LoadFromFile(name))
+                    mImages[name] = image;
+            }
+            return image;
         }
 
         bool    ResourceManager::AddTemplatesFromFile(const std::string& filename)

@@ -29,7 +29,10 @@ namespace sf
         class ImageButton : public Button
         {
             public :
-                ImageButton(const Image& imgReleased, const Image& imgHover, const Image& imgPressed);
+                ImageButton();
+
+                // Inherited from Widget
+                virtual void    LoadTemplate(const std::string& nameTpl);
 
             protected :
 
@@ -43,10 +46,9 @@ namespace sf
 
                 // Inherited from Widget
                 virtual void    OnPaint(RenderTarget& target) const;
-                virtual void    OnChange(Widget::Property property);
+
 
             private :
-                Image           mImages[3];
                 Sprite          mCurrentSprite;
 
 

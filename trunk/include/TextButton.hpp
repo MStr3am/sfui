@@ -19,16 +19,16 @@
 
 */
 
-#include "Button.hpp"
+#include "ImageButton.hpp"
 
 namespace sf
 {
     namespace ui
     {
-        class TextButton : public Button
+        class TextButton : public ImageButton
         {
             public :
-                TextButton(const Unicode::Text& caption, float textSize = 15.f);
+                TextButton(const Unicode::Text& caption);
 
                 void            SetTextColor(const Color& color);
                 const Color&    GetTextColor() const;
@@ -37,8 +37,9 @@ namespace sf
                 float           GetTextSize() const;
 
             protected :
+                virtual void    AdjustSize();
+
                 // Inherited from Widget
-                virtual void    OnChange(Widget::Property property);
                 virtual void    LoadTemplate(const std::string& nameTpl);
                 virtual void    Render(RenderTarget& target) const;
 

@@ -36,10 +36,7 @@ namespace sf
                 mSelectionDragged(false),
                 mSelectionStart(0)
         {
-            mString.SetFocusable(false);
-            mString.SetColor(Color(0, 0, 0));
-
-            SetSize(150, mString.GetString().GetSize() + mStringOffset);
+            LoadTemplate("BI_TextInput");
 
             Add(&mString);
             AdjustRect();
@@ -58,12 +55,25 @@ namespace sf
             return mString.GetText();
         }
 
-        void    TextInput::OnChange(Widget::Property property)
+        void    TextInput::LoadTemplate(const std::string& nameTpl)
         {
-            if (property == Widget::SIZE)
+            Widget::LoadTemplate(nameTpl);
+
+            ResourceManager* rm = ResourceManager::Get();
+            TemplateProperties& properties = rm->GetTemplate(nameTpl);
+
+            SetMaxLength(rm->GetValue(properties["maxLength"], GetMaxLength()));
+            SetSelectionColor(rm->GetColorValue(properties["selectionColor"], GetSelectionColor()));
+
+            SetTextColor(rm->GetColorValue(properties["textColor"], GetTextColor()));
+            SetTextSize(rm->GetValue(properties["textSize"], GetTextSize()));
+
+            if (properties["font"] != "")
             {
-                mString.SetY((GetHeight() - mString.GetString().GetSize()) / 2 - 2);
+                SetFont(*rm->GetFont(properties["font"], GetTextSize()));
             }
+
+            mString.SetY((GetHeight() - mString.GetString().GetSize()) / 2 - 2);
         }
 
         void    TextInput::SetMaxLength(unsigned int maxLength)
@@ -74,6 +84,36 @@ namespace sf
         unsigned int    TextInput::GetMaxLength() const
         {
             return mMaxLength;
+        }
+
+        void            TextInput::SetTextColor(const Color& color)
+        {
+            mString.SetTextColor(color);
+        }
+
+        const Color&    TextInput::GetTextColor() const
+        {
+            return mString.GetTextColor();
+        }
+
+        void            TextInput::SetTextSize(float size)
+        {
+            mString.SetTextSize(size);
+        }
+
+        float           TextInput::GetTextSize() const
+        {
+            return mString.GetTextSize();
+        }
+
+        void            TextInput::SetFont(const Font& font)
+        {
+            mString.SetFont(font);
+        }
+
+        const Font&     TextInput::GetFont() const
+        {
+            return mString.GetFont();
         }
 
         void            TextInput::ClearSelection()
@@ -87,6 +127,16 @@ namespace sf
 
             mSelectionStart = start;
             mCursorPosition = (cursorPosition > text.length()) ? text.length() : cursorPosition;
+        }
+
+        void            TextInput::SetSelectionColor(const Color& color)
+        {
+            mSelectionColor = color;
+        }
+
+        const Color&    TextInput::GetSelectionColor() const
+        {
+            return mSelectionColor;
         }
 
         Unicode::Text   TextInput::GetSelection() const
@@ -268,8 +318,8 @@ namespace sf
                     selectionPos.x = (selectionPos.x - mCursorOffset + mStringOffset) / factor;
                     selectionPos.y = (selectionPos.y - mCursorOffset + mStringOffset) / factor;
 
-                    const Color& col = mString.GetColor();
-                    glColor4ub(col.r , col.g , col.b, col.a / 3);
+                    const Color& col = mSelectionColor;
+                    glColor4ub(col.r , col.g , col.b, col.a);
 
                     glBegin(GL_QUADS);
                         glVertex2f(selectionPos.x, yPos);
