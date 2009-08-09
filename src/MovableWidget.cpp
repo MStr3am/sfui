@@ -31,6 +31,7 @@ namespace sf
                 mDragOffset(0.f, 0.f),
                 mNeedUpdate(false)
         {
+            LoadTemplate("BI_MovableWidget");
             AddMouseListener(this);
         }
 
@@ -52,6 +53,18 @@ namespace sf
         bool    MovableWidget::IsBlocked() const
         {
             return mBlocked;
+        }
+
+
+        void    MovableWidget::LoadTemplate(const std::string& nameTpl)
+        {
+            Widget::LoadTemplate(nameTpl);
+
+            ResourceManager* rm = ResourceManager::Get();
+            TemplateProperties& properties = rm->GetTemplate(nameTpl);
+
+            SetMovable(rm->GetValue(properties["movable"], IsMovable()));
+            SetBlocked(rm->GetValue(properties["blocked"], IsBlocked()));
         }
 
         void    MovableWidget::OnMousePressed(const Event::MouseButtonEvent& button)

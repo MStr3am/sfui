@@ -26,16 +26,27 @@ namespace sf
             :   MovableWidget(),
                 mTitle(title)
         {
-            mTitle.SetFocusable(false);
+            mTitle.LoadTemplate("BI_Window_Title");
+            LoadTemplate("BI_Window");
+
             Add(&mTitle);
         }
 
-        void    Window::OnChange(Widget::Property property)
+        void    Window::SetTitle(const Unicode::Text& text)
         {
-            if (property == Widget::SIZE)
-            {
-                mTitle.SetX((GetWidth() - mTitle.GetWidth()) / 2);
-            }
+            mTitle.SetText(text);
+        }
+
+        const Unicode::Text&    Window::GetTitle() const
+        {
+            return mTitle.GetText();
+        }
+
+        void    Window::LoadTemplate(const std::string& nameTpl)
+        {
+            MovableWidget::LoadTemplate(nameTpl);
+
+            mTitle.SetX((GetWidth() - mTitle.GetWidth()) / 2);
         }
 
     }
