@@ -28,6 +28,7 @@ namespace sf
 {
     class Color;
     class Font;
+    class Image;
 
     namespace ui
     {
@@ -35,6 +36,7 @@ namespace sf
         typedef std::map<std::string, TemplateProperties> Templates;
 
         typedef std::map<std::string, Font*>         Fonts;
+        typedef std::map<std::string, Image*>        Images;
 
         class ResourceManager
         {
@@ -47,7 +49,7 @@ namespace sf
                 bool                        AddTemplatesFromFile(const std::string& filename);
 
                 template<typename T>
-                static  T   GetValue(const std::string& value, const T& defaultValue)
+                T           GetValue(const std::string& value, const T& defaultValue)
                 {
                     T   retValue;
 
@@ -57,9 +59,10 @@ namespace sf
                     return (retValue = defaultValue);
                 }
 
-                static Color GetColorValue(const std::string& value, const Color& defaultValue);
+                Color       GetColorValue(const std::string& value, const Color& defaultValue);
 
-                Font*       GetFont(const std::string& name, float size = 30.f);
+                Font*       GetFont(const std::string& filename, float size = 30.f);
+                Image*      GetImage(const std::string& filename);
 
             private :
                 ResourceManager();
@@ -70,6 +73,7 @@ namespace sf
                 /* --- Resources --- */
                 Templates                   mTemplates;
                 Fonts                       mFonts;
+                Images                      mImages;
         };
     }
 }

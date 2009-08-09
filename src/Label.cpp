@@ -28,19 +28,23 @@ namespace sf
     namespace ui
     {
 
-        Label::Label(const Unicode::Text& caption, float textSize)
+        Label::Label(const Unicode::Text& caption)
             :   Widget(),
-                mCaption(caption, Font::GetDefaultFont(), textSize)
+                mCaption(caption, Font::GetDefaultFont(), 30.f)
         {
-            const FloatRect& rect = mCaption.GetRect();
-            SetSize(rect.GetWidth(), rect.GetHeight());
-
             LoadTemplate("BI_Label");
         }
 
         void    Label::SetText(const Unicode::Text& caption)
         {
             mCaption.SetText(caption);
+
+            const FloatRect& rect = mCaption.GetRect();
+
+            if (rect.GetWidth() > GetWidth())
+                SetWidth(rect.GetWidth());
+            if (rect.GetHeight() > GetHeight())
+                SetHeight(rect.GetHeight());
         }
 
         const Unicode::Text&    Label::GetText() const
@@ -87,22 +91,15 @@ namespace sf
         {
             Widget::LoadTemplate(nameTpl);
 
-            TemplateProperties& properties = ResourceManager::Get()->GetTemplate(nameTpl);
+            ResourceManager* rm = ResourceManager::Get();
+            TemplateProperties& properties = rm->GetTemplate(nameTpl);
 
-            SetTextSize(ResourceManager::GetValue(properties["textSize"], GetTextSize()));
-            SetTextColor(ResourceManager::GetColorValue(properties["textColor"], GetTextColor()));
+            SetTextSize(rm->GetValue(properties["textSize"], GetTextSize()));
+            SetTextColor(rm->GetColorValue(properties["textColor"], GetTextColor()));
 
             if (properties["font"] != "")
             {
-                Font*   newFont = ResourceManager::Get()->GetFont(properties["font"], GetTextSize());
-                if (newFont)
-                {
-                    SetFont(*newFont);
-                }
-                else
-                {
-                    SetFont(Font::GetDefaultFont());
-                }
+                SetFont(*rm->GetFont(properties["font"], GetTextSize()));
             }
 
             if (properties["textSize"] != "")
@@ -116,13 +113,8 @@ namespace sf
             }
         }
 
-        void    Label::Render(RenderTarget& target) const
+        void    Label::OnPaint(RenderTarget& target) const
         {
-            const Vector2f& absPos = GetAbsolutePosition();
-
-            glEnable(GL_SCISSOR_TEST);
-            glScissor(absPos.x, target.GetHeight() - GetHeight() - absPos.y, GetWidth(), GetHeight());
-
             Widget::OnPaint(target);
 
             const Unicode::UTF32String& Text = mCaption.GetText();
@@ -170,9 +162,6 @@ namespace sf
                 X += Advance;
             }
             glEnd();
-
-            glDisable(GL_SCISSOR_TEST);
-
         }
     }
 }

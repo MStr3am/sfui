@@ -19,52 +19,66 @@
 #include "ImageButton.hpp"
 #include <SFML/Graphics/RenderTarget.hpp>
 
+#include <iostream>
+
 namespace sf
 {
     namespace ui
     {
-        ImageButton::ImageButton(const Image& imgReleased, const Image& imgHover, const Image& imgPressed)
+        ImageButton::ImageButton()
             :   Button(),
-                mCurrentSprite(imgReleased)
+                mCurrentSprite()
         {
-            mImages[0] = imgReleased;
-            mImages[1] = imgHover;
-            mImages[2] = imgPressed;
-
-            SetSize(mCurrentSprite.GetSize().x, mCurrentSprite.GetSize().y);
+            LoadTemplate("BI_ImageButton");
         }
 
 
         void    ImageButton::OnPressed()
         {
-            mCurrentSprite.SetImage(mImages[2]);
+            LoadTemplate("BI_ImageButton_Pressed");
         }
 
         void    ImageButton::OnReleased()
         {
-            mCurrentSprite.SetImage(mImages[1]);
+            LoadTemplate("BI_ImageButton_Hovered");
         }
 
         void    ImageButton::OnMouseEntered(const Event::MouseMoveEvent& mouse)
         {
-            mCurrentSprite.SetImage(mImages[1]);
+            LoadTemplate("BI_ImageButton_Hovered");
         }
 
         void    ImageButton::OnMouseLeft(const Event::MouseMoveEvent& mouse)
         {
-            mCurrentSprite.SetImage(mImages[0]);
+            Button::OnMouseLeft(mouse);
+
+            LoadTemplate("BI_ImageButton_Normal");
         }
 
-        void    ImageButton::OnChange(Widget::Property property)
+        void    ImageButton::LoadTemplate(const std::string& nameTpl)
         {
-            if (property == Widget::SIZE)
+            ResourceManager* rm = ResourceManager::Get();
+
+            Widget::LoadTemplate(nameTpl);
+
+            TemplateProperties& properties = rm->GetTemplate(nameTpl);
+
+            if (properties["image"] != "")
             {
-                mCurrentSprite.Resize(GetWidth(), GetHeight());
+                mCurrentSprite.SetImage(*rm->GetImage(properties["image"]));
+
+                if (properties["width"] != "" || properties["height"] != "")
+                {
+                    mCurrentSprite.Resize(GetWidth(), GetHeight());
+                }
+                else
+                    SetSize(mCurrentSprite.GetSize().x, mCurrentSprite.GetSize().y);
             }
         }
 
         void    ImageButton::OnPaint(RenderTarget& target) const
         {
+            Widget::OnPaint(target);
             target.Draw(mCurrentSprite);
         }
 

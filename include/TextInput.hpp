@@ -35,6 +35,15 @@ namespace sf
                 void                        SetText(const Unicode::Text& text);
                 const Unicode::Text&        GetText() const;
 
+                void                        SetTextColor(const Color& color);
+                const Color&                GetTextColor() const;
+
+                void                        SetTextSize(float size);
+                float                       GetTextSize() const;
+
+                void                        SetFont(const Font& font);
+                const Font&                 GetFont() const;
+
                 void                        SetMaxLength(unsigned int maxLength);
                 unsigned int                GetMaxLength() const;
 
@@ -42,11 +51,16 @@ namespace sf
                 void                        SetSelection(unsigned int start, unsigned int cursorPosition);
                 Unicode::Text               GetSelection() const;
 
+                void                        SetSelectionColor(const Color& color);
+                const Color&                GetSelectionColor() const;
+
+                virtual void                LoadTemplate(const std::string& nameTpl);
+
             protected :
 
                 // Inherited from Widget
-                virtual void                OnChange(Widget::Property property);
                 virtual void                Render(RenderTarget& target) const;
+
 
                 // Inherited from KeyListener
                 virtual void                OnKeyPressed(const Event::KeyEvent& key);
@@ -72,6 +86,7 @@ namespace sf
 
                 bool                        mSelectionDragged;
                 unsigned int                mSelectionStart;
+                Color                       mSelectionColor;
 
         };
 
