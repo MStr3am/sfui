@@ -24,6 +24,7 @@
 #include <tinyxml.h>
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/Font.hpp>
+#include <SFML/Graphics/Sprite.hpp>
 
 namespace sf
 {
@@ -189,6 +190,15 @@ namespace sf
                     mImages[name] = image;
             }
             return image;
+        }
+
+        Sprite  ResourceManager::GetSubImage(const std::string& imageName, const IntRect& subRect)
+        {
+            Sprite spr;
+
+            spr.SetImage(*GetImage(imageName));
+            spr.SetSubRect(subRect);
+            return spr;
         }
 
         bool    ResourceManager::AddTemplatesFromFile(const std::string& filename)

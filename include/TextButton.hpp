@@ -36,11 +36,12 @@ namespace sf
                 void            SetTextSize(float size);
                 float           GetTextSize() const;
 
+                virtual void    LoadTemplate(const std::string& nameTpl);
+
             protected :
                 virtual void    AdjustSize();
 
                 // Inherited from Widget
-                virtual void    LoadTemplate(const std::string& nameTpl);
                 virtual void    Render(RenderTarget& target) const;
 
                 // Inherited from Button

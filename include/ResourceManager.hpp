@@ -23,12 +23,14 @@
 #include <map>
 
 #include <sstream>
+#include <SFML/Graphics/Rect.hpp>
 
 namespace sf
 {
     class Color;
     class Font;
     class Image;
+    class Sprite;
 
     namespace ui
     {
@@ -63,6 +65,7 @@ namespace sf
 
                 Font*       GetFont(const std::string& filename, float size = 30.f);
                 Image*      GetImage(const std::string& filename);
+                Sprite      GetSubImage(const std::string& filename, const IntRect& subRect);
 
             private :
                 ResourceManager();
