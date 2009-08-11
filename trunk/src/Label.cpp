@@ -120,9 +120,6 @@ namespace sf
             const Unicode::UTF32String& Text = mCaption.GetText();
             const Font& font = mCaption.GetFont();
 
-            if (Text.empty())
-                return;
-
             float CharSize =  static_cast<float>(font.GetCharacterSize());
             float Factor   = mCaption.GetSize() / CharSize;
             const Color& color = mCaption.GetColor();
