@@ -36,7 +36,8 @@ namespace sf
                 mSelectionDragged(false),
                 mSelectionStart(0)
         {
-            LoadTemplate("BI_TextInput");
+            SetDefaultTemplate("BI_TextInput");
+            LoadTemplate(GetDefaultTemplate());
 
             Add(&mString);
             AdjustRect();

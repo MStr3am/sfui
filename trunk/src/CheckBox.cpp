@@ -26,17 +26,27 @@ namespace sf
     {
         CheckBox::CheckBox(const Unicode::Text& caption)
             :   Widget(),
-                mCaption(caption),
-                mChecked(false)
+                mCheckButton(),
+                mCaption(caption)
         {
-            mCaption.SetFocusable(false);
-            SetColor(Color(0, 0, 0));
+            SetDefaultTemplate("BI_CheckBox");
+            LoadTemplate(GetDefaultTemplate());
 
             const FloatRect& rect = mCaption.GetString().GetRect();
             SetSize(rect.GetHeight() + 4.f + rect.GetWidth(), rect.GetHeight());
 
             Add(&mCaption);
+            Add(&mCheckButton);
+
             AddMouseListener(this);
+        }
+
+        void    CheckBox::LoadTemplate(const std::string& nameTpl)
+        {
+            Widget::LoadTemplate(nameTpl);
+
+            mCheckButton.LoadTemplate(nameTpl + "_Box");
+            mCaption.LoadTemplate(nameTpl + "_Label");
         }
 
         void    CheckBox::SetText(const Unicode::Text& text)
@@ -49,6 +59,16 @@ namespace sf
             return mCaption.GetText();
         }
 
+        void    CheckBox::SetFont(const Font& font)
+        {
+            mCaption.SetFont(font);
+        }
+
+        const Font& CheckBox::GetFont() const
+        {
+            return mCaption.GetFont();
+        }
+
         void    CheckBox::SetTextColor(const Color& color)
         {
             mCaption.SetColor(color);
@@ -57,79 +77,6 @@ namespace sf
         const Color&    CheckBox::GetTextColor() const
         {
             return mCaption.GetColor();
-        }
-
-        void    CheckBox::SetChecked(bool checked)
-        {
-            mChecked = checked;
-        }
-
-        bool    CheckBox::IsChecked() const
-        {
-            return mChecked;
-        }
-
-        void    CheckBox::OnChange(Widget::Property property)
-        {
-            if (property == Widget::SIZE)
-            {
-                mCaption.SetX(GetHeight() + 4.f);
-                mCaption.SetY((GetHeight() - mCaption.GetSize().y) / 2 - 2);
-            }
-            else if (property == Widget::ENABLE)
-            {
-                Color col = mCaption.GetColor();
-                static float savedAlpha = col.a;
-
-                if (!IsEnabled())
-                {
-                    savedAlpha = col.a;
-                    col.a = 100;
-                }
-                else
-                    col.a = savedAlpha;
-
-                mCaption.SetColor(col);
-            }
-        }
-
-        void    CheckBox::OnMousePressed(const Event::MouseButtonEvent& button)
-        {
-            if (button.Button != Mouse::Left)
-                return;
-            mChecked = !mChecked;
-        }
-
-        void    CheckBox::OnPaint(RenderTarget& target) const
-        {
-            //Widget::OnPaint(target);
-
-            float size = GetHeight();
-
-            glDisable(GL_TEXTURE_2D);
-
-            const Color& colQuad = mCaption.GetColor();
-            glColor4ub(colQuad.r, colQuad.g, colQuad.b, colQuad.a);
-
-            glBegin(GL_QUADS);
-                glVertex2f(0, 0);
-                glVertex2f(0, size);
-                glVertex2f(size, size);
-                glVertex2f(size, 0);
-            glEnd();
-
-            if (!mChecked)
-                return;
-
-            const Color& colCheck = GetColor();
-            glColor4ub(colCheck.r, colCheck.g, colCheck.b, colCheck.a);
-
-            glBegin(GL_LINES);
-                glVertex2f(1.f, 1.f);
-                glVertex2f(size - 1.f, size - 1.f);
-                glVertex2f(size - 1.f, 1.f);
-                glVertex2f(1.f, size - 1.f);
-            glEnd();
         }
 
         void    CheckBox::Render(RenderTarget& target) const

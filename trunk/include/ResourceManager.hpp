@@ -71,6 +71,9 @@ namespace sf
                 ResourceManager();
                 ~ResourceManager();
 
+                bool        LoadFont(const std::string& resId, const std::string& filename, float size = 30.f);
+                bool        LoadImage(const std::string& resId, const std::string& filename);
+
                 static  ResourceManager*    mInstance;
 
                 /* --- Resources --- */

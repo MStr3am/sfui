@@ -62,7 +62,10 @@ namespace sf
                 Widget(Vector2f pos = Vector2f(0, 0), Vector2f size = Vector2f(20, 20));
                 ~Widget();
 
-                virtual void        LoadTemplate(const std::string& nameTpl);
+                void                SetDefaultTemplate(const std::string& defaultTemplate);
+                const std::string&  GetDefaultTemplate() const;
+
+                virtual void        LoadTemplate(const std::string& nameTpl = "");
 
                 void                SetColor(const Color& color);
 
@@ -125,6 +128,8 @@ namespace sf
 
                 static Widget*      mFocusedWidget;
                 static Widget*      mHoveredWidget;
+
+                std::string         mDefaultTemplate;
 
         };
 

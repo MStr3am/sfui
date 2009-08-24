@@ -20,12 +20,10 @@
 */
 
 #include "Label.hpp"
-#include "MouseListener.hpp"
+#include "ImageButton.hpp"
 
 namespace sf
 {
-    class Image;
-
     namespace ui
     {
         class CheckBox : public Widget, public MouseListener
@@ -36,25 +34,22 @@ namespace sf
                 void                    SetText(const Unicode::Text& caption);
                 const Unicode::Text&    GetText() const;
 
+                void                    SetFont(const Font& font);
+                const Font&             GetFont() const;
+
                 void                    SetTextColor(const Color& color);
                 const Color&            GetTextColor() const;
 
-                void                    SetChecked(bool checked = true);
-                bool                    IsChecked() const;
+                virtual void            LoadTemplate(const std::string& nameTpl);
 
             protected :
 
-                // Inherited from MouseListener
-                virtual void            OnMousePressed(const Event::MouseButtonEvent& button);
-
                 // Inherited from Widget
                 virtual void            Render(RenderTarget& target) const;
-                virtual void            OnPaint(RenderTarget& target) const;
-                virtual void            OnChange(Widget::Property property);
 
             private :
+                ImageButton             mCheckButton;
                 Label                   mCaption;
-                bool                    mChecked;
 
         };
 

@@ -20,6 +20,8 @@
 #include <SFML/Window/OpenGL.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
 
+#include <iostream>
+
 namespace sf
 {
     namespace ui
@@ -28,6 +30,9 @@ namespace sf
             :   ImageButton(),
                 mCaption(caption)
         {
+            SetDefaultTemplate("BI_TextButton");
+            LoadTemplate(GetDefaultTemplate());
+
             Add(&mCaption);
             AdjustSize();
         }
@@ -36,11 +41,14 @@ namespace sf
         {
             ImageButton::LoadTemplate(nameTpl);
 
+
             ResourceManager* rm = ResourceManager::Get();
             TemplateProperties& properties = rm->GetTemplate(nameTpl);
 
-            SetTextSize(rm->GetValue(properties["textSize"], GetTextSize()));
+            mCaption.SetTextSize(rm->GetValue(properties["textSize"], GetTextSize()));
             SetTextColor(rm->GetColorValue(properties["textColor"], GetTextColor()));
+
+            mCaption.LoadTemplate(nameTpl + "_Label");
         }
 
         void    TextButton::AdjustSize()
@@ -71,14 +79,21 @@ namespace sf
 
         void    TextButton::OnPressed()
         {
-            ImageButton::OnPressed();
             mCaption.Move(1.f, 1.f);
+            ImageButton::OnPressed();
         }
 
         void    TextButton::OnReleased()
         {
-            ImageButton::OnReleased();
             mCaption.Move(-1.f, -1.f);
+            ImageButton::OnReleased();
+        }
+
+        void    TextButton::OnMouseLeft(const Event::MouseMoveEvent& mouse)
+        {
+            if (IsPressed())
+                mCaption.Move(-1.f, -1.f);
+            ImageButton::OnMouseLeft(mouse);
         }
 
         void    TextButton::Render(RenderTarget& target) const

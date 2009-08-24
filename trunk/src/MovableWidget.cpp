@@ -31,7 +31,8 @@ namespace sf
                 mDragOffset(0.f, 0.f),
                 mNeedUpdate(false)
         {
-            LoadTemplate("BI_MovableWidget");
+            SetDefaultTemplate("BI_MovableWidget");
+            LoadTemplate(GetDefaultTemplate());
             AddMouseListener(this);
         }
 

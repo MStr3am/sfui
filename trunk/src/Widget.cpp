@@ -34,7 +34,8 @@ namespace sf
                 mSize(size),
                 mEnabled(true),
                 mVisible(true),
-                mFocusable(true)
+                mFocusable(true),
+                mDefaultTemplate("BI_Widget")
         {
             mParent = 0;
         }
@@ -42,6 +43,16 @@ namespace sf
         Widget::~Widget()
         {
 
+        }
+
+        void    Widget::SetDefaultTemplate(const std::string& defaultTemplate)
+        {
+            mDefaultTemplate = defaultTemplate;
+        }
+
+        const std::string&  Widget::GetDefaultTemplate() const
+        {
+            return mDefaultTemplate;
         }
 
         void    Widget::LoadTemplate(const std::string& nameTpl)
