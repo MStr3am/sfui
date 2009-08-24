@@ -160,6 +160,28 @@ namespace sf
             return mTemplates[name];
         }
 
+        bool      ResourceManager::LoadFont(const std::string& resId, const std::string& filename, float size)
+        {
+            Font* font = new Font();
+            if (font->LoadFromFile(filename, size))
+            {
+                mFonts[resId] = font;
+                return true;
+            }
+            return false;
+        }
+
+        bool    ResourceManager::LoadImage(const std::string& resId, const std::string& filename)
+        {
+            Image* image = new Image();
+            if (image->LoadFromFile(filename))
+            {
+                mImages[resId] = image;
+                return true;
+            }
+            return false;
+        }
+
         Font*     ResourceManager::GetFont(const std::string& name, float size)
         {
             Font*   font = 0;
@@ -169,9 +191,8 @@ namespace sf
                 font = it->second;
             else
             {
-                font = new Font();
-                if (font->LoadFromFile(name, size))
-                    mFonts[name] = font;
+                if (LoadFont(name, name, size))
+                    return mFonts[name];
             }
             return font;
         }
@@ -185,9 +206,8 @@ namespace sf
                 image = it->second;
             else
             {
-                image = new Image();
-                if (image->LoadFromFile(name))
-                    mImages[name] = image;
+                if (LoadImage(name, name))
+                    return mImages[name];
             }
             return image;
         }
@@ -247,6 +267,23 @@ namespace sf
                         return false;
                     }
                     mTemplates[nameTpl] = properties;
+                }
+                else if (t->ValueStr() == "resources")
+                {
+                    const TiXmlElement* cRes = t->FirstChildElement();
+
+                    while (cRes)
+                    {
+                        if (cRes->ValueStr() == "font")
+                        {
+                            LoadFont(cRes->Attribute("name"), cRes->Attribute("src"), GetValue(cRes->Attribute("size"), 30.f));
+                        }
+                        else if (cRes->ValueStr() == "image")
+                        {
+                            LoadImage(cRes->Attribute("name"), cRes->Attribute("src"));
+                        }
+                        cRes = cRes->NextSiblingElement();
+                    }
                 }
                 t = t->NextSiblingElement();
             }

@@ -29,30 +29,30 @@ namespace sf
             :   Button(),
                 mCurrentSprite()
         {
-            LoadTemplate("BI_ImageButton");
+            SetDefaultTemplate("BI_ImageButton");
+            LoadTemplate(GetDefaultTemplate());
         }
 
 
         void    ImageButton::OnPressed()
         {
-            LoadTemplate("BI_ImageButton_Pressed");
+            LoadTemplate(GetDefaultTemplate() + "_Pressed");
         }
 
         void    ImageButton::OnReleased()
         {
-            LoadTemplate("BI_ImageButton_Hovered");
+            LoadTemplate(GetDefaultTemplate() + "_Hovered");
         }
 
         void    ImageButton::OnMouseEntered(const Event::MouseMoveEvent& mouse)
         {
-            LoadTemplate("BI_ImageButton_Hovered");
+            LoadTemplate(GetDefaultTemplate() + "_Hovered");
         }
 
         void    ImageButton::OnMouseLeft(const Event::MouseMoveEvent& mouse)
         {
             Button::OnMouseLeft(mouse);
-
-            LoadTemplate("BI_ImageButton_Normal");
+            LoadTemplate(GetDefaultTemplate());
         }
 
         void    ImageButton::LoadTemplate(const std::string& nameTpl)

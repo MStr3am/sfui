@@ -32,7 +32,8 @@ namespace sf
             :   Widget(),
                 mCaption(caption, Font::GetDefaultFont(), 30.f)
         {
-            LoadTemplate("BI_Label");
+            SetDefaultTemplate("BI_Label");
+            LoadTemplate(GetDefaultTemplate());
         }
 
         void    Label::SetText(const Unicode::Text& caption)

@@ -37,6 +37,7 @@ namespace sf
                 virtual void            LoadTemplate(const std::string& nameTpl);
 
             protected :
+                virtual void            OnChange(Widget::Property property);
                 Label                   mTitle;
 
 

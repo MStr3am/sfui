@@ -26,8 +26,8 @@ namespace sf
             :   MovableWidget(),
                 mTitle(title)
         {
-            mTitle.LoadTemplate("BI_Window_Title");
-            LoadTemplate("BI_Window");
+            SetDefaultTemplate("BI_Window");
+            LoadTemplate(GetDefaultTemplate());
 
             Add(&mTitle);
         }
@@ -47,6 +47,13 @@ namespace sf
             MovableWidget::LoadTemplate(nameTpl);
 
             mTitle.SetX((GetWidth() - mTitle.GetWidth()) / 2);
+            mTitle.LoadTemplate(nameTpl + "_Title");
+        }
+
+        void    Window::OnChange(Widget::Property property)
+        {
+            if (property == SIZE)
+                mTitle.SetX((GetWidth() - mTitle.GetWidth()) / 2);
         }
 
     }

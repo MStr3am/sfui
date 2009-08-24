@@ -51,8 +51,6 @@ namespace sf
             private :
                 Sprite          mCurrentSprite;
 
-
-
         };
     }
 }

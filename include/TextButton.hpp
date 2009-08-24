@@ -47,6 +47,7 @@ namespace sf
                 // Inherited from Button
                 virtual void    OnPressed();
                 virtual void    OnReleased();
+                virtual void    OnMouseLeft(const Event::MouseMoveEvent& mouse);
 
             private :
                 Label           mCaption;
