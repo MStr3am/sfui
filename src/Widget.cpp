@@ -35,7 +35,8 @@ namespace sf
                 mEnabled(true),
                 mVisible(true),
                 mFocusable(true),
-                mDefaultTemplate("BI_Widget")
+                mDefaultTemplate("BI_Widget"),
+                mAlign(Align::NONE)
         {
             mParent = 0;
         }
@@ -64,6 +65,31 @@ namespace sf
             SetWidth(rm->GetValue(properties["width"], GetWidth()));
             SetHeight(rm->GetValue(properties["height"], GetHeight()));
 
+            // Detect alignement
+            if (properties["align"] != "")
+            {
+                std::string strA = properties["align"];
+
+                if (strA == "top_left")
+                    mAlign = Align::TOP_LEFT;
+                else if (strA == "top_center")
+                    mAlign = Align::TOP_CENTER;
+                else if (strA == "top_right")
+                    mAlign = Align::TOP_RIGHT;
+                else if (strA == "left")
+                    mAlign = Align::LEFT;
+                else if (strA == "center")
+                    mAlign = Align::CENTER;
+                else if (strA == "right")
+                    mAlign = Align::RIGHT;
+                else if (strA == "bottom_left")
+                    mAlign = Align::BOTTOM_LEFT;
+                else if (strA == "bottom_center")
+                    mAlign = Align::BOTTOM_CENTER;
+                else if (strA == "bottom_right")
+                    mAlign = Align::BOTTOM_RIGHT;
+            }
+
             SetX(rm->GetValue(properties["x"], GetPosition().x));
             SetY(rm->GetValue(properties["y"], GetPosition().y));
 
@@ -72,6 +98,8 @@ namespace sf
             SetEnabled(rm->GetValue(properties["enabled"], IsEnabled()));
             SetVisible(rm->GetValue(properties["visible"], IsVisible()));
             SetFocusable(rm->GetValue(properties["focusable"], IsFocusable()));
+
+            UpdatePosition();
         }
 
         void    Widget::SetColor(const Color& color)
@@ -114,6 +142,19 @@ namespace sf
         float   Widget::GetHeight() const
         {
             return mSize.y;
+        }
+
+        void        Widget::SetAlignment(Align::Alignment align)
+        {
+            mAlign = align;
+            UpdatePosition();
+
+            OnChange(Widget::ALIGNMENT);
+        }
+
+        Align::Alignment   Widget::GetAlignment() const
+        {
+            return mAlign;
         }
 
         FloatRect   Widget::GetRect(bool absolute) const
@@ -204,8 +245,60 @@ namespace sf
                 if (*it == widget)
                     return (it);
             }
-
             return (mChildren.end());
+        }
+
+        void    Widget::UpdatePosition()
+        {
+            if (!mParent || mAlign == Align::NONE)
+              return;
+
+            Vector2f offset = GetPosition();
+
+            switch (mAlign)
+            {
+                case Align::TOP_LEFT :
+                    SetPosition(0, 0);
+                break;
+
+                case Align::TOP_CENTER :
+                    SetPosition((mParent->GetWidth() - GetWidth()) / 2, 0);
+                break;
+
+                case Align::TOP_RIGHT :
+                    SetPosition(mParent->GetWidth() - GetWidth(), 0);
+                break;
+
+                case Align::LEFT :
+                    SetPosition(0, (mParent->GetHeight() - GetHeight()) / 2);
+                break;
+
+                case Align::CENTER :
+                    SetPosition((mParent->GetWidth() - GetWidth()) / 2, (mParent->GetHeight() - GetHeight()) / 2);
+                break;
+
+                case Align::RIGHT :
+                    SetPosition(mParent->GetWidth() - GetWidth(), (mParent->GetHeight() - GetHeight()) / 2);
+                break;
+
+                case Align::BOTTOM_LEFT :
+                    SetPosition(0, mParent->GetHeight() - GetHeight());
+                break;
+
+                case Align::BOTTOM_CENTER :
+                    SetPosition((mParent->GetWidth() - GetWidth()) / 2, mParent->GetHeight() - GetHeight());
+                break;
+
+                case Align::BOTTOM_RIGHT :
+                    SetPosition(mParent->GetWidth() - GetWidth(), mParent->GetHeight() - GetHeight());
+                break;
+
+                default :
+                break;
+
+            };
+
+            Move(offset);
         }
 
         void    Widget::Add(Widget* widget)
@@ -215,6 +308,7 @@ namespace sf
 
             mChildren.push_back(widget);
             widget->mParent = this;
+            widget->UpdatePosition();
         }
 
         void    Widget::Remove(Widget* widget)

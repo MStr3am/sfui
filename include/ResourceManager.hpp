@@ -34,11 +34,11 @@ namespace sf
 
     namespace ui
     {
-        typedef std::map<std::string, std::string> TemplateProperties;
-        typedef std::map<std::string, TemplateProperties> Templates;
+        typedef std::map<std::string, std::string>          TemplateProperties;
+        typedef std::map<std::string, TemplateProperties>   Templates;
 
-        typedef std::map<std::string, Font*>         Fonts;
-        typedef std::map<std::string, Image*>        Images;
+        typedef std::map<std::string, Font*>                Fonts;
+        typedef std::map<std::string, Image*>               Images;
 
         class ResourceManager
         {
@@ -61,18 +61,17 @@ namespace sf
                     return (retValue = defaultValue);
                 }
 
-                Color       GetColorValue(const std::string& value, const Color& defaultValue);
+                Color                       GetColorValue(const std::string& value, const Color& defaultValue);
 
-                Font*       GetFont(const std::string& filename, float size = 30.f);
-                Image*      GetImage(const std::string& filename);
-                Sprite      GetSubImage(const std::string& filename, const IntRect& subRect);
+                Font*                       GetFont(const std::string& filename, float size = 30.f);
+                Sprite                      GetImage(const std::string& name);
 
             private :
                 ResourceManager();
                 ~ResourceManager();
 
-                bool        LoadFont(const std::string& resId, const std::string& filename, float size = 30.f);
-                bool        LoadImage(const std::string& resId, const std::string& filename);
+                bool                        LoadFont(const std::string& resId, const std::string& filename, float size = 30.f);
+                bool                        LoadImage(const std::string& resId, const std::string& filename);
 
                 static  ResourceManager*    mInstance;
 

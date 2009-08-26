@@ -30,30 +30,23 @@ namespace sf
             :   ImageButton(),
                 mCaption(caption)
         {
+            Add(&mCaption);
+
             SetDefaultTemplate("BI_TextButton");
             LoadTemplate(GetDefaultTemplate());
-
-            Add(&mCaption);
-            AdjustSize();
         }
 
         void    TextButton::LoadTemplate(const std::string& nameTpl)
         {
             ImageButton::LoadTemplate(nameTpl);
 
-
             ResourceManager* rm = ResourceManager::Get();
             TemplateProperties& properties = rm->GetTemplate(nameTpl);
 
-            mCaption.SetTextSize(rm->GetValue(properties["textSize"], GetTextSize()));
+            SetTextSize(rm->GetValue(properties["textSize"], GetTextSize()));
             SetTextColor(rm->GetColorValue(properties["textColor"], GetTextColor()));
 
             mCaption.LoadTemplate(nameTpl + "_Label");
-        }
-
-        void    TextButton::AdjustSize()
-        {
-            mCaption.SetPosition((GetWidth() - mCaption.GetSize().x) / 2, (GetHeight() - mCaption.GetSize().y) / 2);
         }
 
         void    TextButton::SetTextColor(const Color& color)
@@ -69,7 +62,6 @@ namespace sf
         void    TextButton::SetTextSize(float size)
         {
             mCaption.SetTextSize(size);
-            AdjustSize();
         }
 
         float   TextButton::GetTextSize() const

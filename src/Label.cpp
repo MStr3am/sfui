@@ -90,12 +90,9 @@ namespace sf
 
         void    Label::LoadTemplate(const std::string& nameTpl)
         {
-            Widget::LoadTemplate(nameTpl);
-
             ResourceManager* rm = ResourceManager::Get();
             TemplateProperties& properties = rm->GetTemplate(nameTpl);
 
-            SetTextSize(rm->GetValue(properties["textSize"], GetTextSize()));
             SetTextColor(rm->GetColorValue(properties["textColor"], GetTextColor()));
 
             if (properties["font"] != "")
@@ -105,6 +102,8 @@ namespace sf
 
             if (properties["textSize"] != "")
             {
+                SetTextSize(rm->GetValue(properties["textSize"], GetTextSize()));
+
                 const FloatRect& rect = mCaption.GetRect();
 
                 if (properties["width"] == "")
@@ -112,6 +111,8 @@ namespace sf
                 if (properties["height"] == "")
                     SetHeight(rect.GetHeight());
             }
+
+            Widget::LoadTemplate(nameTpl);
         }
 
         void    Label::OnPaint(RenderTarget& target) const
