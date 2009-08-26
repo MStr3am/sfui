@@ -6,12 +6,10 @@
   <font name="TextFont" src="data/dejavu.ttf" size="12" />
   <font name="TitleFont" src="data/yorkville.ttf" size="23" />
 
-
   <!-- Images -->
   <image name="NormalButton" src="data/btnNormal.png" />
   <image name="HoveredButton" src="data/btnHover.png" />
   <image name="PressedButton" src="data/btnPressed.png" />
-
 
 </resources>
 
@@ -20,26 +18,24 @@
 
 <!-- Default templates for basic widgets (BI: BuiltIn) -->
 
-
-
 <!-- LABEL -->
 <template name="BI_Label" font="TextFont" color="rgba: 0,0,0,0" textSize="12" textColor="#000000" focusable="0" />
 
 <!-- WINDOW -->
-<template name="BI_Window" width="300" height="400" movable="1" blocked="1" color="rgba: 255, 123, 223, 255" />
-<template name="BI_Window_Title" font="TitleFont" textSize="23" />
+<template name="BI_Window" movable="1" blocked="1" color="rgba: 255, 123, 223, 255" />
+<template name="BI_Window_Title" font="TitleFont" textSize="23" align="top_center" />
 
 <!-- TEXT INPUT -->
 <template name="BI_TextInput" width="200" height="20" color="#666666" maxLength="0" selectionColor="rgba:255,255,255,123" textColor="#FFFFFF" />
 
 <!-- TEXT BUTTON -->
-<template name="BI_TextButton" image="NormalButton" color="rgba:0,0,0,0" />
-<template name="BI_TextButton_Label" textColor="#000000" />
+<template name="BI_TextButton" image="NormalButton" color="rgba:0,0,0,0" width="70" height="30" />
+<template name="BI_TextButton_Label" textColor="#000000" align="center" x="0" y="0" />
 
 <template name="BI_TextButton_Hovered" image="HoveredButton" />
-<template name="BI_TextButton_Hovered_Label" textColor="#000000" />
+<template name="BI_TextButton_Hovered_Label" textColor="#000000" align="center" x="0" y="0" />
 
 <template name="BI_TextButton_Pressed" image="PressedButton" />
-<template name="BI_TextButton_Pressed_Label" textColor="rgba: 0,0,0,123" />
+<template name="BI_TextButton_Pressed_Label" textColor="rgba: 0,0,0,123" align="center" x="1" y="1" />
 
 

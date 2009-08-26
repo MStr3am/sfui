@@ -57,22 +57,15 @@ namespace sf
 
         void    ImageButton::LoadTemplate(const std::string& nameTpl)
         {
-            ResourceManager* rm = ResourceManager::Get();
-
             Widget::LoadTemplate(nameTpl);
 
+            ResourceManager* rm = ResourceManager::Get();
             TemplateProperties& properties = rm->GetTemplate(nameTpl);
 
             if (properties["image"] != "")
             {
-                mCurrentSprite.SetImage(*rm->GetImage(properties["image"]));
-
-                if (properties["width"] != "" || properties["height"] != "")
-                {
-                    mCurrentSprite.Resize(GetWidth(), GetHeight());
-                }
-                else
-                    SetSize(mCurrentSprite.GetSize().x, mCurrentSprite.GetSize().y);
+                mCurrentSprite = rm->GetImage(properties["image"]);
+                mCurrentSprite.Resize(GetWidth(), GetHeight());
             }
         }
 
@@ -81,8 +74,6 @@ namespace sf
             Widget::OnPaint(target);
             target.Draw(mCurrentSprite);
         }
-
-
 
     }
 }

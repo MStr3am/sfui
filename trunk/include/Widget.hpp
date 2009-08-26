@@ -39,6 +39,27 @@ namespace sf
         typedef std::vector<MouseListener*> MouseListeners;
         typedef std::vector<KeyListener*> KeyListeners;
 
+        namespace Align
+        {
+            typedef enum
+            {
+                NONE = 0,
+
+                TOP_LEFT,
+                TOP_CENTER,
+                TOP_RIGHT,
+
+                LEFT,
+                RIGHT,
+                CENTER,
+
+                BOTTOM_LEFT,
+                BOTTOM_CENTER,
+                BOTTOM_RIGHT
+
+            }   Alignment;
+        }
+
         class Widget : public Drawable
         {
             friend class GuiRenderer;
@@ -54,10 +75,9 @@ namespace sf
                     ENABLE,
                     VISIBLE,
                     FOCUSABLE,
+                    ALIGNMENT,
 
-                    NB_STATES
-                } Property;
-
+                }   Property;
 
                 Widget(Vector2f pos = Vector2f(0, 0), Vector2f size = Vector2f(20, 20));
                 ~Widget();
@@ -77,6 +97,9 @@ namespace sf
                 const Vector2f&     GetSize() const;
                 float               GetWidth() const;
                 float               GetHeight() const;
+
+                void                SetAlignment(Align::Alignment align);
+                Align::Alignment   GetAlignment() const;
 
                 FloatRect           GetRect(bool absolute) const;
 
@@ -113,6 +136,8 @@ namespace sf
                 void                DistributeEvent(const Event& event);
                 void                RenderChildren(RenderTarget& target) const;
 
+                void                UpdatePosition();
+
                 Widgets::iterator   Find(const Widget* widget);
 
                 Vector2f            mSize;
@@ -130,6 +155,8 @@ namespace sf
                 static Widget*      mHoveredWidget;
 
                 std::string         mDefaultTemplate;
+
+                Align::Alignment    mAlign;
 
         };
 

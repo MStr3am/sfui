@@ -39,7 +39,6 @@ namespace sf
                 virtual void    LoadTemplate(const std::string& nameTpl);
 
             protected :
-                virtual void    AdjustSize();
 
                 // Inherited from Widget
                 virtual void    Render(RenderTarget& target) const;

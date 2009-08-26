@@ -197,27 +197,48 @@ namespace sf
             return font;
         }
 
-        Image*  ResourceManager::GetImage(const std::string& name)
+        Sprite  ResourceManager::GetImage(const std::string& name)
         {
+            Sprite spr;
+            IntRect rect;
+            std::vector<std::string> rectElems;
+            std::string newName = name;
+
+
+            // Is sub-image ?
+            if (name.substr(0,4) == "sub:")
+            {
+                _GetElementsFromString(name.substr(4, name.length() - 4), ',', &rectElems);
+                newName = GetValue(rectElems[0], name);
+            }
+
+            // Get the image from resource ID...
             Image*  image = 0;
-            Images::iterator it = mImages.find(name);
+            Images::iterator it = mImages.find(newName);
 
             if (it != mImages.end())
                 image = it->second;
+            else if (LoadImage(newName, newName))
+                image = mImages[newName];
+
+            if (image)
+                spr.SetImage(*image);
+
+            // Set the subrect
+            if (rectElems.size() == 5)
+            {
+                rect.Left = GetValue(rectElems[1], 0);
+                rect.Top = GetValue(rectElems[2], 0);
+                rect.Right = GetValue(rectElems[3], 0);
+                rect.Bottom = GetValue(rectElems[4], 0);
+            }
             else
             {
-                if (LoadImage(name, name))
-                    return mImages[name];
+                rect = spr.GetSubRect();
             }
-            return image;
-        }
 
-        Sprite  ResourceManager::GetSubImage(const std::string& imageName, const IntRect& subRect)
-        {
-            Sprite spr;
+            spr.SetSubRect(rect);
 
-            spr.SetImage(*GetImage(imageName));
-            spr.SetSubRect(subRect);
             return spr;
         }
 

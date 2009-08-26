@@ -26,10 +26,10 @@ namespace sf
             :   MovableWidget(),
                 mTitle(title)
         {
+            Add(&mTitle);
+
             SetDefaultTemplate("BI_Window");
             LoadTemplate(GetDefaultTemplate());
-
-            Add(&mTitle);
         }
 
         void    Window::SetTitle(const Unicode::Text& text)
@@ -46,14 +46,7 @@ namespace sf
         {
             MovableWidget::LoadTemplate(nameTpl);
 
-            mTitle.SetX((GetWidth() - mTitle.GetWidth()) / 2);
             mTitle.LoadTemplate(nameTpl + "_Title");
-        }
-
-        void    Window::OnChange(Widget::Property property)
-        {
-            if (property == SIZE)
-                mTitle.SetX((GetWidth() - mTitle.GetWidth()) / 2);
         }
 
     }
