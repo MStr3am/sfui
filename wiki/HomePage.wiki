@@ -5,6 +5,8 @@
 SFUI is an extension for [http://www.sfml-dev.org/index.php SFML library] that enable modeling user interfaces.
 It also use [http://www.grinninglizard.com/tinyxml/index.html TinyXML] to load files for templating.
 
+[ http://lokk.u7n.org/sfui/sfui_demo.png ]
+
 = Getting started ? =
 
 SFUI is very easy to use, but you should read the next tutorials. It can help you !
@@ -14,4 +16,3 @@ SFUI is very easy to use, but you should read the next tutorials. It can help yo
   * [Tutorial_Listeners Use Event Listeners]
   * [Tutorial_Templates All about templating]
   * [Tutorial_CustomWidgets Create your own widgets]
-
