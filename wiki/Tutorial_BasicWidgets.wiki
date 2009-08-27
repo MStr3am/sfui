@@ -18,7 +18,7 @@ The gui renderer also use its own [http://www.sfml-dev.org/documentation/1.5/cla
 _main.cpp_
 using namespace *sf::ui*
 {{{
-RenderWindow myApp(sf::VideoMode(800, 600), "SFML Gui");
+RenderWindow myApp(sf::VideoMode(200, 200), "SFML Gui");
 GuiRenderer myGui(myApp); // the gui frontend has a RenderWindow reference.
 
 // We create a new widget
@@ -50,4 +50,3 @@ while (App.IsOpened())
 _rendering_
 
 [http://lokk.u7n.org/sfui/sfui_basics1.png]
-
