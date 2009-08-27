@@ -5,7 +5,7 @@
 SFUI is an extension for [http://www.sfml-dev.org/index.php SFML library] that enable modeling user interfaces.
 It also use [http://www.grinninglizard.com/tinyxml/index.html TinyXML] to load files for templating.
 
-[ http://lokk.u7n.org/sfui/sfui_demo.png ]
+[http://lokk.u7n.org/sfui/sfui_demo.png]
 
 = Getting started ? =
 
