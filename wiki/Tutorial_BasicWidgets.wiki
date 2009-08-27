@@ -1,0 +1,53 @@
+#summary Tutorial about basic widgets and their descriptions.
+
+= Widget Introduction =
+
+_Widget_ is the main concept in ui's.
+This object inherits from [http://www.sfml-dev.org/documentation/1.5/classsf_1_1Drawable.htm sf::Drawable](in the graphical module), so it can be drawed by a [http://www.sfml-dev.org/documentation/1.5/classsf_1_1RenderTarget.htm sf::RenderTarget] instance (especially from an [http://www.sfml-dev.org/documentation/1.5/classsf_1_1RenderWindow.htm sf::RenderWindow] in normal use)
+It has a position, a size, a default color for its background and is drawed as a filled-rectangle. It can also have widget childrens (like containers).
+
+== The hierarchy in SFUI ==
+
+The root class is not a widget but a GUI frontend (sf::ui::GuiRenderer).
+To add new widgets on the screen, this class offers a global widget named "TopWidget" (reachable by Gui::GetTopWidget()). It is initialized as the screen size, but can be resized.
+
+The gui renderer also use its own [http://www.sfml-dev.org/documentation/1.5/classsf_1_1View.htm sf::View].
+
+== An example of application ? ==
+
+_main.cpp_
+using namespace *sf::ui*
+{{{
+RenderWindow myApp(sf::VideoMode(800, 600), "SFML Gui");
+GuiRenderer myGui(myApp); // the gui frontend has a RenderWindow reference.
+
+// We create a new widget
+Widget myWidget;
+myWidget.SetColor(Color(255, 0, 0));
+
+myGui.GetTopWidget().Add(&myWidget); // we add our widget to the top container.
+
+while (App.IsOpened())
+{
+    Event   event;
+
+    while (App.GetEvent(event))
+    {
+        if (event.Type == sf::Event::Closed)
+            App.Close();
+
+        Gui.InjectEvent(event); // the frontend process and propagate events to the widget hierarchy
+    }
+
+    App.Clear();
+
+    Gui.Display(); // the renderer use its View for drawing.
+
+    App.Display();
+}
+}}}
+
+_rendering_
+
+[http://lokk.u7n.org/sfui/sfui_basics1.png]
+
