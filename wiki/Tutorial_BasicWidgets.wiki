@@ -45,12 +45,12 @@ int main(int ac, char *av[])
             if (event.Type == sf::Event::Closed)
                 App.Close();
 
-            Gui.InjectEvent(event); // the frontend process and propagate events to the widget hierarchy
+            myGui.InjectEvent(event); // the frontend process and propagate events to the widget hierarchy
         }
 
         App.Clear();
 
-        Gui.Display(); // the renderer use its View for drawing.
+        myGui.Display(); // the renderer use its View for drawing.
 
         App.Display();
     }
