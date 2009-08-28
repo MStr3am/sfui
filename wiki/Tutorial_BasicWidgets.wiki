@@ -8,7 +8,7 @@ It has a position, a size, a default color for its background and is drawed as a
 
 == The hierarchy in SFUI ==
 
-The root class is not a widget but a GUI frontend (sf::ui::GuiRenderer).
+The root class is not a widget but a GUI frontend ([http://code.google.com/p/sfui/source/browse/trunk/include/GuiRenderer.hpp sf::ui::GuiRenderer]).
 To add new widgets on the screen, this class offers a global widget named "TopWidget" (reachable by Gui::GetTopWidget()). It is initialized as the screen size, but can be resized.
 
 The gui renderer also use its own [http://www.sfml-dev.org/documentation/1.5/classsf_1_1View.htm sf::View].
@@ -18,32 +18,42 @@ The gui renderer also use its own [http://www.sfml-dev.org/documentation/1.5/cla
 _main.cpp_
 using namespace *sf::ui*
 {{{
-RenderWindow myApp(sf::VideoMode(200, 200), "SFML Gui");
-GuiRenderer myGui(myApp); // the gui frontend has a RenderWindow reference.
+#include <SFML/Graphics.hpp>
 
-// We create a new widget
-Widget myWidget;
-myWidget.SetColor(Color(255, 0, 0));
+#include "GuiRenderer.hpp"
+#include "Widget.hpp"
 
-myGui.GetTopWidget().Add(&myWidget); // we add our widget to the top container.
+using namespace sf;
 
-while (App.IsOpened())
+int main(int ac, char *av[])
 {
-    Event   event;
+    RenderWindow myApp(sf::VideoMode(200, 200), "SFML Gui");
+    ui::GuiRenderer myGui(myApp); // the gui frontend has a RenderWindow reference.
 
-    while (App.GetEvent(event))
+    // We create a new widget
+    ui::Widget myWidget;
+    myWidget.SetColor(Color(255, 0, 0));
+
+    myGui.GetTopWidget().Add(&myWidget); // we add our widget to the top container.
+
+    while (App.IsOpened())
     {
-        if (event.Type == sf::Event::Closed)
-            App.Close();
+        Event   event;
 
-        Gui.InjectEvent(event); // the frontend process and propagate events to the widget hierarchy
+        while (App.GetEvent(event))
+        {
+            if (event.Type == sf::Event::Closed)
+                App.Close();
+
+            Gui.InjectEvent(event); // the frontend process and propagate events to the widget hierarchy
+        }
+
+        App.Clear();
+
+        Gui.Display(); // the renderer use its View for drawing.
+
+        App.Display();
     }
-
-    App.Clear();
-
-    Gui.Display(); // the renderer use its View for drawing.
-
-    App.Display();
 }
 }}}
 
