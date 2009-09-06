@@ -16,7 +16,6 @@ The gui renderer also use its own [http://www.sfml-dev.org/documentation/1.5/cla
 == An example of application ? ==
 
 _main.cpp_
-using namespace *sf::ui*
 {{{
 #include <SFML/Graphics.hpp>
 
@@ -57,6 +56,63 @@ int main(int ac, char *av[])
 }
 }}}
 
-_rendering_
-
 [http://lokk.u7n.org/sfui/sfui_basics1.png]
+
+= Other widgets =
+
+There are useful widgets for games applications, with built-in templates.
+
+= Label =
+
+This object is one of the most used widgets.
+It's just an implementation of an sf::String with widget working, but can also have a background color.
+
+{{{
+...
+ui::Label myLbl("that's a test");
+myLbl.SetX(25);
+myLbl.SetTextSize(23.f);
+
+myGui.GetTopWidget().Add(&myLbl);
+...
+}}}
+
+[http://lokk.u7n.org/sfui/sfui_basics2.png]
+
+= Window =
+
+The sf::ui::Window widget inherits from sf::ui::MovableWidget, it can be moved to screen.
+
+{{{
+...
+ui::Window myWin("My Window");
+myWin.SetColor(Color(255, 123, 223));
+myWin.SetSize(100, 100);
+myWin.SetAlignment(ui::Align::CENTER);
+
+myGui.GetTopWidget().Add(&myWin);
+...
+}}}
+
+[http://lokk.u7n.org/sfui/sfui_basics3.png]
+
+= TextInput =
+
+The [http://code.google.com/p/sfui/source/browse/trunk/include/TextInput.hpp sf::ui::TextInput] widget is a common text input line with mouse selection feature.
+
+{{{
+...
+ui::TextInput myInput("enter your name...");
+myInput.SetWidth(140);
+myInput.SetAlignment(ui::Align::CENTER);
+myInput.SetColor(Color(123, 123, 123));
+
+myInput.SetSelection(0, 3);
+myInput.SetSelectionColor(Color(255, 255, 255, 123));
+
+myGui.SetFocusedWiget(&myInput);
+myGui.GetTopWidget().Add(&myInput);
+...
+}}}
+
+[http://lokk.u7n.org/sfui/sfui_basics4.png]
