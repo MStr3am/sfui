@@ -37,7 +37,7 @@ int main(int ac, char *av[])
 
     while (App.IsOpened())
     {
-        Event   event;
+        Event event;
 
         while (App.GetEvent(event))
         {
@@ -62,7 +62,7 @@ int main(int ac, char *av[])
 
 There are useful widgets for games applications, with built-in templates.
 
-= Label =
+== [http://code.google.com/p/sfui/source/browse/trunk/include/Label.hpp Label] ==
 
 This object is one of the most used widgets.
 It's just an implementation of an sf::String with widget working, but can also have a background color.
@@ -79,9 +79,9 @@ myGui.GetTopWidget().Add(&myLbl);
 
 [http://lokk.u7n.org/sfui/sfui_basics2.png]
 
-= Window =
+== [http://code.google.com/p/sfui/source/browse/trunk/include/Window.hpp Window] ==
 
-The sf::ui::Window widget inherits from sf::ui::MovableWidget, it can be moved to screen.
+This widget inherits from [http://code.google.com/p/sfui/source/browse/trunk/include/MovableWidget.hpp sf::ui::MovableWidget], so it can be moved to screen.
 
 {{{
 ...
@@ -96,9 +96,9 @@ myGui.GetTopWidget().Add(&myWin);
 
 [http://lokk.u7n.org/sfui/sfui_basics3.png]
 
-= TextInput =
+== [http://code.google.com/p/sfui/source/browse/trunk/include/TextInput.hpp TextInput] ==
 
-The [http://code.google.com/p/sfui/source/browse/trunk/include/TextInput.hpp sf::ui::TextInput] widget is a common text input line with mouse selection feature.
+This widget is a common text input line with mouse selection feature.
 
 {{{
 ...
@@ -116,3 +116,19 @@ myGui.GetTopWidget().Add(&myInput);
 }}}
 
 [http://lokk.u7n.org/sfui/sfui_basics4.png]
+
+== [http://code.google.com/p/sfui/source/browse/trunk/include/TextButton.hpp TextButton] ==
+
+This widget is a common button, with built-in style.
+For making another button styles, you should read the tutorials about templating.
+
+{{{
+...
+ui::TextButton myBtn("Button");
+myBtn.SetAlignment(ui::Align::CENTER);
+
+myGui.GetTopWidget().Add(&myBtn);
+...
+}}}
+
+[http://lokk.u7n.org/sfui/sfui_basics5.png]
