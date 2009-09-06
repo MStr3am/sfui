@@ -36,7 +36,8 @@ namespace sf
                 mVisible(true),
                 mFocusable(true),
                 mDefaultTemplate("BI_Widget"),
-                mAlign(Align::NONE)
+                mAlign(Align::NONE),
+                mAlignOffset(0.f, 0.f)
         {
             mParent = 0;
         }
@@ -61,6 +62,12 @@ namespace sf
             ResourceManager* rm = ResourceManager::Get();
 
             TemplateProperties& properties = rm->GetTemplate(nameTpl);
+
+            SetX(rm->GetValue(properties["x"], GetPosition().x));
+            SetY(rm->GetValue(properties["y"], GetPosition().y));
+
+            mAlignOffset.x = rm->GetValue(properties["x"], mAlignOffset.x);
+            mAlignOffset.y = rm->GetValue(properties["y"], mAlignOffset.y);
 
             SetWidth(rm->GetValue(properties["width"], GetWidth()));
             SetHeight(rm->GetValue(properties["height"], GetHeight()));
@@ -89,9 +96,6 @@ namespace sf
                 else if (strA == "bottom_right")
                     mAlign = Align::BOTTOM_RIGHT;
             }
-
-            SetX(rm->GetValue(properties["x"], GetPosition().x));
-            SetY(rm->GetValue(properties["y"], GetPosition().y));
 
             SetColor(rm->GetColorValue(properties["color"], GetColor()));
 
@@ -147,8 +151,6 @@ namespace sf
         void        Widget::SetAlignment(Align::Alignment align)
         {
             mAlign = align;
-            UpdatePosition();
-
             OnChange(Widget::ALIGNMENT);
         }
 
@@ -253,8 +255,6 @@ namespace sf
             if (!mParent || mAlign == Align::NONE)
               return;
 
-            Vector2f offset = GetPosition();
-
             switch (mAlign)
             {
                 case Align::TOP_LEFT :
@@ -298,7 +298,7 @@ namespace sf
 
             };
 
-            Move(offset);
+            Move(mAlignOffset);
         }
 
         void    Widget::Add(Widget* widget)
