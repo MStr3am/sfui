@@ -35,12 +35,12 @@ namespace sf
                 GuiRenderer(RenderWindow& renderWindow);
                 ~GuiRenderer();
 
-                void                InjectEvent(const Event& event);
+                virtual void        InjectEvent(const Event& event);
 
                 void                Resize(const Vector2ui& size);
                 void                Resize(unsigned int width, unsigned int height);
 
-                void                Display();
+                virtual void        Display();
 
                 Widget&             GetTopWidget();
 

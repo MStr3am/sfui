@@ -33,7 +33,6 @@ namespace sf
             LoadTemplate(GetDefaultTemplate());
         }
 
-
         void    ImageButton::OnPressed()
         {
             LoadTemplate(GetDefaultTemplate() + "_Pressed");

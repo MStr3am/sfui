@@ -47,7 +47,6 @@ namespace sf
                 // Inherited from Widget
                 virtual void    OnPaint(RenderTarget& target) const;
 
-
             private :
                 Sprite          mCurrentSprite;
 

@@ -127,6 +127,8 @@ namespace sf
                 void                AddMouseListener(MouseListener* mouseListener);
                 void                AddKeyListener(KeyListener* keyListener);
 
+                void                UpdatePosition();
+
             protected:
                 virtual void        Render(RenderTarget& target) const;
                 virtual void        OnPaint(RenderTarget& target) const;
@@ -136,7 +138,7 @@ namespace sf
                 void                DistributeEvent(const Event& event);
                 void                RenderChildren(RenderTarget& target) const;
 
-                void                UpdatePosition();
+
 
                 Widgets::iterator   Find(const Widget* widget);
 
@@ -157,6 +159,7 @@ namespace sf
                 std::string         mDefaultTemplate;
 
                 Align::Alignment    mAlign;
+                Vector2f            mAlignOffset;
 
         };
 
