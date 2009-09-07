@@ -2,3 +2,6 @@
 
   * *WELCOME*
     * [HomePage Home]
+
+  * *TUTORIALS*
+    * [Tutorial_BasicWidgets Basic widgets]
