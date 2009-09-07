@@ -1,0 +1,95 @@
+#summary Tutorial about events and listeners.
+
+= Widget events =
+
+A widget can receive events for their own usage. They use an _Observer Pattern_ for it : `EventListeners`.
+
+There are two listeners, corresponding to different events.
+    * [http://code.google.com/p/sfui/source/browse/trunk/include/MouseListener.hpp sf::ui::MouseListener] : Receive pressed, released, entered, left, and moved events from mouse.
+    * [http://code.google.com/p/sfui/source/browse/trunk/include/KeyListener.hpp sf::ui::KeyListener] : Receive pressed, released, and text-entered events from key.
+
+To attach a new listener, you should use 
+{{{
+ui::Widget::AddMouseListener(ui::MouseListener* listener);
+ui::Widget::AddKeyListener(ui::KeyListener* listener);
+}}}
+
+or detach it with
+{{{
+ui::Widget::RemoveMouseListener(ui::MouseListener* listener);
+ui::Widget::RemoveListener(ui::KeyListener* listener);
+}}}
+
+== 1 - Listener usage ==
+
+First, we create our listener
+
+{{{
+#include "MouseListener.hpp"
+#include <iostream>
+
+using namespace sf;
+
+class MyListener : public ui::MouseListener
+{
+    protected :
+        void OnMousePressed(const Event::MouseButtonEvent& mouse)
+        {
+            std::cout << "Mouse pressed !" << std::endl;
+        }
+};
+}}}
+
+Then, we create a widget for testing it :
+{{{
+#include "Label.hpp"
+
+int main()
+{
+   ...
+   ui::Label myLbl("label");
+   myLbl.SetAlignment(ui::Align::CENTER);
+
+   MyListener ourListener;
+   myLbl.SetFocusable();
+   myLbl.AddMouseListener(&ourListener);
+   ...
+}
+}}}
+
+Voilà !
+You can click on the label, it should print the message on the console.
+The process is similar to all other events.
+
+== 2 - Listener inheritance ==
+
+There is an other way to use listeners. Indeed, you can make a widget inherited from a listener.
+This example show the usage of it with the previous label :
+
+{{{
+#include "Label.hpp"
+#include "MouseListener.hpp"
+
+class MyLabel : public sf::ui::Label, public sf::ui::MouseListener
+{
+    public :
+        MyLabel()
+            : sf::ui::Label()
+        {
+            SetFocusable();
+            SetAlignment(sf::ui::Align::CENTER);
+            AddMouseListener(this);
+        }
+
+    protected :
+        // Inherited from MouseListener
+        virtual void OnMousePressed(const sf::Event::MouseButtonEvent& mouse)
+        {
+            std::cout << "Mouse pressed !" << std::endl;
+        }
+};
+}}}
+
+The basic widgets in SFUI are constructed like this.
+
+For example, the [http://code.google.com/p/sfui/source/browse/trunk/include/TextInput.hpp TextInput widget] inherits from the two listeners, because of cursor and text needings.
