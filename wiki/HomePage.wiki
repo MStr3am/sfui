@@ -13,6 +13,6 @@ SFUI is very easy to use, but you should read the next tutorials. It can help yo
 
   * [Tutorial_Start Start with SFUI (installation & compilation)]
   * [Tutorial_BasicWidgets Basic widgets]
-  * [Tutorial_Listeners Use Event Listeners]
+  * [Tutorial_Events Event listeners]
   * [Tutorial_Templates All about templating]
   * [Tutorial_CustomWidgets Create your own widgets]
