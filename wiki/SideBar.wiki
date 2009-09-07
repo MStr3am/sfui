@@ -5,3 +5,4 @@
 
   * *TUTORIALS*
     * [Tutorial_BasicWidgets Basic widgets]
+    * [Tutorial_Events Events]
