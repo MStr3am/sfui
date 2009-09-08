@@ -29,8 +29,8 @@ namespace sf
                 mCheckButton(),
                 mCaption(caption)
         {
-            SetDefaultTemplate("BI_CheckBox");
-            LoadTemplate(GetDefaultTemplate());
+            SetDefaultStyle("BI_CheckBox");
+            LoadStyle(GetDefaultStyle());
 
             const FloatRect& rect = mCaption.GetString().GetRect();
             SetSize(rect.GetHeight() + 4.f + rect.GetWidth(), rect.GetHeight());
@@ -41,12 +41,12 @@ namespace sf
             AddMouseListener(this);
         }
 
-        void    CheckBox::LoadTemplate(const std::string& nameTpl)
+        void    CheckBox::LoadStyle(const std::string& nameTpl)
         {
-            Widget::LoadTemplate(nameTpl);
+            Widget::LoadStyle(nameTpl);
 
-            mCheckButton.LoadTemplate(nameTpl + "_Box");
-            mCaption.LoadTemplate(nameTpl + "_Label");
+            mCheckButton.LoadStyle(nameTpl + "_Box");
+            mCaption.LoadStyle(nameTpl + "_Label");
         }
 
         void    CheckBox::SetText(const Unicode::Text& text)

@@ -22,6 +22,8 @@
 #include "MouseListener.hpp"
 #include "KeyListener.hpp"
 
+#include <iostream>
+
 namespace sf
 {
     namespace ui
@@ -35,7 +37,7 @@ namespace sf
                 mEnabled(true),
                 mVisible(true),
                 mFocusable(true),
-                mDefaultTemplate("BI_Widget"),
+                mDefaultStyle("BI_Widget"),
                 mAlign(Align::NONE),
                 mAlignOffset(0.f, 0.f)
         {
@@ -47,21 +49,21 @@ namespace sf
 
         }
 
-        void    Widget::SetDefaultTemplate(const std::string& defaultTemplate)
+        void    Widget::SetDefaultStyle(const std::string& style)
         {
-            mDefaultTemplate = defaultTemplate;
+            mDefaultStyle = style;
         }
 
-        const std::string&  Widget::GetDefaultTemplate() const
+        const std::string&  Widget::GetDefaultStyle() const
         {
-            return mDefaultTemplate;
+            return mDefaultStyle;
         }
 
-        void    Widget::LoadTemplate(const std::string& nameTpl)
+        void    Widget::LoadStyle(const std::string& style)
         {
             ResourceManager* rm = ResourceManager::Get();
 
-            TemplateProperties& properties = rm->GetTemplate(nameTpl);
+            StyleProperties& properties = rm->GetStyle(style);
 
             SetX(rm->GetValue(properties["x"], GetPosition().x));
             SetY(rm->GetValue(properties["y"], GetPosition().y));
@@ -95,6 +97,8 @@ namespace sf
                     mAlign = Align::BOTTOM_CENTER;
                 else if (strA == "bottom_right")
                     mAlign = Align::BOTTOM_RIGHT;
+                else
+                    mAlign = Align::NONE;
             }
 
             SetColor(rm->GetColorValue(properties["color"], GetColor()));

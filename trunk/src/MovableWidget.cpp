@@ -31,8 +31,8 @@ namespace sf
                 mDragOffset(0.f, 0.f),
                 mNeedUpdate(false)
         {
-            SetDefaultTemplate("BI_MovableWidget");
-            LoadTemplate(GetDefaultTemplate());
+            SetDefaultStyle("BI_MovableWidget");
+            LoadStyle(GetDefaultStyle());
             AddMouseListener(this);
         }
 
@@ -57,12 +57,12 @@ namespace sf
         }
 
 
-        void    MovableWidget::LoadTemplate(const std::string& nameTpl)
+        void    MovableWidget::LoadStyle(const std::string& nameTpl)
         {
-            Widget::LoadTemplate(nameTpl);
+            Widget::LoadStyle(nameTpl);
 
             ResourceManager* rm = ResourceManager::Get();
-            TemplateProperties& properties = rm->GetTemplate(nameTpl);
+            StyleProperties& properties = rm->GetStyle(nameTpl);
 
             SetMovable(rm->GetValue(properties["movable"], IsMovable()));
             SetBlocked(rm->GetValue(properties["blocked"], IsBlocked()));

@@ -40,7 +40,7 @@ namespace sf
                 void                    SetTextColor(const Color& color);
                 const Color&            GetTextColor() const;
 
-                virtual void            LoadTemplate(const std::string& nameTpl);
+                virtual void            LoadStyle(const std::string& nameTpl);
 
             protected :
 

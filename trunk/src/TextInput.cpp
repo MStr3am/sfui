@@ -36,8 +36,8 @@ namespace sf
                 mSelectionDragged(false),
                 mSelectionStart(0)
         {
-            SetDefaultTemplate("BI_TextInput");
-            LoadTemplate(GetDefaultTemplate());
+            SetDefaultStyle("BI_TextInput");
+            LoadStyle(GetDefaultStyle());
 
             Add(&mString);
             AdjustRect();
@@ -56,12 +56,12 @@ namespace sf
             return mString.GetText();
         }
 
-        void    TextInput::LoadTemplate(const std::string& nameTpl)
+        void    TextInput::LoadStyle(const std::string& nameTpl)
         {
-            Widget::LoadTemplate(nameTpl);
+            Widget::LoadStyle(nameTpl);
 
             ResourceManager* rm = ResourceManager::Get();
-            TemplateProperties& properties = rm->GetTemplate(nameTpl);
+            StyleProperties& properties = rm->GetStyle(nameTpl);
 
             SetMaxLength(rm->GetValue(properties["maxLength"], GetMaxLength()));
             SetSelectionColor(rm->GetColorValue(properties["selectionColor"], GetSelectionColor()));

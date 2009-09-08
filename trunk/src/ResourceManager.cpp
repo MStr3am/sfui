@@ -155,9 +155,9 @@ namespace sf
             return (retValue = defaultValue);
         }
 
-        TemplateProperties&   ResourceManager::GetTemplate(const std::string& name)
+        StyleProperties&   ResourceManager::GetStyle(const std::string& name)
         {
-            return mTemplates[name];
+            return mStyles[name];
         }
 
         bool      ResourceManager::LoadFont(const std::string& resId, const std::string& filename, float size)
@@ -242,13 +242,13 @@ namespace sf
             return spr;
         }
 
-        bool    ResourceManager::AddTemplatesFromFile(const std::string& filename)
+        bool    ResourceManager::AddStylesFromFile(const std::string& filename)
         {
             TiXmlDocument file(filename);
 
             if (!file.LoadFile())
             {
-                std::cerr << "Could not load \"" << filename << "\" template file" << std::endl;
+                std::cerr << "Could not load \"" << filename << "\" style file" << std::endl;
                 std::cerr << "Reason :" << file.ErrorDesc() << std::endl;
                 return false;
             }
@@ -258,15 +258,15 @@ namespace sf
 
             if (!t)
             {
-                std::cerr << "Unable to parse template file" << std::endl;
+                std::cerr << "Unable to parse style file" << std::endl;
                 return false;
             }
 
             while (t)
             {
-                if (t->ValueStr() == "template")
+                if (t->ValueStr() == "style")
                 {
-                    TemplateProperties  properties;
+                    StyleProperties  properties;
 
                     const TiXmlAttribute* attr = t->FirstAttribute();
                     std::string nameTpl;
@@ -284,10 +284,10 @@ namespace sf
 
                     if (nameTpl.size() == 0)
                     {
-                        std::cerr << "Unable to parse template file. A template has no name." << std::endl;
+                        std::cerr << "Unable to parse style file. One of styles has no name." << std::endl;
                         return false;
                     }
-                    mTemplates[nameTpl] = properties;
+                    mStyles[nameTpl] = properties;
                 }
                 else if (t->ValueStr() == "resources")
                 {
