@@ -26,8 +26,8 @@ namespace sf
             :   MovableWidget(),
                 mTitle(title)
         {
-            SetDefaultTemplate("BI_Window");
-            LoadTemplate(GetDefaultTemplate());
+            SetDefaultStyle("BI_Window");
+            LoadStyle(GetDefaultStyle());
 
             Add(&mTitle);
         }
@@ -42,10 +42,10 @@ namespace sf
             return mTitle;
         }
 
-        void    Window::LoadTemplate(const std::string& nameTpl)
+        void    Window::LoadStyle(const std::string& nameTpl)
         {
-            MovableWidget::LoadTemplate(nameTpl);
-            mTitle.LoadTemplate(nameTpl + "_Title");
+            MovableWidget::LoadStyle(nameTpl);
+            mTitle.LoadStyle(nameTpl + "_Title");
         }
 
         void    Window::OnChange(Widget::Property property)

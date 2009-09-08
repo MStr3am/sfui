@@ -82,10 +82,10 @@ namespace sf
                 Widget(Vector2f pos = Vector2f(0, 0), Vector2f size = Vector2f(20, 20));
                 ~Widget();
 
-                void                SetDefaultTemplate(const std::string& defaultTemplate);
-                const std::string&  GetDefaultTemplate() const;
+                void                SetDefaultStyle(const std::string& defaultStyle);
+                const std::string&  GetDefaultStyle() const;
 
-                virtual void        LoadTemplate(const std::string& nameTpl = "");
+                virtual void        LoadStyle(const std::string& style = "");
 
                 void                SetColor(const Color& color);
 
@@ -99,7 +99,7 @@ namespace sf
                 float               GetHeight() const;
 
                 void                SetAlignment(Align::Alignment align);
-                Align::Alignment   GetAlignment() const;
+                Align::Alignment    GetAlignment() const;
 
                 FloatRect           GetRect(bool absolute) const;
 
@@ -138,8 +138,6 @@ namespace sf
                 void                DistributeEvent(const Event& event);
                 void                RenderChildren(RenderTarget& target) const;
 
-
-
                 Widgets::iterator   Find(const Widget* widget);
 
                 Vector2f            mSize;
@@ -156,7 +154,7 @@ namespace sf
                 static Widget*      mFocusedWidget;
                 static Widget*      mHoveredWidget;
 
-                std::string         mDefaultTemplate;
+                std::string         mDefaultStyle;
 
                 Align::Alignment    mAlign;
                 Vector2f            mAlignOffset;

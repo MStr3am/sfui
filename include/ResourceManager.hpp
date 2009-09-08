@@ -34,8 +34,8 @@ namespace sf
 
     namespace ui
     {
-        typedef std::map<std::string, std::string>          TemplateProperties;
-        typedef std::map<std::string, TemplateProperties>   Templates;
+        typedef std::map<std::string, std::string>          StyleProperties;
+        typedef std::map<std::string, StyleProperties>      Styles;
 
         typedef std::map<std::string, Font*>                Fonts;
         typedef std::map<std::string, Image*>               Images;
@@ -47,8 +47,8 @@ namespace sf
                 static ResourceManager*     Get();
                 static void                 Kill();
 
-                TemplateProperties&         GetTemplate(const std::string& name);
-                bool                        AddTemplatesFromFile(const std::string& filename);
+                StyleProperties&            GetStyle(const std::string& name);
+                bool                        AddStylesFromFile(const std::string& filename);
 
                 template<typename T>
                 T           GetValue(const std::string& value, const T& defaultValue)
@@ -76,7 +76,7 @@ namespace sf
                 static  ResourceManager*    mInstance;
 
                 /* --- Resources --- */
-                Templates                   mTemplates;
+                Styles                      mStyles;
                 Fonts                       mFonts;
                 Images                      mImages;
         };

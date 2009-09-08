@@ -34,7 +34,7 @@ namespace sf
 
             Widget::mFocusedWidget = Widget::mHoveredWidget = &mTopWidget;
 
-            ResourceManager::Get()->AddTemplatesFromFile("./data/test.xml");
+            ResourceManager::Get()->AddStylesFromFile("./data/test.xml");
         }
 
         GuiRenderer::~GuiRenderer()

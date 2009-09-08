@@ -29,37 +29,37 @@ namespace sf
             :   Button(),
                 mCurrentSprite()
         {
-            SetDefaultTemplate("BI_ImageButton");
-            LoadTemplate(GetDefaultTemplate());
+            SetDefaultStyle("BI_ImageButton");
+            LoadStyle(GetDefaultStyle());
         }
 
         void    ImageButton::OnPressed()
         {
-            LoadTemplate(GetDefaultTemplate() + "_Pressed");
+            LoadStyle(GetDefaultStyle() + "_Pressed");
         }
 
         void    ImageButton::OnReleased()
         {
-            LoadTemplate(GetDefaultTemplate() + "_Hovered");
+            LoadStyle(GetDefaultStyle() + "_Hovered");
         }
 
         void    ImageButton::OnMouseEntered(const Event::MouseMoveEvent& mouse)
         {
-            LoadTemplate(GetDefaultTemplate() + "_Hovered");
+            LoadStyle(GetDefaultStyle() + "_Hovered");
         }
 
         void    ImageButton::OnMouseLeft(const Event::MouseMoveEvent& mouse)
         {
             Button::OnMouseLeft(mouse);
-            LoadTemplate(GetDefaultTemplate());
+            LoadStyle(GetDefaultStyle());
         }
 
-        void    ImageButton::LoadTemplate(const std::string& nameTpl)
+        void    ImageButton::LoadStyle(const std::string& nameTpl)
         {
-            Widget::LoadTemplate(nameTpl);
+            Widget::LoadStyle(nameTpl);
 
             ResourceManager* rm = ResourceManager::Get();
-            TemplateProperties& properties = rm->GetTemplate(nameTpl);
+            StyleProperties& properties = rm->GetStyle(nameTpl);
 
             if (properties["image"] != "")
             {

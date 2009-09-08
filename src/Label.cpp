@@ -32,8 +32,8 @@ namespace sf
             :   Widget(),
                 mCaption(caption, Font::GetDefaultFont(), 30.f)
         {
-            SetDefaultTemplate("BI_Label");
-            LoadTemplate(GetDefaultTemplate());
+            SetDefaultStyle("BI_Label");
+            LoadStyle(GetDefaultStyle());
         }
 
         void    Label::SetText(const Unicode::Text& caption)
@@ -88,10 +88,10 @@ namespace sf
             return mCaption;
         }
 
-        void    Label::LoadTemplate(const std::string& nameTpl)
+        void    Label::LoadStyle(const std::string& nameTpl)
         {
             ResourceManager* rm = ResourceManager::Get();
-            TemplateProperties& properties = rm->GetTemplate(nameTpl);
+            StyleProperties& properties = rm->GetStyle(nameTpl);
 
             SetTextColor(rm->GetColorValue(properties["textColor"], GetTextColor()));
 
@@ -112,7 +112,7 @@ namespace sf
                     SetHeight(rect.GetHeight());
             }
 
-            Widget::LoadTemplate(nameTpl);
+            Widget::LoadStyle(nameTpl);
         }
 
         void    Label::OnPaint(RenderTarget& target) const
