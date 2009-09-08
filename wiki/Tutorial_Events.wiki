@@ -17,7 +17,7 @@ ui::Widget::AddKeyListener(ui::KeyListener* listener);
 or detach it with
 {{{
 ui::Widget::RemoveMouseListener(ui::MouseListener* listener);
-ui::Widget::RemoveListener(ui::KeyListener* listener);
+ui::Widget::RemoveKeyListener(ui::KeyListener* listener);
 }}}
 
 == 1 - Listener usage ==
