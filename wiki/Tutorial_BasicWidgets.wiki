@@ -35,23 +35,23 @@ int main(int ac, char *av[])
 
     myGui.GetTopWidget().Add(&myWidget); // we add our widget to the top container.
 
-    while (App.IsOpened())
+    while (myApp.IsOpened())
     {
         Event event;
 
-        while (App.GetEvent(event))
+        while (myApp.GetEvent(event))
         {
             if (event.Type == sf::Event::Closed)
-                App.Close();
+                myApp.Close();
 
             myGui.InjectEvent(event); // the frontend process and propagate events to the widget hierarchy
         }
 
-        App.Clear();
+        myApp.Clear();
 
         myGui.Display(); // the renderer use its View for drawing.
 
-        App.Display();
+        myApp.Display();
     }
 }
 }}}
