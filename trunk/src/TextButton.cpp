@@ -36,17 +36,17 @@ namespace sf
             LoadStyle(GetDefaultStyle());
         }
 
-        void    TextButton::LoadStyle(const std::string& nameTpl)
+        void    TextButton::LoadStyle(const std::string& nameStyle)
         {
-            ImageButton::LoadStyle(nameTpl);
+            ImageButton::LoadStyle(nameStyle);
 
             ResourceManager* rm = ResourceManager::Get();
-            StyleProperties& properties = rm->GetStyle(nameTpl);
+            StyleProperties& properties = rm->GetStyle(nameStyle);
 
             SetTextSize(rm->GetValue(properties["textSize"], GetTextSize()));
             SetTextColor(rm->GetColorValue(properties["textColor"], GetTextColor()));
 
-            mCaption.LoadStyle(nameTpl + "_Label");
+            mCaption.LoadStyle(nameStyle + "_Label");
         }
 
         void    TextButton::SetTextColor(const Color& color)

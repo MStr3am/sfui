@@ -42,10 +42,10 @@ namespace sf
             return mTitle;
         }
 
-        void    Window::LoadStyle(const std::string& nameTpl)
+        void    Window::LoadStyle(const std::string& nameStyle)
         {
-            MovableWidget::LoadStyle(nameTpl);
-            mTitle.LoadStyle(nameTpl + "_Title");
+            MovableWidget::LoadStyle(nameStyle);
+            mTitle.LoadStyle(nameStyle + "_Title");
         }
 
         void    Window::OnChange(Widget::Property property)

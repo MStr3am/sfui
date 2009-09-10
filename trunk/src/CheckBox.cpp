@@ -41,12 +41,12 @@ namespace sf
             AddMouseListener(this);
         }
 
-        void    CheckBox::LoadStyle(const std::string& nameTpl)
+        void    CheckBox::LoadStyle(const std::string& nameStyle)
         {
-            Widget::LoadStyle(nameTpl);
+            Widget::LoadStyle(nameStyle);
 
-            mCheckButton.LoadStyle(nameTpl + "_Box");
-            mCaption.LoadStyle(nameTpl + "_Label");
+            mCheckButton.LoadStyle(nameStyle + "_Box");
+            mCaption.LoadStyle(nameStyle + "_Label");
         }
 
         void    CheckBox::SetText(const Unicode::Text& text)

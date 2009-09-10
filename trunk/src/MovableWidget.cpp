@@ -57,12 +57,12 @@ namespace sf
         }
 
 
-        void    MovableWidget::LoadStyle(const std::string& nameTpl)
+        void    MovableWidget::LoadStyle(const std::string& nameStyle)
         {
-            Widget::LoadStyle(nameTpl);
+            Widget::LoadStyle(nameStyle);
 
             ResourceManager* rm = ResourceManager::Get();
-            StyleProperties& properties = rm->GetStyle(nameTpl);
+            StyleProperties& properties = rm->GetStyle(nameStyle);
 
             SetMovable(rm->GetValue(properties["movable"], IsMovable()));
             SetBlocked(rm->GetValue(properties["blocked"], IsBlocked()));

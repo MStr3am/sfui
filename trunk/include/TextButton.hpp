@@ -36,7 +36,7 @@ namespace sf
                 void            SetTextSize(float size);
                 float           GetTextSize() const;
 
-                virtual void    LoadStyle(const std::string& nameTpl);
+                virtual void    LoadStyle(const std::string& nameStyle);
 
             protected :
 
