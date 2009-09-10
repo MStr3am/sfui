@@ -1,4 +1,5 @@
 #summary Tutorial about events and listeners.
+#labels Featured
 
 = Widget events =
 
