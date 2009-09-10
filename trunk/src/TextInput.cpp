@@ -34,6 +34,7 @@ namespace sf
                 mCursorPosition(0),
                 mCursorOffset(0),
                 mSelectionDragged(false),
+                mSelectionShifted(false),
                 mSelectionStart(0)
         {
             SetDefaultStyle("BI_TextInput");
@@ -201,13 +202,17 @@ namespace sf
             {
                 if (mCursorPosition)
                     --mCursorPosition;
-                ClearSelection();
+
+                if (!mSelectionShifted)
+                    ClearSelection();
             }
             else if (key.Code == Key::Right)
             {
                 if (mCursorPosition < text.length())
                     ++mCursorPosition;
-                ClearSelection();
+
+                if (!mSelectionShifted)
+                    ClearSelection();
             }
             else if (key.Code == Key::Home)
             {
@@ -219,7 +224,19 @@ namespace sf
                 mCursorPosition = text.length();
                 ClearSelection();
             }
+            else if (key.Code == Key::LShift || key.Code == Key::RShift)
+            {
+                mSelectionShifted = true;
+            }
             AdjustRect();
+        }
+
+        void    TextInput::OnKeyReleased(const Event::KeyEvent& key)
+        {
+            if (key.Code == Key::LShift || key.Code == Key::RShift)
+            {
+                mSelectionShifted = false;
+            }
         }
 
         void    TextInput::OnTextEntered(const Event::TextEvent& text)
