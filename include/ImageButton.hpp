@@ -32,7 +32,7 @@ namespace sf
                 ImageButton();
 
                 // Inherited from Widget
-                virtual void    LoadStyle(const std::string& nameTpl);
+                virtual void    LoadStyle(const std::string& nameStyle);
 
             protected :
 

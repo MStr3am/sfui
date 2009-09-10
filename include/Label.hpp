@@ -45,7 +45,7 @@ namespace sf
 
                 const String&           GetString() const;
 
-                virtual void            LoadStyle(const std::string& nameTpl);
+                virtual void            LoadStyle(const std::string& nameStyle);
 
             protected :
 

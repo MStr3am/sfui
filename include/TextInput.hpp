@@ -54,7 +54,7 @@ namespace sf
                 void                        SetSelectionColor(const Color& color);
                 const Color&                GetSelectionColor() const;
 
-                virtual void                LoadStyle(const std::string& nameTpl);
+                virtual void                LoadStyle(const std::string& nameStyle);
 
             protected :
 

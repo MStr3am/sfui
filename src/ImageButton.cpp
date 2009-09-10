@@ -54,12 +54,12 @@ namespace sf
             LoadStyle(GetDefaultStyle());
         }
 
-        void    ImageButton::LoadStyle(const std::string& nameTpl)
+        void    ImageButton::LoadStyle(const std::string& nameStyle)
         {
-            Widget::LoadStyle(nameTpl);
+            Widget::LoadStyle(nameStyle);
 
             ResourceManager* rm = ResourceManager::Get();
-            StyleProperties& properties = rm->GetStyle(nameTpl);
+            StyleProperties& properties = rm->GetStyle(nameStyle);
 
             if (properties["image"] != "")
             {

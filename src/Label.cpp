@@ -88,10 +88,10 @@ namespace sf
             return mCaption;
         }
 
-        void    Label::LoadStyle(const std::string& nameTpl)
+        void    Label::LoadStyle(const std::string& nameStyle)
         {
             ResourceManager* rm = ResourceManager::Get();
-            StyleProperties& properties = rm->GetStyle(nameTpl);
+            StyleProperties& properties = rm->GetStyle(nameStyle);
 
             SetTextColor(rm->GetColorValue(properties["textColor"], GetTextColor()));
 
@@ -112,7 +112,7 @@ namespace sf
                     SetHeight(rect.GetHeight());
             }
 
-            Widget::LoadStyle(nameTpl);
+            Widget::LoadStyle(nameStyle);
         }
 
         void    Label::OnPaint(RenderTarget& target) const

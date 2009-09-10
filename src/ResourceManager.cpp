@@ -48,19 +48,18 @@ namespace sf
 
         ResourceManager::~ResourceManager()
         {
-            // Delete all resources
-
             for (Fonts::iterator it = mFonts.begin(); it != mFonts.end(); ++it)
             {
                 delete it->second;
-                mFonts.erase(it);
             }
 
             for (Images::iterator it = mImages.begin(); it != mImages.end(); ++it)
             {
                 delete it->second;
-                mImages.erase(it);
             }
+
+            mFonts.clear();
+            mImages.clear();
         }
 
         void ResourceManager::Kill()
@@ -269,25 +268,25 @@ namespace sf
                     StyleProperties  properties;
 
                     const TiXmlAttribute* attr = t->FirstAttribute();
-                    std::string nameTpl;
+                    std::string nameStyle;
 
                     while (attr)
                     {
                         std::string nameAttr(attr->Name());
 
                         if (nameAttr == "name")
-                            nameTpl = attr->ValueStr();
+                            nameStyle = attr->ValueStr();
                         else
                             properties[nameAttr] = attr->ValueStr();
                         attr = attr->Next();
                     }
 
-                    if (nameTpl.size() == 0)
+                    if (nameStyle.size() == 0)
                     {
                         std::cerr << "Unable to parse style file. One of styles has no name." << std::endl;
                         return false;
                     }
-                    mStyles[nameTpl] = properties;
+                    mStyles[nameStyle] = properties;
                 }
                 else if (t->ValueStr() == "resources")
                 {

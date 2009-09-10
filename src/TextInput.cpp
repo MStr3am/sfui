@@ -56,12 +56,12 @@ namespace sf
             return mString.GetText();
         }
 
-        void    TextInput::LoadStyle(const std::string& nameTpl)
+        void    TextInput::LoadStyle(const std::string& nameStyle)
         {
-            Widget::LoadStyle(nameTpl);
+            Widget::LoadStyle(nameStyle);
 
             ResourceManager* rm = ResourceManager::Get();
-            StyleProperties& properties = rm->GetStyle(nameTpl);
+            StyleProperties& properties = rm->GetStyle(nameStyle);
 
             SetMaxLength(rm->GetValue(properties["maxLength"], GetMaxLength()));
             SetSelectionColor(rm->GetColorValue(properties["selectionColor"], GetSelectionColor()));
