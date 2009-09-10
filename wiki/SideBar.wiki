@@ -2,7 +2,7 @@
 
   * *WELCOME*
     * [HomePage Home]
-
   * *TUTORIALS*
-    * [Tutorial_BasicWidgets Basic widgets]
+    * [Tutorial_BasicWidgets Widgets]
     * [Tutorial_Events Events]
+    * [Tutorial_Styles Styles]
