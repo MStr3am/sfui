@@ -64,6 +64,7 @@ namespace sf
 
                 // Inherited from KeyListener
                 virtual void                OnKeyPressed(const Event::KeyEvent& key);
+                virtual void                OnKeyReleased(const Event::KeyEvent& key);
                 virtual void                OnTextEntered(const Event::TextEvent& text);
 
                 // Inherited from MouseListener
@@ -85,8 +86,10 @@ namespace sf
                 int                         mCursorOffset;
 
                 bool                        mSelectionDragged;
+                bool                        mSelectionShifted;
                 unsigned int                mSelectionStart;
                 Color                       mSelectionColor;
+
 
         };
 
