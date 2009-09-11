@@ -35,6 +35,8 @@ namespace sf
                 void                        SetText(const Unicode::Text& text);
                 const Unicode::Text&        GetText() const;
 
+                bool                        IsEmpty() const;
+
                 void                        SetTextColor(const Color& color);
                 const Color&                GetTextColor() const;
 

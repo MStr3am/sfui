@@ -57,6 +57,11 @@ namespace sf
             return mString.GetText();
         }
 
+        bool    TextInput::IsEmpty() const
+        {
+            return (Unicode::UTF16String(mString.GetText()).size() == 0);
+        }
+
         void    TextInput::LoadStyle(const std::string& nameStyle)
         {
             Widget::LoadStyle(nameStyle);
@@ -70,9 +75,10 @@ namespace sf
             SetTextColor(rm->GetColorValue(properties["textColor"], GetTextColor()));
             SetTextSize(rm->GetValue(properties["textSize"], GetTextSize()));
 
-            if (properties["font"] != "")
+            Font* newFont = rm->GetFont(properties["font"], GetTextSize());
+            if (newFont)
             {
-                SetFont(*rm->GetFont(properties["font"], GetTextSize()));
+                SetFont(*newFont);
             }
 
             mString.SetY((GetHeight() - mString.GetString().GetSize()) / 2 - 2);
