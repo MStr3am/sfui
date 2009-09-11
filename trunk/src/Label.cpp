@@ -95,9 +95,10 @@ namespace sf
 
             SetTextColor(rm->GetColorValue(properties["textColor"], GetTextColor()));
 
-            if (properties["font"] != "")
+            Font* newFont = rm->GetFont(properties["font"], GetTextSize());
+            if (newFont)
             {
-                SetFont(*rm->GetFont(properties["font"], GetTextSize()));
+                SetFont(*newFont);
             }
 
             if (properties["textSize"] != "")

@@ -183,6 +183,9 @@ namespace sf
 
         Font*     ResourceManager::GetFont(const std::string& name, float size)
         {
+            if (name == "")
+                return 0;
+
             Font*   font = 0;
             Fonts::iterator it = mFonts.find(name);
 
