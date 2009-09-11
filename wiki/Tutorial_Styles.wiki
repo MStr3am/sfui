@@ -17,6 +17,14 @@ A style is just a properties container, defined in a XML file like this :
 Each style _must be_ identified by *a name* in order to be used in source code.
 Then you can declare needed properties with syntax _attribute="value"_
 
+Basic attributes for sf::ui::Widget :
+|| *Attribute* || *Type* || *Example* ||
+|| x<br />y || float || 123.4 <br /> -45 ||
+|| width<br />height || integer (>= 0) || 456 ||
+|| focusable<br />enabled<br />visible || boolean || 0 (false)<br />1 (true) ||
+|| color || hexadecimal<br />rgb<br />rgb + alpha || #FF0000 <br /> rgb: 255, 0, 0 <br /> rgba: 255, 0, 0, 123 ||
+|| align || string || top_left<br />center<br />bottom_right<br />... ||
+
 == Loading styles ==
 To preload these styles in memory, you should use the ResourceManager singleton :
 {{{
