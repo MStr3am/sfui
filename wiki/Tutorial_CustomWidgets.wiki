@@ -1,0 +1,104 @@
+#summary Tutorial about widget development
+#labels Phase-Implementation
+
+= Widget construction =
+
+This tutorial will show you how to create a new widget (or a group of widgets) and make it simple and robust using SFUI's tools.
+
+We have to examine two points of view : widget structure and widget design (with styles)
+Ok, I choose to make a simple ConfirmBox widget, so... let's go !
+
+== The structure ==
+
+Our `ConfirmBox` class will be a window with a label for text information and two buttons (cancel, ok) on it.
+
+`ConfirmBox.hpp`
+{{{
+#ifndef MYCONFIRMBOX_HPP
+#define MYCONFIRMBOX_HPP
+
+#include "Window.hpp"
+#include "TextButton.hpp"
+
+namespace sf
+{
+    namespace ui
+    {
+        class ConfirmBox : public Window // Inherits from the default window widget
+        {
+            public :
+                /* The constructor take the necessary values in argument */
+                ConfirmBox(const Unicode::Text& title, const Unicode::Text& info);
+
+            protected :
+                Label           mInfoLbl;
+                TextButton      mOkBtn;
+                TextButton      mCancelBtn;
+        };
+    }
+}
+#endif // MYCONFIRMBOX_HPP
+}}}
+`ConfirmBox.cpp`
+{{{
+
+#include "ConfirmBox.hpp"
+
+namespace sf
+{
+    namespace ui
+    {
+        ConfirmBox::ConfirmBox(const Unicode::Text& title, const Unicode::Text& info)
+            :   Window(title),        // First, we initialize the window
+                mInfoLbl(info),       // and the other widgets...
+                mOkBtn("Ok"),
+                mCancelBtn("Cancel")
+        {
+            /* Then we have to add the childrens to the box ;) */
+            Add(&mInfoLbl);
+            Add(&mOkBtn);
+            Add(&mCancelBtn);
+        }
+    }
+}
+}}}
+
+You shouldn't have any problems with the code above.<br />It's very simple to create an instance of it, like other widgets :
+{{{
+sf::ui::ConfirmBox myBox("Warning !", "Do you really want to change the current skin ?\nIt will be destroyed...");
+myGui.GetTopWidget().Add(&myBox);
+}}}
+
+Ok... Try to compile and execute it.<br />
+Arghhh, rendering is chaotic, but it is normal : all widgets have the position 0/0.
+
+== Design part ==
+Now, there are at least two different ways to position them on the box.
+  # Positioning in the constructor (hard-coded)
+  # Positioning using styles
+
+Obviously, it makes sense to use the second way for this tutorial, because of advanced usage of styles.
+
+First, we want to add a built-in style to our ConfirmBox. Just add this code in the constructor :
+{{{
+SetDefaultStyle("MyConfirmBox");
+LoadStyle(GetDefaultStyle()); // and we load it !
+}}}
+
+Ok, so we can now modify the box by style, but how control children styles ? (which are in protected state anyway...)<br />
+It will be useful to access them by something like "MyConfirmBox_Info" or "MyConfirmBox>Info" in the xml file.
+
+That hierarchy must be processed by our class by masking the virtual widget method `LoadStyle(...)` :
+{{{
+virtual void    LoadStyle(const std::string& nameStyle)
+{
+    mInfoLbl.LoadStyle(nameStyle + "_Info");
+    mOkBtn.LoadStyle(nameStyle + "_Ok");
+    mCancelBtn.LoadStyle(nameStyle + "_Cancel");
+
+    Window::LoadStyle(nameStyle);
+}
+}}}
+You can now create your style file =)
+
+(...)
