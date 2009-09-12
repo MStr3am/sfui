@@ -37,8 +37,6 @@ namespace sf
                 virtual void            LoadStyle(const std::string& nameStyle);
 
             protected :
-                virtual void            OnChange(Widget::Property property);
-
                 Label                   mTitle;
 
 

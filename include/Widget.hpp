@@ -132,7 +132,7 @@ namespace sf
             protected:
                 virtual void        Render(RenderTarget& target) const;
                 virtual void        OnPaint(RenderTarget& target) const;
-                virtual void        OnChange(Widget::Property property) {};
+                virtual void        OnChange(Widget::Property property);
 
             private:
                 void                DistributeEvent(const Event& event);

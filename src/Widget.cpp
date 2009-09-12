@@ -369,6 +369,17 @@ namespace sf
             }
         }
 
+        void    Widget::OnChange(Widget::Property property)
+        {
+            if (property == SIZE)
+            {
+                for (Widgets::iterator it = mChildren.begin(); it != mChildren.end(); ++it)
+                {
+                    (*it)->UpdatePosition();
+                }
+            }
+        }
+
         void    Widget::OnPaint(RenderTarget& target) const
         {
             glDisable(GL_TEXTURE_2D);
