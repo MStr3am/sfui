@@ -49,9 +49,11 @@ namespace sf
                 void                        SetMaxLength(unsigned int maxLength);
                 unsigned int                GetMaxLength() const;
 
-                void                        ClearSelection();
                 void                        SetSelection(unsigned int start, unsigned int cursorPosition);
                 Unicode::Text               GetSelection() const;
+
+                void                        ClearSelection();
+                bool                        EraseSelection();
 
                 void                        SetSelectionColor(const Color& color);
                 const Color&                GetSelectionColor() const;
