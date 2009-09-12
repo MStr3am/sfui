@@ -118,7 +118,8 @@ namespace sf
 
         void    Widget::SetSize(const Vector2f& size)
         {
-            mSize = size;
+            mSize.x = size.x;
+            mSize.y = size.y;
             OnChange(Widget::SIZE);
         }
 
@@ -129,12 +130,14 @@ namespace sf
 
         void    Widget::SetWidth(float width)
         {
-            SetSize(Vector2f(width, GetHeight()));
+            mSize.x = width;
+            OnChange(Widget::SIZE);
         }
 
         void    Widget::SetHeight(float height)
         {
-            SetSize(Vector2f(GetWidth(), height));
+            mSize.y = height;
+            OnChange(Widget::SIZE);
         }
 
         const Vector2f&    Widget::GetSize() const

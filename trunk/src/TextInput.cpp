@@ -129,6 +129,21 @@ namespace sf
             mSelectionStart = mCursorPosition;
         }
 
+        bool            TextInput::EraseSelection()
+        {
+            if (mSelectionStart == mCursorPosition)
+                return false;
+
+            Unicode::UTF16String currentText = GetText();
+            unsigned int newPos = std::min(mSelectionStart, mCursorPosition);
+
+            currentText.erase(newPos, GetSelectionSize());
+            SetText(currentText);
+
+            mSelectionStart = mCursorPosition = newPos;
+            return true;
+        }
+
         void            TextInput::SetSelection(unsigned int start, unsigned int cursorPosition)
         {
             const Unicode::UTF16String& text = GetText();
@@ -202,7 +217,7 @@ namespace sf
 
         void    TextInput::OnKeyPressed(const Event::KeyEvent& key)
         {
-            const Unicode::UTF16String& text = GetText();
+            Unicode::UTF16String text = GetText();
 
             if (key.Code == Key::Left)
             {
@@ -222,17 +237,49 @@ namespace sf
             }
             else if (key.Code == Key::Home)
             {
-                mCursorPosition = 0;
-                ClearSelection();
+                if (mSelectionShifted)
+                {
+                    mSelectionStart = mCursorPosition;
+                    mCursorPosition = 0;
+                }
+                else
+                {
+                    mCursorPosition = 0;
+                    ClearSelection();
+                }
             }
             else if (key.Code == Key::End)
             {
-                mCursorPosition = text.length();
-                ClearSelection();
+                if (mSelectionShifted)
+                {
+                    mSelectionStart = mCursorPosition;
+                    mCursorPosition = text.length();
+                }
+                else
+                {
+                    mCursorPosition = text.length();
+                    ClearSelection();
+                }
             }
             else if (key.Code == Key::LShift || key.Code == Key::RShift)
             {
                 mSelectionShifted = true;
+            }
+            else if (key.Code == Key::Delete || key.Code == Key::Back)
+            {
+                if (!EraseSelection())
+                {
+                    if (key.Code == Key::Back && !text.empty() && mCursorPosition)
+                    {
+                        text.erase(--mCursorPosition, 1);
+                    }
+                    else if (key.Code == Key::Delete && mCursorPosition < text.length())
+                    {
+                        text.erase(mCursorPosition, 1);
+                    }
+                    ClearSelection();
+                    SetText(text);
+                }
             }
             AdjustRect();
         }
@@ -247,31 +294,15 @@ namespace sf
 
         void    TextInput::OnTextEntered(const Event::TextEvent& text)
         {
+            // ASCII non printable caracters have to be ignored.
+            if (text.Unicode <= 30 || (text.Unicode >= 127 && text.Unicode <= 159))
+                return;
+
+            EraseSelection();
+
             Unicode::UTF16String currentText = GetText();
-            bool    selectionDeleted = false;
 
-            if (mSelectionStart != mCursorPosition)
-            {
-                unsigned int newPos = std::min(mSelectionStart, mCursorPosition);
-                currentText.erase(newPos, GetSelectionSize());
-                mCursorPosition = newPos;
-                selectionDeleted = true;
-            }
-
-            if (text.Unicode == 8)
-            {
-                if (!currentText.empty() && mCursorPosition && !selectionDeleted)
-                {
-                    currentText.erase(mCursorPosition - 1, 1);
-                    --mCursorPosition;
-                }
-            }
-            else if (text.Unicode == 127)
-            {
-                if (mCursorPosition < currentText.length() && !selectionDeleted)
-                    currentText.erase(mCursorPosition, 1);
-            }
-            else if (currentText.length() < mMaxLength || !mMaxLength)
+            if (currentText.length() < mMaxLength || !mMaxLength)
             {
                 Unicode::UTF16String c;
                 c += text.Unicode;
