@@ -26,27 +26,53 @@ namespace sf
     {
         CheckBox::CheckBox(const Unicode::Text& caption)
             :   Widget(),
+                mChecked(false),
                 mCheckButton(),
                 mCaption(caption)
         {
             SetDefaultStyle("BI_CheckBox");
             LoadStyle(GetDefaultStyle());
 
-            const FloatRect& rect = mCaption.GetString().GetRect();
-            SetSize(rect.GetHeight() + 4.f + rect.GetWidth(), rect.GetHeight());
-
             Add(&mCaption);
             Add(&mCheckButton);
 
+            mCheckButton.AddMouseListener(this);
             AddMouseListener(this);
+        }
+
+        void    CheckBox::SetChecked(bool checked)
+        {
+            mChecked = checked;
+        }
+
+        bool    CheckBox::IsChecked() const
+        {
+            return mChecked;
+        }
+
+        void    CheckBox::OnMousePressed(const Event::MouseButtonEvent& mouse)
+        {
+            if (mouse.Button == Mouse::Left)
+            {
+                if (mChecked)
+                {
+                    mChecked = false;
+                    LoadStyle(GetDefaultStyle());
+                }
+                else
+                {
+                    mChecked = true;
+                    LoadStyle(GetDefaultStyle() + "_Checked");
+                }
+            }
         }
 
         void    CheckBox::LoadStyle(const std::string& nameStyle)
         {
             Widget::LoadStyle(nameStyle);
 
-            mCheckButton.LoadStyle(nameStyle + "_Box");
-            mCaption.LoadStyle(nameStyle + "_Label");
+            mCheckButton.LoadStyle(nameStyle + "->Button");
+            mCaption.LoadStyle(nameStyle + "->Label");
         }
 
         void    CheckBox::SetText(const Unicode::Text& text)

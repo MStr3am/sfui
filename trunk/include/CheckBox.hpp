@@ -31,6 +31,9 @@ namespace sf
             public :
                 CheckBox(const Unicode::Text& caption);
 
+                void                    SetChecked(bool checked = true);
+                bool                    IsChecked() const;
+
                 void                    SetText(const Unicode::Text& caption);
                 const Unicode::Text&    GetText() const;
 
@@ -43,11 +46,14 @@ namespace sf
                 virtual void            LoadStyle(const std::string& nameStyle);
 
             protected :
+                // Inherited from MouseListener
+                virtual void            OnMousePressed(const Event::MouseButtonEvent& mouse);
 
                 // Inherited from Widget
                 virtual void            Render(RenderTarget& target) const;
 
             private :
+                bool                    mChecked;
                 ImageButton             mCheckButton;
                 Label                   mCaption;
 

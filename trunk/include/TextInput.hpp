@@ -49,6 +49,9 @@ namespace sf
                 void                        SetMaxLength(unsigned int maxLength);
                 unsigned int                GetMaxLength() const;
 
+                void                        SetEditable(bool editable = true);
+                bool                        IsEditable() const;
+
                 void                        SetSelection(unsigned int start, unsigned int cursorPosition);
                 Unicode::Text               GetSelection() const;
 
@@ -84,7 +87,9 @@ namespace sf
                 unsigned int                GetSelectionSize() const;
 
                 Label                       mString;
+
                 unsigned int                mMaxLength;
+                bool                        mEditable;
 
                 unsigned int                mCursorPosition;
                 int                         mCursorOffset;

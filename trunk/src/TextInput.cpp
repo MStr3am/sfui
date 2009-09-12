@@ -31,6 +31,7 @@ namespace sf
             :   Widget(),
                 mString(string),
                 mMaxLength(0),
+                mEditable(true),
                 mCursorPosition(0),
                 mCursorOffset(0),
                 mSelectionDragged(false),
@@ -70,6 +71,8 @@ namespace sf
             StyleProperties& properties = rm->GetStyle(nameStyle);
 
             SetMaxLength(rm->GetValue(properties["maxLength"], GetMaxLength()));
+            SetEditable(rm->GetValue(properties["editable"], IsEditable()));
+
             SetSelectionColor(rm->GetColorValue(properties["selectionColor"], GetSelectionColor()));
 
             SetTextColor(rm->GetColorValue(properties["textColor"], GetTextColor()));
@@ -92,6 +95,16 @@ namespace sf
         unsigned int    TextInput::GetMaxLength() const
         {
             return mMaxLength;
+        }
+
+        void            TextInput::SetEditable(bool editable)
+        {
+            mEditable = editable;
+        }
+
+        bool            TextInput::IsEditable() const
+        {
+            return mEditable;
         }
 
         void            TextInput::SetTextColor(const Color& color)
@@ -193,6 +206,9 @@ namespace sf
 
         void    TextInput::OnMousePressed(const Event::MouseButtonEvent& button)
         {
+            if (button.Button != Mouse::Left)
+                return;
+
             mCursorPosition = GetCharacterAtPos(button.X - GetAbsolutePosition().x - mStringOffset + mCursorOffset);
             mSelectionDragged = true;
             ClearSelection();
@@ -202,6 +218,9 @@ namespace sf
 
         void    TextInput::OnMouseReleased(const Event::MouseButtonEvent& button)
         {
+            if (button.Button != Mouse::Left)
+                return;
+
             if (mSelectionDragged)
                 mSelectionDragged = false;
         }
@@ -265,7 +284,7 @@ namespace sf
             {
                 mSelectionShifted = true;
             }
-            else if (key.Code == Key::Delete || key.Code == Key::Back)
+            else if ((key.Code == Key::Delete || key.Code == Key::Back) && mEditable)
             {
                 if (!EraseSelection())
                 {
@@ -295,7 +314,7 @@ namespace sf
         void    TextInput::OnTextEntered(const Event::TextEvent& text)
         {
             // ASCII non printable caracters have to be ignored.
-            if (text.Unicode <= 30 || (text.Unicode >= 127 && text.Unicode <= 159))
+            if (text.Unicode <= 30 || (text.Unicode >= 127 && text.Unicode <= 159) || !mEditable)
                 return;
 
             EraseSelection();

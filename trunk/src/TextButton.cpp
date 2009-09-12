@@ -46,7 +46,7 @@ namespace sf
             SetTextSize(rm->GetValue(properties["textSize"], GetTextSize()));
             SetTextColor(rm->GetColorValue(properties["textColor"], GetTextColor()));
 
-            mCaption.LoadStyle(nameStyle + "_Label");
+            mCaption.LoadStyle(nameStyle + "->Label");
         }
 
         void    TextButton::SetTextColor(const Color& color)
