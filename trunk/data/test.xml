@@ -11,6 +11,8 @@
   <image name="HoveredButton" src="data/btnHover.png" />
   <image name="PressedButton" src="data/btnPressed.png" />
 
+  <image name="CheckBox" src="data/checkbox.png" />
+
 </resources>
 
 
@@ -40,9 +42,9 @@
 
 <!-- CHECKBOX -->
 <style name="BI_CheckBox" width="150" />
-<style name="BI_CheckBox->Button" width="20" height="20" image="NormalButton" align="left" />
-<style name="BI_CheckBox->Label" x="25" align="left" textColor="#000000"  />
+<style name="BI_CheckBox->Button" width="14" height="14" image="sub:CheckBox, 0, 0, 13, 13" align="left" />
+<style name="BI_CheckBox->Label" x="20" y="-1" align="left" textColor="#000000"  />
 
-<style name="BI_CheckBox_Checked->Label" textColor="#FF0000" />
-<style name="BI_CheckBox_Checked->Button" image="PressedButton" />
+<style name="BI_CheckBox_Checked->Button" image="sub:CheckBox, 0, 14, 13, 27" />
+<style name="BI_CheckBox_Checked->Label" x="21" y="0" />
 
