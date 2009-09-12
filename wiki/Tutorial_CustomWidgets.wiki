@@ -1,5 +1,5 @@
 #summary Tutorial about widget development
-#labels Phase-Implementation
+#labels Featured,Phase-Implementation
 
 = Widget construction =
 
@@ -88,9 +88,9 @@ LoadStyle(GetDefaultStyle()); // and we load it !
 Ok, so we can now modify the box by style, but how control children styles ? (which are in protected state anyway...)<br />
 It will be useful to access them by something like "MyConfirmBox_Info" or "MyConfirmBox>Info" in the xml file.
 
-That hierarchy must be processed by our class by masking the virtual widget method `LoadStyle(...)` :
+That hierarchy must be processed by masking the public virtual method `LoadStyle(...)` :
 {{{
-virtual void    LoadStyle(const std::string& nameStyle)
+virtual void ConfirmBox::LoadStyle(const std::string& nameStyle)
 {
     mInfoLbl.LoadStyle(nameStyle + "_Info");
     mOkBtn.LoadStyle(nameStyle + "_Ok");
@@ -100,5 +100,14 @@ virtual void    LoadStyle(const std::string& nameStyle)
 }
 }}}
 You can now create your style file =)
+{{{
+<style name="MyConfirmBox" width="320" height="120" align="center" color="rgba: 255, 123, 233, 123" />
+<style name="MyConfirmBox_Title" textSize="23" textColor="#000000" align="top_center" />
+<style name="MyConfirmBox_Info" x="10" y="40" />
+<style name="MyConfirmBox_Ok" align="bottom_right" x="-10" y="-10" />
+<style name="MyConfirmBox_Cancel" align="bottom_right" x="-80" y="-10" />
+}}}
+[http://lokk.u7n.org/sfui/sfui_widgetdesign1.png]
 
-(...)
+Tadaaam ! 
+The next part of this tutorial will deal with dynamic properties for advanced widgets.
