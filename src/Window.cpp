@@ -45,7 +45,7 @@ namespace sf
         void    Window::LoadStyle(const std::string& nameStyle)
         {
             MovableWidget::LoadStyle(nameStyle);
-            mTitle.LoadStyle(nameStyle + "_Title");
+            mTitle.LoadStyle(nameStyle + "->Title");
         }
 
     }
