@@ -6,3 +6,4 @@
     * [Tutorial_BasicWidgets Widgets]
     * [Tutorial_Events Events]
     * [Tutorial_Styles Styles]
+    * [Tutorial_CustomWidgets Advanced widgets]
