@@ -48,14 +48,6 @@ namespace sf
             mTitle.LoadStyle(nameStyle + "_Title");
         }
 
-        void    Window::OnChange(Widget::Property property)
-        {
-            if (property == Widget::SIZE)
-            {
-                mTitle.UpdatePosition();
-            }
-        }
-
     }
 
 }

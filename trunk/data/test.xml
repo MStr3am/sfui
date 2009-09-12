@@ -37,5 +37,3 @@
 
 <style name="BI_TextButton_Pressed" image="PressedButton" />
 <style name="BI_TextButton_Pressed_Label" textColor="rgba: 0,0,0,123" align="center" x="1" y="1" />
-
-
