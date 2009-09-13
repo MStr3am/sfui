@@ -23,6 +23,9 @@
 <!-- LABEL -->
 <style name="BI_Label" font="TextFont" color="rgba: 0,0,0,0" textSize="12" textColor="#000000" focusable="0" />
 
+<!-- ICON -->
+<style name="BI_Icon" color="rgba: 0, 0, 0, 0" width="16" height="16" />
+
 <!-- WINDOW -->
 <style name="BI_Window" movable="1" blocked="1" color="rgba: 255, 123, 223, 255" />
 <style name="BI_Window->Title" font="TitleFont" textSize="12" align="top_center" />
