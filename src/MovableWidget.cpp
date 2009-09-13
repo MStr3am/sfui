@@ -75,6 +75,8 @@ namespace sf
 
             mDragged = true;
             mNeedUpdate = true;
+
+            ChangeZIndex(Widget::ALL_ABOVE);
         }
 
         void    MovableWidget::OnMouseReleased(const Event::MouseButtonEvent& button)
