@@ -57,14 +57,23 @@ namespace sf
             }
         }
 
-        void    Icon::SetSprite(const Sprite& sprite)
+        void    Icon::SetImage(const Image& image, bool resize)
         {
-            mSprite = sprite;
+            mSprite.SetImage(image);
+
+            if (resize)
+            {
+                SetSize(image.GetWidth(), image.GetHeight());
+            }
+            else
+            {
+                mSprite.Resize(GetWidth(), GetHeight());
+            }
         }
 
-        const Sprite&   Icon::GetSprite() const
+        const Image*   Icon::GetImage() const
         {
-            return mSprite;
+            return mSprite.GetImage();
         }
 
         void    Icon::OnChange(Widget::Property property)

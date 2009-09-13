@@ -33,8 +33,8 @@ namespace sf
                 Icon(const Sprite& sprite);
                 Icon(const std::string& filename);
 
-                void            SetSprite(const Sprite& sprite);
-                const Sprite&   GetSprite() const;
+                void            SetImage(const Image& image, bool resize = true);
+                const Image*    GetImage() const;
 
                 virtual void    LoadStyle(const std::string& nameStyle);
 
