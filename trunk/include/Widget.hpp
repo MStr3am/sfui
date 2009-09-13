@@ -79,6 +79,14 @@ namespace sf
 
                 }   Property;
 
+                typedef enum
+                {
+                    ALL_ABOVE,
+                    ALL_BELOW,
+                    UP,
+                    DOWN
+                }   ZIndex;
+
                 Widget(Vector2f pos = Vector2f(0, 0), Vector2f size = Vector2f(20, 20));
                 ~Widget();
 
@@ -128,6 +136,8 @@ namespace sf
                 void                AddKeyListener(KeyListener* keyListener);
 
                 void                UpdatePosition();
+
+                void                ChangeZIndex(Widget::ZIndex op);
 
             protected:
                 virtual void        Render(RenderTarget& target) const;

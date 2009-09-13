@@ -22,7 +22,7 @@
 #include "MouseListener.hpp"
 #include "KeyListener.hpp"
 
-#include <iostream>
+#include <algorithm>
 
 namespace sf
 {
@@ -306,6 +306,55 @@ namespace sf
             };
 
             Move(mAlignOffset);
+        }
+
+        void    Widget::ChangeZIndex(Widget::ZIndex op)
+        {
+            if (!mParent)
+                return;
+
+            Widgets& container = mParent->mChildren;
+            size_t i = 0;
+
+            for (size_t size = container.size(); i < size; ++i)
+            {
+                if (container.at(i) == this)
+                {
+                    break;
+                }
+            }
+
+            switch (op)
+            {
+                case ALL_ABOVE:
+                    container.erase(container.begin() + i);
+                    container.push_back(this);
+                break;
+
+                case ALL_BELOW:
+                    container.erase(container.begin() + i);
+                    container.insert(container.begin(), this);
+                break;
+
+                case DOWN:
+                    if (i > 0)
+                    {
+                        std::swap(container[i], container[i - 1]);
+                    }
+                break;
+
+                case UP:
+                    if (i < container.size() - 1)
+                    {
+                        std::swap(container[i], container[i + 1]);
+                    }
+                break;
+
+                default:
+                    break;
+
+            };
+
         }
 
         void    Widget::Add(Widget* widget)
