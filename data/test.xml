@@ -4,7 +4,7 @@
 
   <!-- Fonts (default size is 30) -->
   <font name="TextFont" src="data/dejavu.ttf" size="12" />
-  <font name="TitleFont" src="data/yorkville.ttf" size="23" />
+  <font name="TitleFont" src="data/dejavu.ttf" size="23" />
 
   <!-- Images -->
   <image name="NormalButton" src="data/btnNormal.png" />
