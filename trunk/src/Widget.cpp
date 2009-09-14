@@ -375,6 +375,7 @@ namespace sf
             mChildren.push_back(widget);
             widget->mParent = this;
             widget->UpdatePosition();
+            widget->OnChange(Widget::PARENT);
         }
 
         void    Widget::Remove(Widget* widget)

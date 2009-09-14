@@ -62,6 +62,8 @@ namespace sf
 
         void    GridDecorator::OnChange(Widget::Property property)
         {
+            Widget::OnChange(property);
+
             if (property == Widget::SIZE)
             {
                 mIcons[Align::TOP_CENTER].SetWidth(GetWidth() - (mIcons[Align::TOP_LEFT].GetWidth() + mIcons[Align::TOP_RIGHT].GetWidth()));
@@ -71,6 +73,15 @@ namespace sf
                 mIcons[Align::LEFT].SetHeight(GetHeight() - (mIcons[Align::TOP_LEFT].GetHeight() + mIcons[Align::BOTTOM_LEFT].GetHeight()));
                 mIcons[Align::CENTER].SetHeight(GetHeight() - (mIcons[Align::TOP_CENTER].GetHeight() + mIcons[Align::BOTTOM_CENTER].GetHeight()));
                 mIcons[Align::RIGHT].SetHeight(GetHeight() - (mIcons[Align::TOP_RIGHT].GetHeight() + mIcons[Align::BOTTOM_RIGHT].GetHeight()));
+            }
+            else if (property == Widget::PARENT)
+            {
+                Widget* parent = GetParent();
+
+                if (parent)
+                {
+                    SetSize(parent->GetSize());
+                }
             }
         }
     }
