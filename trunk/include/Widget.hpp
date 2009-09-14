@@ -120,6 +120,9 @@ namespace sf
                 void                SetAlignment(Align::Alignment align);
                 Align::Alignment    GetAlignment() const;
 
+                void                SetBorderColor(const Color& borderColor);
+                const Color&        GetBorderColor() const;
+
                 FloatRect           GetRect(bool absolute) const;
 
                 Vector2f            GetAbsolutePosition() const;
@@ -179,6 +182,8 @@ namespace sf
 
                 Align::Alignment    mAlign;
                 Vector2f            mAlignOffset;
+
+                Color               mBorderColor;
 
         };
 
