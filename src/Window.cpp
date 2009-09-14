@@ -27,6 +27,8 @@
 */
 
 #include "Window.hpp"
+#include <SFML/Graphics/RenderTarget.hpp>
+#include <SFML/Window/OpenGL.hpp>
 
 namespace sf
 {
@@ -34,11 +36,13 @@ namespace sf
     {
         Window::Window(const Unicode::Text& title)
             :   MovableWidget(),
+                mDecorator(),
                 mTitle(title)
         {
             SetDefaultStyle("BI_Window");
             LoadStyle(GetDefaultStyle());
 
+            Add(&mDecorator);
             Add(&mTitle);
         }
 
@@ -54,8 +58,32 @@ namespace sf
 
         void    Window::LoadStyle(const std::string& nameStyle)
         {
-            MovableWidget::LoadStyle(nameStyle);
+            mDecorator.LoadStyle(nameStyle + "->Background");
             mTitle.LoadStyle(nameStyle + "->Title");
+
+            MovableWidget::LoadStyle(nameStyle);
+        }
+
+        void    Window::OnChange(Widget::Property property)
+        {
+            Widget::OnChange(property);
+
+            if (property == Widget::SIZE)
+            {
+                mDecorator.SetSize(GetSize());
+            }
+        }
+
+        void    Window::Render(RenderTarget& target) const
+        {
+            const Vector2f& absPos = GetAbsolutePosition();
+
+            glEnable(GL_SCISSOR_TEST);
+            glScissor(absPos.x, target.GetHeight() - GetHeight() - absPos.y, GetWidth(), GetHeight());
+
+            Widget::Render(target);
+
+            glDisable(GL_SCISSOR_TEST);
         }
 
     }
