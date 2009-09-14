@@ -86,6 +86,7 @@ namespace sf
                     VISIBLE,
                     FOCUSABLE,
                     ALIGNMENT,
+                    PARENT
 
                 }   Property;
 
