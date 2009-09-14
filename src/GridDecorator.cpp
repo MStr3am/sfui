@@ -27,6 +27,7 @@
 */
 
 #include "GridDecorator.hpp"
+#include <iostream>
 
 namespace sf
 {
@@ -62,8 +63,6 @@ namespace sf
 
         void    GridDecorator::OnChange(Widget::Property property)
         {
-            Widget::OnChange(property);
-
             if (property == Widget::SIZE)
             {
                 mIcons[Align::TOP_CENTER].SetWidth(GetWidth() - (mIcons[Align::TOP_LEFT].GetWidth() + mIcons[Align::TOP_RIGHT].GetWidth()));
@@ -83,6 +82,7 @@ namespace sf
                     SetSize(parent->GetSize());
                 }
             }
+            Widget::OnChange(property);
         }
     }
 }

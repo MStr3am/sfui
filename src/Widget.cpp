@@ -387,6 +387,7 @@ namespace sf
 
             mChildren.erase(it);
             widget->mParent = 0;
+            widget->OnChange(Widget::PARENT);
         }
 
         void    Widget::AddMouseListener(MouseListener* mouseListener)
