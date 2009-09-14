@@ -53,9 +53,9 @@ namespace sf
         {
             typedef enum
             {
-                NONE = 0,
+                NONE = -1,
 
-                TOP_LEFT,
+                TOP_LEFT = 0,
                 TOP_CENTER,
                 TOP_RIGHT,
 
