@@ -31,6 +31,7 @@
 
 #include "MovableWidget.hpp"
 #include "Label.hpp"
+#include "GridDecorator.hpp"
 
 namespace sf
 {
@@ -39,6 +40,7 @@ namespace sf
         class Window : public MovableWidget
         {
             public :
+
                 Window(const Unicode::Text& title);
 
                 void                    SetTitle(const Label& title);
@@ -47,6 +49,11 @@ namespace sf
                 virtual void            LoadStyle(const std::string& nameStyle);
 
             protected :
+
+                virtual void            Render(RenderTarget& target) const;
+                virtual void            OnChange(Widget::Property property);
+
+                GridDecorator           mDecorator;
                 Label                   mTitle;
 
 
