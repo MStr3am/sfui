@@ -1,5 +1,5 @@
-#ifndef ICON_HPP_INCLUDED
-#define ICON_HPP_INCLUDED
+#ifndef GRIDDECORATOR_HPP_INCLUDED
+#define GRIDDECORATOR_HPP_INCLUDED
 
 /*
     Copyright (c) 2009, Robin RUAUX
@@ -29,35 +29,28 @@
 
 */
 
-#include "Widget.hpp"
-#include <SFML/Graphics/Sprite.hpp>
-#include <SFML/Graphics/Image.hpp>
+#include "Icon.hpp"
 
 namespace sf
 {
     namespace ui
     {
-        class Icon : public Widget
+        class GridDecorator : public Widget
         {
             public :
-                Icon();
-                Icon(const Sprite& sprite);
-                Icon(const std::string& filename);
 
-                void            SetImage(const Image& image, bool resize = true);
-                const Image*    GetImage() const;
+                GridDecorator();
 
                 virtual void    LoadStyle(const std::string& nameStyle);
 
             protected :
-                virtual void    OnPaint(RenderTarget& target) const;
+
                 virtual void    OnChange(Widget::Property property);
 
-            private :
-                Sprite          mSprite;
+                Icon            mIcons[9];
+
         };
     }
 }
 
-
-#endif // ICON_HPP_INCLUDED
+#endif // GRIDDECORATOR_HPP_INCLUDED
