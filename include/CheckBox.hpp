@@ -30,7 +30,7 @@
 */
 
 #include "Label.hpp"
-#include "ImageButton.hpp"
+#include "TextButton.hpp"
 
 namespace sf
 {
@@ -64,8 +64,10 @@ namespace sf
 
             private :
                 bool                    mChecked;
-                ImageButton             mCheckButton;
+
+                GridDecorator           mDecorator;
                 Label                   mCaption;
+                Icon                    mCheckIcon;
 
         };
 

@@ -36,6 +36,9 @@ namespace sf
             :   Widget(),
                 mPressed(false)
         {
+            SetDefaultStyle("BI_Button");
+            LoadStyle(GetDefaultStyle());
+
             AddMouseListener(this);
         }
 
@@ -44,6 +47,7 @@ namespace sf
             if (!mPressed)
             {
                 mPressed = true;
+                LoadStyle(GetDefaultStyle() + "_Pressed");
                 OnPressed();
             }
         }
@@ -53,13 +57,20 @@ namespace sf
             if (mPressed)
             {
                 mPressed = false;
+                LoadStyle(GetDefaultStyle() + "_Hovered");
                 OnReleased();
             }
+        }
+
+        void    Button::OnMouseEntered(const Event::MouseMoveEvent& mouse)
+        {
+            LoadStyle(GetDefaultStyle() + "_Hovered");
         }
 
         void    Button::OnMouseLeft(const Event::MouseMoveEvent& mouse)
         {
             mPressed = false;
+            LoadStyle(GetDefaultStyle());
         }
 
         void    Button::SetPressed(bool pressed)

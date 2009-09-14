@@ -27,7 +27,6 @@
 */
 
 #include "GridDecorator.hpp"
-#include <iostream>
 
 namespace sf
 {
@@ -35,7 +34,7 @@ namespace sf
     {
 
         GridDecorator::GridDecorator()
-            :   Widget()
+            :   Icon()
         {
             SetDefaultStyle("BI_GridDecorator");
             LoadStyle(GetDefaultStyle());
@@ -44,8 +43,26 @@ namespace sf
                 Add(&mIcons[i]);
         }
 
+        void    GridDecorator::UseGrid(bool useGrid)
+        {
+            mUseGrid = useGrid;
+
+            for (unsigned int i = Align::TOP_LEFT; i <= Align::BOTTOM_RIGHT; ++i)
+                mIcons[i].SetVisible(useGrid);
+        }
+
+        bool    GridDecorator::IsGridUsed() const
+        {
+            return mUseGrid;
+        }
+
         void    GridDecorator::LoadStyle(const std::string& nameStyle)
         {
+            ResourceManager* rm = ResourceManager::Get();
+            StyleProperties& properties = rm->GetStyle(nameStyle);
+
+            UseGrid(rm->GetValue(properties["useGrid"], IsGridUsed()));
+
             mIcons[Align::TOP_LEFT].LoadStyle(nameStyle + "->topLeft");
             mIcons[Align::TOP_CENTER].LoadStyle(nameStyle + "->topCenter");
             mIcons[Align::TOP_RIGHT].LoadStyle(nameStyle + "->topRight");
@@ -58,7 +75,7 @@ namespace sf
             mIcons[Align::BOTTOM_CENTER].LoadStyle(nameStyle + "->bottomCenter");
             mIcons[Align::BOTTOM_RIGHT].LoadStyle(nameStyle + "->bottomRight");
 
-            Widget::LoadStyle(nameStyle);
+            Icon::LoadStyle(nameStyle);
         }
 
         void    GridDecorator::OnChange(Widget::Property property)
@@ -80,9 +97,10 @@ namespace sf
                 if (parent)
                 {
                     SetSize(parent->GetSize());
+                    ChangeZIndex(Widget::ALL_BELOW);
                 }
             }
-            Widget::OnChange(property);
+            Icon::OnChange(property);
         }
     }
 }

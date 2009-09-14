@@ -87,6 +87,8 @@ namespace sf
 
         void    Icon::OnChange(Widget::Property property)
         {
+            Widget::OnChange(property);
+
             if (property == Widget::SIZE)
             {
                 mSprite.Resize(GetSize());
