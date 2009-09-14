@@ -37,9 +37,11 @@ namespace sf
     namespace ui
     {
         TextButton::TextButton(const Unicode::Text& caption)
-            :   ImageButton(),
-                mCaption(caption)
+            :   Button(),
+                mCaption(caption),
+                mDecorator()
         {
+            Add(&mDecorator);
             Add(&mCaption);
 
             SetDefaultStyle("BI_TextButton");
@@ -48,15 +50,13 @@ namespace sf
 
         void    TextButton::LoadStyle(const std::string& nameStyle)
         {
-            ImageButton::LoadStyle(nameStyle);
+            Button::LoadStyle(nameStyle);
 
-            ResourceManager* rm = ResourceManager::Get();
-            StyleProperties& properties = rm->GetStyle(nameStyle);
-
-            SetTextSize(rm->GetValue(properties["textSize"], GetTextSize()));
-            SetTextColor(rm->GetColorValue(properties["textColor"], GetTextColor()));
-
+            mDecorator.LoadStyle(nameStyle + "->Background");
             mCaption.LoadStyle(nameStyle + "->Label");
+
+            float factor = mCaption.GetTextSize() * 2;
+            SetSize(mCaption.GetSize() + Vector2f(factor, factor));
         }
 
         void    TextButton::SetTextColor(const Color& color)
@@ -79,23 +79,13 @@ namespace sf
             return mCaption.GetTextSize();
         }
 
-        void    TextButton::OnPressed()
+        void    TextButton::OnChange(Widget::Property property)
         {
-            mCaption.Move(1.f, 1.f);
-            ImageButton::OnPressed();
-        }
-
-        void    TextButton::OnReleased()
-        {
-            mCaption.Move(-1.f, -1.f);
-            ImageButton::OnReleased();
-        }
-
-        void    TextButton::OnMouseLeft(const Event::MouseMoveEvent& mouse)
-        {
-            if (IsPressed())
-                mCaption.Move(-1.f, -1.f);
-            ImageButton::OnMouseLeft(mouse);
+            if (property == Widget::SIZE)
+            {
+                mDecorator.SetSize(GetSize());
+            }
+            Widget::OnChange(property);
         }
 
         void    TextButton::Render(RenderTarget& target) const

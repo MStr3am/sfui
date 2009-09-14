@@ -34,34 +34,38 @@
 <style name="BI_TextInput" width="200" height="20" color="#666666" maxLength="0" selectionColor="rgba:255,255,255,123" textColor="#FFFFFF" editable="1" />
 
 <!-- TEXT BUTTON -->
-<style name="BI_TextButton" image="NormalButton" color="rgba:0,0,0,0" width="70" height="30" />
+<style name="BI_TextButton" color="rgba:0,0,0,0" width="70" height="30" />
+
 <style name="BI_TextButton->Label" textColor="#000000" align="center" x="0" y="0" />
+<style name="BI_TextButton->Background" image="NormalButton" useGrid="0" />
 
-<style name="BI_TextButton_Hovered" image="HoveredButton" />
+<style name="BI_TextButton_Hovered" />
 <style name="BI_TextButton_Hovered->Label" textColor="#000000" align="center" x="0" y="0" />
+<style name="BI_TextButton_Hovered->Background" image="HoveredButton" useGrid="0" />
 
-<style name="BI_TextButton_Pressed" image="PressedButton" />
+<style name="BI_TextButton_Pressed" />
 <style name="BI_TextButton_Pressed->Label" textColor="rgba: 0,0,0,123" align="center" x="1" y="1" />
+<style name="BI_TextButton_Pressed->Background" image="PressedButton" useGrid="0" />
 
 <!-- CHECKBOX -->
-<style name="BI_CheckBox" width="150" />
-<style name="BI_CheckBox->Button" width="14" height="14" image="sub:CheckBox, 0, 0, 13, 13" align="left" />
-<style name="BI_CheckBox->Label" x="20" y="-1" align="left" textColor="#000000"  />
+<style name="BI_CheckBox" width="200" />
 
-<style name="BI_CheckBox_Checked->Button" image="sub:CheckBox, 0, 14, 13, 27" />
-<style name="BI_CheckBox_Checked->Label" x="21" y="0" />
+<style name="BI_CheckBox->Background" visible="0" useGrid="0" />
+<style name="BI_CheckBox->Icon" width="14" height="14" image="sub:CheckBox, 0, 0, 13, 13" align="left" focusable="0" />
+<style name="BI_CheckBox->Label" x="20" y="0" align="left" textColor="#000000"  />
+
+<style name="BI_CheckBox_Checked->Icon" image="sub:CheckBox, 0, 14, 13, 27" width="14" height="14" />
+<style name="BI_CheckBox_Checked->Label" x="21" y="1" />
 
 <!-- GRID DECORATOR (using button image) -->
-<style name="BI_GridDecorator" x="0" y="0" width="100" height="30" />
+<style name="BI_GridDecorator" useGrid="1" focusable="0" />
 
 <style name="BI_GridDecorator->topLeft" image="sub:NormalButton, 0,0,7,7" width="8" height="8" align="top_left" />
 <style name="BI_GridDecorator->topCenter" image="sub:NormalButton, 7,0,51,7" height="8" align="top_center" />
 <style name="BI_GridDecorator->topRight" image="sub:NormalButton, 52,0,59,7" width="8" height="8" align="top_right" />
-
 <style name="BI_GridDecorator->left" image="sub:NormalButton, 0,8,7,22" width="8" align="left" />
 <style name="BI_GridDecorator->center" image="sub:NormalButton, 8,8,51,22" align="center" />
 <style name="BI_GridDecorator->right" image="sub:NormalButton, 52,8,59,22" width="8" align="right" />
-
 <style name="BI_GridDecorator->bottomLeft" image="sub:NormalButton, 0,23,7,30" width="8" height="8" align="bottom_left" />
 <style name="BI_GridDecorator->bottomCenter" image="sub:NormalButton, 8,23,51,30" height="8" align="bottom_center" />
 <style name="BI_GridDecorator->bottomRight" image="sub:NormalButton, 52,23,59,30" width="8" height="8" align="bottom_right" />

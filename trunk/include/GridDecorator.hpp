@@ -35,11 +35,14 @@ namespace sf
 {
     namespace ui
     {
-        class GridDecorator : public Widget
+        class GridDecorator : public Icon
         {
             public :
 
                 GridDecorator();
+
+                void            UseGrid(bool useGrid = true);
+                bool            IsGridUsed() const;
 
                 virtual void    LoadStyle(const std::string& nameStyle);
 
@@ -48,6 +51,9 @@ namespace sf
                 virtual void    OnChange(Widget::Property property);
 
                 Icon            mIcons[9];
+
+            private :
+                bool            mUseGrid;
 
         };
     }

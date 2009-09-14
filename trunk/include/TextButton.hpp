@@ -29,13 +29,14 @@
 
 */
 
-#include "ImageButton.hpp"
+#include "Button.hpp"
+#include "GridDecorator.hpp"
 
 namespace sf
 {
     namespace ui
     {
-        class TextButton : public ImageButton
+        class TextButton : public Button
         {
             public :
                 TextButton(const Unicode::Text& caption);
@@ -52,16 +53,10 @@ namespace sf
 
                 // Inherited from Widget
                 virtual void    Render(RenderTarget& target) const;
+                virtual void    OnChange(Widget::Property property);
 
-                // Inherited from Button
-                virtual void    OnPressed();
-                virtual void    OnReleased();
-                virtual void    OnMouseLeft(const Event::MouseMoveEvent& mouse);
-
-            private :
                 Label           mCaption;
-
-
+                GridDecorator   mDecorator;
 
         };
 

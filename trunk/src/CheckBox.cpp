@@ -37,16 +37,18 @@ namespace sf
         CheckBox::CheckBox(const Unicode::Text& caption)
             :   Widget(),
                 mChecked(false),
-                mCheckButton(),
-                mCaption(caption)
+                mDecorator(),
+                mCaption(caption),
+                mCheckIcon()
         {
             SetDefaultStyle("BI_CheckBox");
             LoadStyle(GetDefaultStyle());
 
+            Add(&mDecorator);
             Add(&mCaption);
-            Add(&mCheckButton);
+            Add(&mCheckIcon);
 
-            mCheckButton.AddMouseListener(this);
+            //mCheckIcon.AddMouseListener(this);
             AddMouseListener(this);
         }
 
@@ -81,7 +83,8 @@ namespace sf
         {
             Widget::LoadStyle(nameStyle);
 
-            mCheckButton.LoadStyle(nameStyle + "->Button");
+            mDecorator.LoadStyle(nameStyle + "->Background");
+            mCheckIcon.LoadStyle(nameStyle + "->Icon");
             mCaption.LoadStyle(nameStyle + "->Label");
         }
 
