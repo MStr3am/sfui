@@ -320,6 +320,41 @@ namespace sf
             Move(mAlignOffset);
         }
 
+        Widget* Widget::GetBrotherAt(Widget::ZIndex op)
+        {
+            if (!mParent)
+                return 0;
+
+            Widgets& container = mParent->mChildren;
+            Widget* brother = 0;
+            size_t i = 0;
+
+            for (size_t size = container.size(); i < size; ++i)
+            {
+                if (container.at(i) == this)
+                    break;
+            }
+
+            if (op == Widget::ALL_BELOW)
+            {
+                brother = container.front();
+            }
+            else if (op == Widget::ALL_ABOVE)
+            {
+                brother = container.back();
+            }
+            else if (op == Widget::UP && i < container.size() - 1)
+            {
+                brother = container.at(i + 1);
+            }
+            else if (op == Widget::DOWN && i > 0)
+            {
+                brother = container.at(i - 1);
+            }
+
+            return brother;
+        }
+
         void    Widget::ChangeZIndex(Widget::ZIndex op)
         {
             if (!mParent)
@@ -331,41 +366,27 @@ namespace sf
             for (size_t size = container.size(); i < size; ++i)
             {
                 if (container.at(i) == this)
-                {
                     break;
-                }
             }
 
-            switch (op)
+            if (op == ALL_ABOVE)
             {
-                case ALL_ABOVE:
-                    container.erase(container.begin() + i);
-                    container.push_back(this);
-                break;
-
-                case ALL_BELOW:
-                    container.erase(container.begin() + i);
-                    container.insert(container.begin(), this);
-                break;
-
-                case DOWN:
-                    if (i > 0)
-                    {
-                        std::swap(container[i], container[i - 1]);
-                    }
-                break;
-
-                case UP:
-                    if (i < container.size() - 1)
-                    {
-                        std::swap(container[i], container[i + 1]);
-                    }
-                break;
-
-                default:
-                    break;
-
-            };
+                container.erase(container.begin() + i);
+                container.push_back(this);
+            }
+            else if (op == ALL_BELOW)
+            {
+                container.erase(container.begin() + i);
+                container.insert(container.begin(), this);
+            }
+            else if (op == DOWN && i > 0)
+            {
+                std::swap(container[i], container[i - 1]);
+            }
+            else if (op == UP && i < container.size() - 1)
+            {
+                std::swap(container[i], container[i + 1]);
+            }
 
         }
 

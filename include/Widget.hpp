@@ -152,6 +152,7 @@ namespace sf
                 void                UpdatePosition();
 
                 void                ChangeZIndex(Widget::ZIndex op);
+                Widget*             GetBrotherAt(Widget::ZIndex op);
 
             protected:
                 virtual void        Render(RenderTarget& target) const;
