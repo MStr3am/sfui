@@ -55,6 +55,7 @@ namespace sf
         void    CheckBox::SetChecked(bool checked)
         {
             mChecked = checked;
+            LoadStyle((checked) ? GetDefaultStyle() +  "_Checked" : GetDefaultStyle());
         }
 
         bool    CheckBox::IsChecked() const
@@ -62,7 +63,7 @@ namespace sf
             return mChecked;
         }
 
-        void    CheckBox::OnMousePressed(const Event::MouseButtonEvent& mouse)
+        void    CheckBox::OnMouseReleased(const Event::MouseButtonEvent& mouse)
         {
             if (mouse.Button == Mouse::Left)
             {

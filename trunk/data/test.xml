@@ -49,7 +49,7 @@
 <style name="BI_TextButton_Pressed->Background" image="PressedButton" useGrid="0" />
 
 <!-- CHECKBOX -->
-<style name="BI_CheckBox" width="200" />
+<style name="BI_CheckBox" width="200" color="rgba:0,0,0,0" />
 
 <style name="BI_CheckBox->Background" visible="0" useGrid="0" />
 <style name="BI_CheckBox->Icon" width="14" height="14" image="sub:CheckBox, 0, 0, 13, 13" align="left" focusable="0" />
@@ -57,6 +57,17 @@
 
 <style name="BI_CheckBox_Checked->Icon" image="sub:CheckBox, 0, 14, 13, 27" width="14" height="14" />
 <style name="BI_CheckBox_Checked->Label" x="21" y="1" />
+
+<!-- RADIO BUTTON (and Area) -->
+<style name="BI_RadioArea" width="180" x="20" y="20" radioYOffset="0.f" />
+<style name="BI_RadioArea->Background" />
+
+<style name="BI_RadioButton" width="200" color="rgba:0,0,0,0" />
+<style name="BI_RadioButton->Background" visible="0" useGrid="0" />
+<style name="BI_RadioButton->Icon" width="14" height="14" image="sub:CheckBox, 0, 0, 13, 13" align="left" focusable="0" />
+<style name="BI_RadioButton->Label" x="20" y="0" align="left" textColor="#000000" />
+<style name="BI_RadioButton_Checked->Icon" image="sub:CheckBox, 0, 14, 13, 27" width="14" height="14" />
+<style name="BI_RadioButton_Checked->Label" x="21" y="1" />
 
 <!-- GRID DECORATOR (using button image) -->
 <style name="BI_GridDecorator" useGrid="1" focusable="0" />

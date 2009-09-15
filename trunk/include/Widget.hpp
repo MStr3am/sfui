@@ -147,7 +147,10 @@ namespace sf
                 Widget*             GetParent() const;
 
                 void                AddMouseListener(MouseListener* mouseListener);
+                void                RemoveMouseListener(MouseListener* MouseListener);
+
                 void                AddKeyListener(KeyListener* keyListener);
+                void                RemoveKeyListener(KeyListener* KeyListener);
 
                 void                UpdatePosition();
 
