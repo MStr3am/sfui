@@ -30,7 +30,6 @@
 #include <SFML/Window/OpenGL.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
 
-
 namespace sf
 {
     namespace ui
@@ -91,11 +90,34 @@ namespace sf
             if (!radioBtn)
                 return;
 
+            for (RadioButtons::const_iterator it = mAddedButtons.begin(); it != mAddedButtons.end(); ++it)
+            {
+                if (*it == radioBtn)
+                    return;
+            }
+
             Add(radioBtn);
             radioBtn->AddMouseListener(this);
             mAddedButtons.push_back(radioBtn);
 
             AdjustButtons();
+        }
+
+        void    RadioArea::RemoveRadioButton(RadioButton* radioBtn)
+        {
+            if (!radioBtn)
+                return;
+
+            for (RadioButtons::iterator it = mAddedButtons.begin(); it != mAddedButtons.end(); ++it)
+            {
+                if (*it == radioBtn)
+                {
+                    Remove(radioBtn);
+                    radioBtn->RemoveMouseListener(this);
+                    mAddedButtons.erase(it);
+                    break;
+                }
+            }
         }
 
         void    RadioArea::AdjustButtons()
@@ -115,19 +137,13 @@ namespace sf
             SetHeight(posY - mRadioYOffset);
         }
 
-        void    RadioArea::RemoveRadioButton(RadioButton* radioBtn)
-        {
-            if (!radioBtn)
-                return;
-            Remove(radioBtn);
-        }
-
         void    RadioArea::LoadStyle(const std::string& nameStyle)
         {
             ResourceManager* rm = ResourceManager::Get();
 
             StyleProperties& properties = rm->GetStyle(nameStyle);
             mRadioYOffset = rm->GetValue(properties["radioYOffset"], mRadioYOffset);
+
             Widget::LoadStyle(nameStyle);
 
             mDecorator.LoadStyle(nameStyle + "->Background");
@@ -139,6 +155,7 @@ namespace sf
             {
                 mDecorator.SetSize(GetSize());
             }
+            Widget::OnChange(property);
         }
 
         void    RadioArea::Render(RenderTarget& target) const
