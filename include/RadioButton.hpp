@@ -1,5 +1,5 @@
-#ifndef CHECKBOX_HPP_INCLUDED
-#define CHECKBOX_HPP_INCLUDED
+#ifndef RADIOBUTTON_HPP_INCLUDED
+#define RADIOBUTTON_HPP_INCLUDED
 
 /*
     Copyright (c) 2009, Robin RUAUX
@@ -29,50 +29,47 @@
 
 */
 
-#include "Label.hpp"
-#include "TextButton.hpp"
+#include "CheckBox.hpp"
 
 namespace sf
 {
     namespace ui
     {
-        class CheckBox : public Widget, public MouseListener
+        class RadioButton : public CheckBox
         {
             public :
-                CheckBox(const Unicode::Text& caption);
-
-                void                    SetChecked(bool checked = true);
-                bool                    IsChecked() const;
-
-                void                    SetText(const Unicode::Text& caption);
-                const Unicode::Text&    GetText() const;
-
-                void                    SetFont(const Font& font);
-                const Font&             GetFont() const;
-
-                void                    SetTextColor(const Color& color);
-                const Color&            GetTextColor() const;
-
-                virtual void            LoadStyle(const std::string& nameStyle);
-
-            protected :
-                // Inherited from MouseListener
-                virtual void            OnMouseReleased(const Event::MouseButtonEvent& mouse);
-
-                // Inherited from Widget
-                virtual void            Render(RenderTarget& target) const;
-
-            private :
-                bool                    mChecked;
-
-                GridDecorator           mDecorator;
-                Label                   mCaption;
-                Icon                    mCheckIcon;
-
+                RadioButton(const Unicode::Text& caption);
         };
 
-    }
+        typedef std::vector<RadioButton*>   RadioButtons;
 
+        class RadioArea : public Widget, public MouseListener
+        {
+            public :
+                RadioArea();
+
+                RadioButton*                GetSelectedRadio() const;
+
+                void                        AddRadioButton(RadioButton* radioBtn);
+                void                        RemoveRadioButton(RadioButton* radioBtn);
+
+                virtual void                LoadStyle(const std::string& nameStyle);
+
+            protected :
+                virtual void                OnMouseReleased(const Event::MouseButtonEvent& mouse);
+                virtual void                Render(RenderTarget& target) const;
+                virtual void                OnChange(Widget::Property property);
+
+                GridDecorator               mDecorator;
+
+            private :
+                void                        AdjustButtons();
+                RadioButtons                mAddedButtons;
+                float                       mRadioYOffset;
+                RadioButton*                mSelectedRadio;
+
+        };
+    }
 }
 
-#endif // CHECKBOX_HPP_INCLUDED
+#endif // RADIOBUTTON_HPP_INCLUDED
