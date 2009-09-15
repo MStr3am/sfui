@@ -418,9 +418,33 @@ namespace sf
             mMouseListeners.push_back(mouseListener);
         }
 
+        void    Widget::RemoveMouseListener(MouseListener* mouseListener)
+        {
+            for (MouseListeners::iterator it = mMouseListeners.begin(); it != mMouseListeners.end(); ++it)
+            {
+                if (*it == mouseListener)
+                {
+                    mMouseListeners.erase(it);
+                    break;
+                }
+            }
+        }
+
         void    Widget::AddKeyListener(KeyListener* keyListener)
         {
             mKeyListeners.push_back(keyListener);
+        }
+
+        void    Widget::RemoveKeyListener(KeyListener* keyListener)
+        {
+            for (KeyListeners::iterator it = mKeyListeners.begin(); it != mKeyListeners.end(); ++it)
+            {
+                if (*it == keyListener)
+                {
+                    mKeyListeners.erase(it);
+                    break;
+                }
+            }
         }
 
         void    Widget::DistributeEvent(const Event& event)
