@@ -76,7 +76,7 @@ namespace sf
             protected :
 
                 // Inherited from Widget
-                virtual void                Render(RenderTarget& target) const;
+                virtual void                OnPaint(RenderTarget& target) const;
 
 
                 // Inherited from KeyListener

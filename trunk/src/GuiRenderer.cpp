@@ -28,6 +28,7 @@
 
 #include "GuiRenderer.hpp"
 #include "ResourceManager.hpp"
+#include <SFML/Window/OpenGL.hpp>
 
 namespace sf
 {
@@ -164,7 +165,11 @@ namespace sf
             const View& otherView = mRenderWindow.GetView();
 
             mRenderWindow.SetView(mView);
+
+            glEnable(GL_SCISSOR_TEST);
             mRenderWindow.Draw(mTopWidget);
+            glDisable(GL_SCISSOR_TEST);
+
             mRenderWindow.SetView(otherView);
         }
 

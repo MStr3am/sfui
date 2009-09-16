@@ -49,8 +49,7 @@ namespace sf
                 mFocusable(true),
                 mDefaultStyle("BI_Widget"),
                 mAlign(Align::NONE),
-                mAlignOffset(0.f, 0.f),
-                mBorderColor(Color(0, 0, 0, 0))
+                mAlignOffset(0.f, 0.f)
         {
             mParent = 0;
         }
@@ -113,7 +112,6 @@ namespace sf
             }
 
             SetColor(rm->GetColorValue(properties["color"], GetColor()));
-            SetBorderColor(rm->GetColorValue(properties["borderColor"], GetBorderColor()));
 
             SetEnabled(rm->GetValue(properties["enabled"], IsEnabled()));
             SetVisible(rm->GetValue(properties["visible"], IsVisible()));
@@ -498,31 +496,20 @@ namespace sf
                 glVertex2f(mSize.x, mSize.y);
                 glVertex2f(mSize.x, 0);
             glEnd();
-
-            glColor4f(mBorderColor.r, mBorderColor.g, mBorderColor.b, mBorderColor.a);
-
-            glBegin(GL_LINE_LOOP);
-                glVertex2f(0.375,     0.375);
-                glVertex2f(0.375,     mSize.y - 0.375);
-                glVertex2f(mSize.x - 0.375, mSize.y - 0.375);
-                glVertex2f(mSize.x - 0.375, 0.375);
-            glEnd();
-        }
-
-        void    Widget::SetBorderColor(const Color& borderColor)
-        {
-            mBorderColor = borderColor;
-        }
-
-        const Color&    Widget::GetBorderColor() const
-        {
-            return mBorderColor;
         }
 
         void    Widget::Render(RenderTarget& target) const
         {
+            Area& area = ResourceManager::Get()->WidgetArea;
+            area.PushArea(GetRect(true));
+
+            const FloatRect& top = area.GetTopArea();
+            glScissor(top.Left, target.GetHeight() - top.Bottom, top.GetWidth(), top.GetHeight());
+
             OnPaint(target);
             RenderChildren(target);
+
+            area.PopArea();
         }
     }
 }

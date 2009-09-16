@@ -367,14 +367,9 @@ namespace sf
             mString.SetX(mStringOffset - mCursorOffset);
         }
 
-        void    TextInput::Render(RenderTarget& target) const
+        void    TextInput::OnPaint(RenderTarget& target) const
         {
-            const Vector2f& absPos = GetAbsolutePosition();
-
-            glEnable(GL_SCISSOR_TEST);
-            glScissor(absPos.x, target.GetHeight() - GetHeight() - absPos.y, GetWidth(), GetHeight());
-
-            Widget::Render(target);
+            Widget::OnPaint(target);
 
             // Draws the cursor with real position
             if (HasFocus())
@@ -414,7 +409,6 @@ namespace sf
                 }
             }
 
-            glDisable(GL_SCISSOR_TEST);
         }
 
     }

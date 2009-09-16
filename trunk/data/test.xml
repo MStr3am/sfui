@@ -12,6 +12,7 @@
   <image name="PressedButton" src="data/btnPressed.png" />
 
   <image name="CheckBox" src="data/checkbox.png" />
+  <image name="RadioButton" src="data/radiobutton.png" />
 
 </resources>
 
@@ -27,7 +28,7 @@
 <style name="BI_Icon" color="rgba: 0, 0, 0, 0" width="16" height="16" />
 
 <!-- WINDOW -->
-<style name="BI_Window" movable="1" blocked="1" color="rgba: 123, 123, 223, 255" borderColor="#000000" />
+<style name="BI_Window" movable="1" blocked="1" color="rgba: 123, 123, 223, 255" />
 <style name="BI_Window->Title" font="TitleFont" textSize="23" align="top_center" />
 <style name="BI_Window->Background" useGrid="0" />
 
@@ -59,15 +60,15 @@
 <style name="BI_CheckBox_Checked->Label" x="21" y="1" />
 
 <!-- RADIO BUTTON (and Area) -->
-<style name="BI_RadioArea" width="180" x="20" y="20" radioYOffset="0.f" />
-<style name="BI_RadioArea->Background" />
+<style name="BI_RadioArea" width="200" color="rgba:0,0,0,0" />
+<style name="BI_RadioArea->Background" visible="0" />
 
 <style name="BI_RadioButton" width="200" color="rgba:0,0,0,0" />
 <style name="BI_RadioButton->Background" visible="0" useGrid="0" />
-<style name="BI_RadioButton->Icon" width="14" height="14" image="sub:CheckBox, 0, 0, 13, 13" align="left" focusable="0" />
+<style name="BI_RadioButton->Icon" width="14" height="14" image="sub:RadioButton, 0, 0, 13, 13" align="left" focusable="0" />
 <style name="BI_RadioButton->Label" x="20" y="0" align="left" textColor="#000000" />
-<style name="BI_RadioButton_Checked->Icon" image="sub:CheckBox, 0, 14, 13, 27" width="14" height="14" />
-<style name="BI_RadioButton_Checked->Label" x="21" y="1" />
+<style name="BI_RadioButton_Checked->Icon" image="sub:RadioButton, 0, 14, 13, 27" width="14" height="14" />
+<style name="BI_RadioButton_Checked->Label" x="21" y="1" textColor="#247a9a" />
 
 <!-- GRID DECORATOR (using button image) -->
 <style name="BI_GridDecorator" useGrid="1" focusable="0" />

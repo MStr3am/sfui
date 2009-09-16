@@ -87,18 +87,5 @@ namespace sf
             }
             Widget::OnChange(property);
         }
-
-        void    TextButton::Render(RenderTarget& target) const
-        {
-            const Vector2f& absPos = GetAbsolutePosition();
-
-            glEnable(GL_SCISSOR_TEST);
-            glScissor(absPos.x, target.GetHeight() - GetHeight() - absPos.y, GetWidth(), GetHeight());
-
-            Widget::Render(target);
-
-            glDisable(GL_SCISSOR_TEST);
-        }
-
     }
 }
