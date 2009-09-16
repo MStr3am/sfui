@@ -385,6 +385,9 @@ namespace sf
 
                 glDisable(GL_TEXTURE_2D);
 
+                const Color& colCursor = mString.GetTextColor();
+                glColor4ub(colCursor.r, colCursor.g, colCursor.b, colCursor.a);
+
                 glBegin(GL_LINES);
                     glVertex2f(realPos.x, yPos);
                     glVertex2f(realPos.x, realPos.y);
