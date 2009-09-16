@@ -1,5 +1,5 @@
-#ifndef RADIOBUTTON_HPP_INCLUDED
-#define RADIOBUTTON_HPP_INCLUDED
+#ifndef AREA_HPP_INCLUDED
+#define AREA_HPP_INCLUDED
 
 /*
     Copyright (c) 2009, Robin RUAUX
@@ -29,45 +29,61 @@
 
 */
 
-#include "CheckBox.hpp"
+#include <stack>
 
 namespace sf
 {
     namespace ui
     {
-        class RadioButton : public CheckBox
+        typedef std::stack<FloatRect>   Rects;
+
+        class Area
         {
             public :
-                RadioButton(const Unicode::Text& caption);
-        };
+                Area()
+                    :   mRects()
+                {}
 
-        typedef std::vector<RadioButton*>   RadioButtons;
+                void                    PushArea(const FloatRect& rect)
+                {
+                    if (mRects.empty())
+                    {
+                        mRects.push(rect);
+                    }
+                    else
+                    {
+                        const FloatRect& topRect = mRects.top();
+                        FloatRect newRect = rect;
 
-        class RadioArea : public Widget, public MouseListener
-        {
-            public :
-                RadioArea();
+                        if (newRect.Left < topRect.Left)
+                            newRect.Left = topRect.Left;
+                        if (newRect.Top < topRect.Top)
+                            newRect.Top = topRect.Top;
+                        if (newRect.Right > topRect.Right)
+                            newRect.Right = topRect.Right;
+                        if (newRect.Bottom > topRect.Bottom)
+                            newRect.Bottom = topRect.Bottom;
 
-                RadioButton*                GetSelectedRadio() const;
+                        mRects.push(newRect);
+                    }
+                }
 
-                void                        AddRadioButton(RadioButton* radioBtn);
-                void                        RemoveRadioButton(RadioButton* radioBtn);
+                const FloatRect&    PopArea()
+                {
+                    mRects.pop();
+                    return mRects.top();
+                }
 
-                virtual void                LoadStyle(const std::string& nameStyle);
+                const FloatRect&    GetTopArea() const
+                {
+                    return mRects.top();
+                }
 
-            protected :
-                virtual void                OnMouseReleased(const Event::MouseButtonEvent& mouse);
-                virtual void                OnChange(Widget::Property property);
-
-                GridDecorator               mDecorator;
-
-            private :
-                void                        AdjustButtons();
-                RadioButtons                mAddedButtons;
-                RadioButton*                mSelectedRadio;
+            private:
+                Rects               mRects;
 
         };
     }
 }
 
-#endif // RADIOBUTTON_HPP_INCLUDED
+#endif // AREA_HPP_INCLUDED

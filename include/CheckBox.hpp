@@ -59,9 +59,6 @@ namespace sf
                 // Inherited from MouseListener
                 virtual void            OnMouseReleased(const Event::MouseButtonEvent& mouse);
 
-                // Inherited from Widget
-                virtual void            Render(RenderTarget& target) const;
-
             private :
                 bool                    mChecked;
 

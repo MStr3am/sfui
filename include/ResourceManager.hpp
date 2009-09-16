@@ -34,6 +34,7 @@
 
 #include <sstream>
 #include <SFML/Graphics/Rect.hpp>
+#include "Area.hpp"
 
 namespace sf
 {
@@ -59,6 +60,9 @@ namespace sf
 
                 StyleProperties&            GetStyle(const std::string& name);
                 bool                        AddStylesFromFile(const std::string& filename);
+
+
+                mutable Area                WidgetArea;
 
                 template<typename T>
                 T           GetValue(const std::string& value, const T& defaultValue)
@@ -89,6 +93,8 @@ namespace sf
                 Styles                      mStyles;
                 Fonts                       mFonts;
                 Images                      mImages;
+
+
         };
     }
 }

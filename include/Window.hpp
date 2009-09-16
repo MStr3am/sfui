@@ -50,7 +50,6 @@ namespace sf
 
             protected :
 
-                virtual void            Render(RenderTarget& target) const;
                 virtual void            OnChange(Widget::Property property);
 
                 GridDecorator           mDecorator;

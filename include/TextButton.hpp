@@ -52,7 +52,6 @@ namespace sf
             protected :
 
                 // Inherited from Widget
-                virtual void    Render(RenderTarget& target) const;
                 virtual void    OnChange(Widget::Property property);
 
                 Label           mCaption;
