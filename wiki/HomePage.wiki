@@ -1,5 +1,5 @@
 #summary The wiki homepage
-#labels Featured,Phase-Requirements
+#labels Phase-Requirements
 
 = Welcome on SFUI homepage ! =
 
