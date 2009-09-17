@@ -2,6 +2,7 @@
 
   * *WELCOME*
     * [HomePage Home]
+    * [http://lokk.u7n.org/sfui/doc/html/ Documentation]
   * *TUTORIALS*
     * [Tutorial_BasicWidgets Widgets]
     * [Tutorial_Events Events]
