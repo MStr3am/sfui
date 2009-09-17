@@ -9,7 +9,7 @@ It has a position, a size, a default color for its background and is drawed as a
 
 == The hierarchy in SFUI ==
 
-The root class is not a widget but a GUI frontend ([http://code.google.com/p/sfui/source/browse/trunk/include/GuiRenderer.hpp sf::ui::GuiRenderer]).
+The root class is not a widget but a GUI frontend ([http://lokk.u7n.org/sfui/doc/html/classsf_1_1ui_1_1GuiRenderer.html sf::ui::GuiRenderer]).
 To add new widgets on the screen, this class offers a global widget named "TopWidget" (reachable by Gui::GetTopWidget()). It is initialized as the screen size, but can be resized.
 
 The gui renderer also use its own [http://www.sfml-dev.org/documentation/1.5/classsf_1_1View.htm sf::View].
@@ -19,9 +19,7 @@ The gui renderer also use its own [http://www.sfml-dev.org/documentation/1.5/cla
 _main.cpp_
 {{{
 #include <SFML/Graphics.hpp>
-
-#include "GuiRenderer.hpp"
-#include "Widget.hpp"
+#include <SFUI.hpp>
 
 using namespace sf;
 
@@ -63,7 +61,7 @@ int main(int ac, char *av[])
 
 There are useful widgets for games applications, with built-in templates.
 
-== [http://code.google.com/p/sfui/source/browse/trunk/include/Label.hpp Label] ==
+== [http://lokk.u7n.org/sfui/doc/html/classsf_1_1ui_1_1Label.html Label] ==
 
 This object is one of the most used widgets.
 It's just an implementation of an sf::String with widget working, but can also have a background color.
@@ -80,9 +78,9 @@ myGui.GetTopWidget().Add(&myLbl);
 
 [http://lokk.u7n.org/sfui/sfui_basics2.png]
 
-== [http://code.google.com/p/sfui/source/browse/trunk/include/Window.hpp Window] ==
+== [http://lokk.u7n.org/sfui/doc/html/classsf_1_1ui_1_1Window.html Window] ==
 
-This widget inherits from [http://code.google.com/p/sfui/source/browse/trunk/include/MovableWidget.hpp sf::ui::MovableWidget], so it can be moved to screen.
+This widget inherits from [http://lokk.u7n.org/sfui/doc/html/classsf_1_1ui_1_1MovableWidget.html sf::ui::MovableWidget], so it can be moved to screen.
 
 {{{
 ...
@@ -97,7 +95,7 @@ myGui.GetTopWidget().Add(&myWin);
 
 [http://lokk.u7n.org/sfui/sfui_basics3.png]
 
-== [http://code.google.com/p/sfui/source/browse/trunk/include/TextInput.hpp TextInput] ==
+== [http://lokk.u7n.org/sfui/doc/html/classsf_1_1ui_1_1TextInput.html TextInput] ==
 
 This widget is a common text input line with mouse selection feature.
 
@@ -118,7 +116,7 @@ myGui.GetTopWidget().Add(&myInput);
 
 [http://lokk.u7n.org/sfui/sfui_basics4.png]
 
-== [http://code.google.com/p/sfui/source/browse/trunk/include/TextButton.hpp TextButton] ==
+== [http://lokk.u7n.org/sfui/doc/html/classsf_1_1ui_1_1TextButton.html TextButton] ==
 
 This widget is a common button, with built-in style.
 For making another button styles, you should read the tutorials about templating.
