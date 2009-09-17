@@ -26,9 +26,10 @@
 
 */
 
-#include "Window.hpp"
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Window/OpenGL.hpp>
+
+#include <SFUI/Window.hpp>
 
 namespace sf
 {

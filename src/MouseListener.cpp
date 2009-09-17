@@ -26,7 +26,7 @@
 
 */
 
-#include "MouseListener.hpp"
+#include <SFUI/MouseListener.hpp>
 
 namespace sf
 {

@@ -29,21 +29,44 @@
 
 */
 
+/** \file Area.hpp
+ * \brief Utility class for widgets clipping
+ * \author Robin Ruaux
+ */
+
 #include <stack>
 
 namespace sf
 {
     namespace ui
     {
+        /** \typedef std::stack<FloatRect> Rects
+         *
+         * Stack of FloatRect areas.
+         */
         typedef std::stack<FloatRect>   Rects;
 
+        /** \class Area
+         *
+         * \brief Utility class for widgets clipping.
+         *
+         * This class is used by the ResourceManager to stack areas in memory. It helps widgets to be clipped with glScissor test.
+         */
         class Area
         {
             public :
+                /** \brief Constructor
+                 *
+                 * Constructor of Area class.
+                 */
                 Area()
                     :   mRects()
                 {}
 
+                /** \brief Push area to the stack.
+                 *
+                 * \param rect FloatRect area to be stacked.
+                 */
                 void                    PushArea(const FloatRect& rect)
                 {
                     if (mRects.empty())
@@ -68,18 +91,27 @@ namespace sf
                     }
                 }
 
+                /** \brief Pop the stack and return the top Area.
+                 *
+                 * \return The area on the top of the stack.
+                 */
                 const FloatRect&    PopArea()
                 {
                     mRects.pop();
                     return mRects.top();
                 }
 
+                /** \brief Get the top of the stack.
+                 *
+                 * \return The area on the top of the stack.
+                 */
                 const FloatRect&    GetTopArea() const
                 {
                     return mRects.top();
                 }
 
             private:
+
                 Rects               mRects;
 
         };

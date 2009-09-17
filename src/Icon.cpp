@@ -26,8 +26,9 @@
 
 */
 
-#include "Icon.hpp"
 #include <SFML/Graphics/RenderTarget.hpp>
+
+#include <SFUI/Icon.hpp>
 
 namespace sf
 {

@@ -26,7 +26,7 @@
 
 */
 
-#include "MovableWidget.hpp"
+#include <SFUI/MovableWidget.hpp>
 
 namespace sf
 {

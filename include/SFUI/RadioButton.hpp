@@ -29,41 +29,82 @@
 
 */
 
-#include "CheckBox.hpp"
+/** \file RadioButton.hpp
+ * \brief RadioButtons and areas.
+ * \author Robin Ruaux
+ */
+
+#include <SFUI/CheckBox.hpp>
 
 namespace sf
 {
     namespace ui
     {
+        /** \class RadioButton
+         *
+         * \brief A basic RadioButton (part of RadioArea).
+         */
         class RadioButton : public CheckBox
         {
             public :
+                /** \brief Constructor
+                 *
+                 * Constructor of RadioButton class.
+                 * \param caption the radiobutton text.
+                 */
                 RadioButton(const Unicode::Text& caption);
         };
 
+        /** \typedef std::vector<RadioButton*>   RadioButtons
+         *
+         * A RadioButton container.
+         */
         typedef std::vector<RadioButton*>   RadioButtons;
 
+        /** \class RadioArea
+         *
+         * \brief A group of RadioButton
+         */
         class RadioArea : public Widget, public MouseListener
         {
             public :
+
+                /** \brief Constructor
+                 *
+                 * Constructor of RadioArea class.
+                 */
                 RadioArea();
 
                 RadioButton*                GetSelectedRadio() const;
 
+                /** \brief Add a new radiobutton to the area.
+                 *
+                 * \param radioBtn the radiobutton to be added.
+                 */
                 void                        AddRadioButton(RadioButton* radioBtn);
+
+                /** \brief Remove a radiobutton from the area.
+                 *
+                 * \param radioBtn the radiobutton to be removed.
+                 */
                 void                        RemoveRadioButton(RadioButton* radioBtn);
 
                 virtual void                LoadStyle(const std::string& nameStyle);
 
             protected :
+
                 virtual void                OnMouseReleased(const Event::MouseButtonEvent& mouse);
+
                 virtual void                OnChange(Widget::Property property);
 
                 GridDecorator               mDecorator;
 
             private :
+
                 void                        AdjustButtons();
+
                 RadioButtons                mAddedButtons;
+
                 RadioButton*                mSelectedRadio;
 
         };

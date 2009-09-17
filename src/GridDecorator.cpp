@@ -26,7 +26,7 @@
 
 */
 
-#include "GridDecorator.hpp"
+#include <SFUI/GridDecorator.hpp>
 
 namespace sf
 {

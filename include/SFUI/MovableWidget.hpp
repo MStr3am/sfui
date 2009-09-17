@@ -29,38 +29,78 @@
 
 */
 
-#include "Widget.hpp"
-#include "MouseListener.hpp"
+/** \file MovableWidget.hpp
+ * \brief A basic movable widget.
+ * \author Robin Ruaux
+ */
+
+#include <SFUI/Widget.hpp>
+#include <SFUI/MouseListener.hpp>
 
 namespace sf
 {
     namespace ui
     {
+        /** \class MovableWidget
+         *
+         * \brief A basic movable widget.
+         */
         class MovableWidget : public Widget, public MouseListener
         {
             public :
 
+                /** \brief Constructor.
+                 *
+                 * Constructor of MovableWidget class.
+                 */
                 MovableWidget();
 
+                /** \brief Set the widget to be movable.
+                 *
+                 * \param movable The widget movable property.
+                 */
                 void            SetMovable(bool movable = true);
+
+                /** \brief Set the widget to be blocked.
+                 *
+                 * The blocked property allows the widget to be blocked by its parent boundaries.
+                 *
+                 * \param blocked The widget blocked property.
+                 */
                 void            SetBlocked(bool blocked = true);
 
+                /** \brief Check if the widget is movable
+                 *
+                 * \return The widget movable property.
+                 */
                 bool            IsMovable() const;
+
+                /** \brief Check if the widget can be blocked
+                 *
+                 * \return The widget blocked property.
+                 */
                 bool            IsBlocked() const;
 
                 virtual void    LoadStyle(const std::string& nameStyle);
 
             protected :
+
                 virtual void    OnMousePressed(const Event::MouseButtonEvent& button);
+
                 virtual void    OnMouseReleased(const Event::MouseButtonEvent& button);
+
                 virtual void    OnMouseMoved(const Event::MouseMoveEvent& mouse);
 
             private :
+
                 bool            mMovable;
+
                 bool            mBlocked;
 
                 bool            mDragged;
+
                 Vector2f        mDragOffset;
+
                 bool            mNeedUpdate;
 
         };

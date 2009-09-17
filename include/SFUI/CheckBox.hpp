@@ -29,41 +29,95 @@
 
 */
 
-#include "Label.hpp"
-#include "TextButton.hpp"
+/** \file CheckBox.hpp
+ * \brief A basic CheckBox widget
+ * \author Robin Ruaux
+ */
+
+#include <SFUI/Label.hpp>
+#include <SFUI/TextButton.hpp>
 
 namespace sf
 {
     namespace ui
     {
+        /** \class CheckBox
+         *
+         * \brief A basic CheckBox widget.
+         */
         class CheckBox : public Widget, public MouseListener
         {
             public :
+                /** \brief Constructor
+                 *
+                 * Constructor of CheckBox class.
+                 *
+                 * \param caption The checkbox initial caption.
+                 */
                 CheckBox(const Unicode::Text& caption);
 
+                /** \brief Set the checkbox state
+                 *
+                 * \param checked The new checked state.
+                 */
                 void                    SetChecked(bool checked = true);
+
+                /** \brief Check if the checkbox have been checked.
+                 *
+                 * \return The checked state.
+                 */
                 bool                    IsChecked() const;
 
+                /** \brief Set the checkbox caption text.
+                 *
+                 * \param caption The new checkbox text.
+                 */
                 void                    SetText(const Unicode::Text& caption);
+
+                /** \brief Get the checkbox caption text.
+                 *
+                 * \return The checkbox caption text.
+                 */
                 const Unicode::Text&    GetText() const;
 
+                /** \brief Set the checkbox text font.
+                 *
+                 * \param font The new checkbox text font.
+                 */
                 void                    SetFont(const Font& font);
+
+                /** \brief Get the checkbox text font.
+                 *
+                 * \return The checkbox text font.
+                 */
                 const Font&             GetFont() const;
 
+                /** \brief Set the checkbox text color.
+                 *
+                 * \param color The new checkbox text color.
+                 */
                 void                    SetTextColor(const Color& color);
+
+                /** \brief Get the checkbox text color.
+                 *
+                 * \return The checkbox text color.
+                 */
                 const Color&            GetTextColor() const;
 
                 virtual void            LoadStyle(const std::string& nameStyle);
 
             protected :
-                // Inherited from MouseListener
-                virtual void            OnMouseReleased(const Event::MouseButtonEvent& mouse);
+
+                virtual void            OnMouseReleased(const Event::MouseButtonEvent& button);
 
             private :
+
                 bool                    mChecked;
 
                 GridDecorator           mDecorator;
+
                 Label                   mCaption;
+
                 Icon                    mCheckIcon;
 
         };

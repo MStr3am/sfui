@@ -1,5 +1,5 @@
-#ifndef TEXTBUTTON_HPP_INCLUDED
-#define TEXTBUTTON_HPP_INCLUDED
+#ifndef KEYLISTENER_HPP_INCLUDED
+#define KEYLISTENER_HPP_INCLUDED
 
 /*
     Copyright (c) 2009, Robin RUAUX
@@ -29,37 +29,44 @@
 
 */
 
-#include "Button.hpp"
-#include "GridDecorator.hpp"
+/** \file KeyListener.hpp
+ * \brief Listener for key events.
+ * \author Robin Ruaux
+ */
+
+#include <SFML/Window/Event.hpp>
 
 namespace sf
 {
     namespace ui
     {
-        class TextButton : public Button
+        /** \class KeyListener
+         *
+         * \brief Listener for key events.
+         */
+        class KeyListener
         {
             public :
-                TextButton(const Unicode::Text& caption);
 
-                void            SetTextColor(const Color& color);
-                const Color&    GetTextColor() const;
-
-                void            SetTextSize(float size);
-                float           GetTextSize() const;
-
-                virtual void    LoadStyle(const std::string& nameStyle);
+                /** \brief Distribute received key events to specific methods. */
+                void            OnKeyEvent(const Event& event);
 
             protected :
 
-                // Inherited from Widget
-                virtual void    OnChange(Widget::Property property);
+                /** \brief Called when a key has been pressed. */
+                virtual void    OnKeyPressed(const Event::KeyEvent& key) {};
 
-                Label           mCaption;
-                GridDecorator   mDecorator;
+                /** \brief Called when a key has been released. */
+                virtual void    OnKeyReleased(const Event::KeyEvent& key) {};
+
+                /** \brief Called when text has been entered. */
+                virtual void    OnTextEntered(const Event::TextEvent& text) {};
 
         };
 
     }
+
+
 }
 
-#endif // TEXTBUTTON_HPP_INCLUDED
+#endif // KEYLISTENER_HPP_INCLUDED

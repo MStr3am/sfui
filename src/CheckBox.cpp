@@ -26,9 +26,10 @@
 
 */
 
-#include "CheckBox.hpp"
 #include <SFML/Window/OpenGL.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
+
+#include <SFUI/CheckBox.hpp>
 
 namespace sf
 {

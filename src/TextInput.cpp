@@ -26,10 +26,11 @@
 
 */
 
-#include "TextInput.hpp"
 #include <SFML/Window/Event.hpp>
-#include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Window/OpenGL.hpp>
+#include <SFML/Graphics/RenderTarget.hpp>
+
+#include <SFUI/TextInput.hpp>
 
 namespace sf
 {

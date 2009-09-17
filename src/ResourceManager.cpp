@@ -26,15 +26,18 @@
 
 */
 
-#include "ResourceManager.hpp"
+
 
 #include <iostream>
 #include <vector>
 
-#include <tinyxml.h>
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/Font.hpp>
 #include <SFML/Graphics/Sprite.hpp>
+
+#include <SFUI/ResourceManager.hpp>
+
+#include <tinyxml.h>
 
 namespace sf
 {

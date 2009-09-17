@@ -1,5 +1,5 @@
-#ifndef ICON_HPP_INCLUDED
-#define ICON_HPP_INCLUDED
+#ifndef WINDOW_HPP_INCLUDED
+#define WINDOW_HPP_INCLUDED
 
 /*
     Copyright (c) 2009, Robin RUAUX
@@ -29,35 +29,60 @@
 
 */
 
-#include "Widget.hpp"
-#include <SFML/Graphics/Sprite.hpp>
-#include <SFML/Graphics/Image.hpp>
+/** \file Window.hpp
+ * \brief A basic window widget.
+ * \author Robin Ruaux
+ */
+
+#include <SFUI/MovableWidget.hpp>
+#include <SFUI/Label.hpp>
+#include <SFUI/GridDecorator.hpp>
 
 namespace sf
 {
     namespace ui
     {
-        class Icon : public Widget
+        /** \class Window
+         *
+         * \brief A basic Window widget.
+         */
+        class Window : public MovableWidget
         {
             public :
-                Icon();
-                Icon(const Sprite& sprite);
-                Icon(const std::string& filename);
 
-                void            SetImage(const Image& image, bool resize = true);
-                const Image*    GetImage() const;
+                /** \brief Constructor.
+                 *
+                 * \param title The window initial title.
+                 */
+                Window(const Unicode::Text& title);
 
-                virtual void    LoadStyle(const std::string& nameStyle);
+                /** \brief Set the window title.
+                 *
+                 * \param title The new window title Label.
+                 */
+                void                    SetTitle(const Label& title);
+
+                /** \brief Get the window title Label.
+                 *
+                 * \return The window title Label.
+                 */
+                Label&                  GetTitle();
+
+                virtual void            LoadStyle(const std::string& nameStyle);
 
             protected :
-                virtual void    OnPaint(RenderTarget& target) const;
-                virtual void    OnChange(Widget::Property property);
 
-            private :
-                Sprite          mSprite;
+                virtual void            OnChange(Widget::Property property);
+
+                GridDecorator           mDecorator;
+
+                Label                   mTitle;
+
         };
+
     }
+
+
 }
 
-
-#endif // ICON_HPP_INCLUDED
+#endif // WINDOW_HPP_INCLUDED
