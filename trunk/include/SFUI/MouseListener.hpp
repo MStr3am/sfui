@@ -1,5 +1,5 @@
-#ifndef KEYLISTENER_HPP_INCLUDED
-#define KEYLISTENER_HPP_INCLUDED
+#ifndef MOUSELISTENER_HPP_INCLUDED
+#define MOUSELISTENER_HPP_INCLUDED
 
 /*
     Copyright (c) 2009, Robin RUAUX
@@ -29,30 +29,47 @@
 
 */
 
+/** \file MouseListener.hpp
+ * \brief Listener for mouse events.
+ * \author Robin Ruaux
+ */
+
 #include <SFML/Window/Event.hpp>
 
 namespace sf
 {
     namespace ui
     {
-        class KeyListener
+        /** \class MouseListener
+         *
+         * \brief Listener for mouse events.
+         */
+        class MouseListener
         {
             public :
 
-                void            OnKeyEvent(const Event& event);
+                /** \brief Distribute received key events to specific methods. */
+                void            OnMouseEvent(const Event& event);
 
             protected :
 
-                virtual void    OnKeyPressed(const Event::KeyEvent& key) {};
-                virtual void    OnKeyReleased(const Event::KeyEvent& key) {};
+                /** \brief Called when a mouse button has been pressed. */
+                virtual void    OnMousePressed(const Event::MouseButtonEvent& button) {};
 
-                virtual void    OnTextEntered(const Event::TextEvent& text) {};
+                /** \brief Called when a mouse button has been released. */
+                virtual void    OnMouseReleased(const Event::MouseButtonEvent& button) {};
+
+                /** \brief Called when the mouse entered an area. */
+                virtual void    OnMouseEntered(const Event::MouseMoveEvent& mouse) {};
+
+                /** \brief Called when the mouse left an area. */
+                virtual void    OnMouseLeft(const Event::MouseMoveEvent& mouse) {};
+
+                /** \brief Called when the mouse has been moved. */
+                virtual void    OnMouseMoved(const Event::MouseMoveEvent& mouse) {};
 
         };
-
     }
-
-
 }
 
-#endif // KEYLISTENER_HPP_INCLUDED
+#endif // MOUSELISTENER_HPP_INCLUDED

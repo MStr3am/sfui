@@ -29,42 +29,94 @@
 
 */
 
-#include "Widget.hpp"
+/** \file Label.hpp
+ * \brief A basic text widget.
+ * \author Robin Ruaux
+ */
+
 #include <SFML/Graphics/String.hpp>
+
+#include <SFUI/Widget.hpp>
 
 namespace sf
 {
     namespace ui
     {
+        /** \class Label
+         *
+         * \brief A basic Label class
+         */
         class Label : public Widget
         {
             public :
+
+                /** \brief Constructor.
+                 *
+                 * Constructor of Label class.
+                 *
+                 * \param caption The initial label text.
+                 */
                 Label(const Unicode::Text& caption);
 
+                /** \brief Set the label text.
+                 *
+                 * \param caption The new label text.
+                 */
                 void                    SetText(const Unicode::Text& caption);
+
+                /** \brief Get the label text.
+                 *
+                 * \return The label text.
+                 */
                 const Unicode::Text&    GetText() const;
 
+                /** \brief Set the label font.
+                 *
+                 * \param font The new label font.
+                 */
                 void                    SetFont(const Font& font);
+
+                /** \brief Get the label font.
+                 *
+                 * \return The label font.
+                 */
                 const Font&             GetFont() const;
 
+                /** \brief Set the label text size.
+                 *
+                 * \param size The new label text size.
+                 */
                 void                    SetTextSize(float size);
+
+                /** \brief Get the label text size.
+                 *
+                 * \return The label text size.
+                 */
                 float                   GetTextSize() const;
 
+                /** \brief Set the label text color.
+                 *
+                 * \param color The new label text color.
+                 */
                 void                    SetTextColor(const Color& color);
+
+                /** \brief Get the label text color.
+                 *
+                 * \return The label text color.
+                 */
                 const Color&            GetTextColor() const;
 
+                /** \brief Get the sf::String used by the widget implementation */
                 const String&           GetString() const;
 
                 virtual void            LoadStyle(const std::string& nameStyle);
 
             protected :
 
-                // Inherited from Widget
                 virtual void            OnPaint(RenderTarget& target) const;
 
-
-
             private :
+
                 String                  mCaption;
 
         };

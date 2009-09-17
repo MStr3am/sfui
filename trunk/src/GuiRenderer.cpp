@@ -26,9 +26,10 @@
 
 */
 
-#include "GuiRenderer.hpp"
-#include "ResourceManager.hpp"
 #include <SFML/Window/OpenGL.hpp>
+#include <SFUI/GuiRenderer.hpp>
+
+#include <SFUI/ResourceManager.hpp>
 
 namespace sf
 {

@@ -29,19 +29,58 @@
 
 */
 
-#include "Icon.hpp"
+/** \file GridDecorator.hpp
+ * \brief A useful decorator for widgets.
+ * \author Robin Ruaux
+ */
+
+#include <SFUI/Icon.hpp>
 
 namespace sf
 {
     namespace ui
     {
+        /** \class GridDecorator
+         *
+         * \brief A useful decorator for widgets.
+         *
+         * This widget is relatively particular. It is mostly used by other widget as a decorator.
+         * In fact, its grid is composed by nine Icon widgets, like that :
+         * \code
+           [ topLeft    ] [ topCenter    ] [ topRight    ]
+
+           [ left       ] [ center       ] [ right       ]
+
+           [ bottomLeft ] [ bottomCenter ] [ bottomRight ]
+           \endcode
+         *
+         * Corners are fixed and all other parts are stretched to the GridDecorator size.
+         *
+         * You can access to each style part :
+         * \code <style name="BI_GridDecorator->bottomLeft" image="sub:MyWindow,0,0,13,13" width="14" height="14" /> \endcode
+         */
         class GridDecorator : public Icon
         {
             public :
 
+                /** \brief Constructor
+                 *
+                 * Constructor of GridDecorator class.
+                 */
                 GridDecorator();
 
+                /** \brief Set the grid visible or not.
+                 *
+                 * When the grid isn't use, the GridDecorator works as an Icon widget.
+                 *
+                 * \param useGrid The grid visibility.
+                 */
                 void            UseGrid(bool useGrid = true);
+
+                /** \brief Check if the grid is used.
+                 *
+                 * \return The grid state.
+                 */
                 bool            IsGridUsed() const;
 
                 virtual void    LoadStyle(const std::string& nameStyle);
@@ -53,6 +92,7 @@ namespace sf
                 Icon            mIcons[9];
 
             private :
+
                 bool            mUseGrid;
 
         };

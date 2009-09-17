@@ -26,7 +26,7 @@
 
 */
 
-#include "Button.hpp"
+#include <SFUI/Button.hpp>
 
 namespace sf
 {

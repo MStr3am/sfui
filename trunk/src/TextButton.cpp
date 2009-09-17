@@ -26,11 +26,10 @@
 
 */
 
-#include "TextButton.hpp"
 #include <SFML/Window/OpenGL.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
 
-#include <iostream>
+#include <SFUI/TextButton.hpp>
 
 namespace sf
 {

@@ -1,5 +1,5 @@
-#ifndef MOUSELISTENER_HPP_INCLUDED
-#define MOUSELISTENER_HPP_INCLUDED
+#ifndef BUTTON_HPP_INCLUDED
+#define BUTTON_HPP_INCLUDED
 
 /*
     Copyright (c) 2009, Robin RUAUX
@@ -29,29 +29,68 @@
 
 */
 
-#include <SFML/Window/Event.hpp>
+/** \file Button.hpp
+ * \brief A basic Button widget
+ * \author Robin Ruaux
+ */
+
+#include <SFUI/Label.hpp>
+#include <SFUI/MouseListener.hpp>
 
 namespace sf
 {
     namespace ui
     {
-        class MouseListener
+        /** \class Button
+         *
+         * \brief A basic Button widget
+         *
+         * This very basic class is used as a template for other buttons.
+         */
+        class Button : public Widget, public MouseListener
         {
             public :
+                /** \brief Constructor
+                 *
+                 * Constructor of Button class.
+                 */
+                Button();
 
-                void            OnMouseEvent(const Event& event);
+                /** \brief Set the button state as pressed.
+                 *
+                 * \param pressed The new pressed state.
+                 */
+                void            SetPressed(bool pressed = true);
+
+                /** \brief Check if the button is pressed.
+                 *
+                 * \return The button pressed state.
+                 */
+                bool            IsPressed() const;
 
             protected :
 
-                virtual void    OnMousePressed(const Event::MouseButtonEvent& button) {};
-                virtual void    OnMouseReleased(const Event::MouseButtonEvent& button) {};
+                /** \brief Called when the button has been pressed */
+                virtual void    OnPressed() {};
 
-                virtual void    OnMouseEntered(const Event::MouseMoveEvent& mouse) {};
-                virtual void    OnMouseLeft(const Event::MouseMoveEvent& mouse) {};
-                virtual void    OnMouseMoved(const Event::MouseMoveEvent& mouse) {};
+                /** \brief Class when the button has been released */
+                virtual void    OnReleased() {};
+
+                virtual void    OnMousePressed(const Event::MouseButtonEvent& button);
+
+                virtual void    OnMouseReleased(const Event::MouseButtonEvent& button);
+
+                virtual void    OnMouseEntered(const Event::MouseMoveEvent& mouse);
+
+                virtual void    OnMouseLeft(const Event::MouseMoveEvent& mouse);
+
+            private :
+
+                bool            mPressed;
 
         };
     }
+
 }
 
-#endif // MOUSELISTENER_HPP_INCLUDED
+#endif // BUTTON_HPP_INCLUDED

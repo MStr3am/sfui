@@ -26,7 +26,7 @@
 
 */
 
-#include "KeyListener.hpp"
+#include <SFUI/KeyListener.hpp>
 
 namespace sf
 {

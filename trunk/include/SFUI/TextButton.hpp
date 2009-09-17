@@ -1,5 +1,5 @@
-#ifndef BUTTON_HPP_INCLUDED
-#define BUTTON_HPP_INCLUDED
+#ifndef TEXTBUTTON_HPP_INCLUDED
+#define TEXTBUTTON_HPP_INCLUDED
 
 /*
     Copyright (c) 2009, Robin RUAUX
@@ -29,38 +29,69 @@
 
 */
 
-#include "Label.hpp"
-#include "MouseListener.hpp"
+/** \file TextButton.hpp
+ * \brief A basic text button.
+ * \author Robin Ruaux
+ */
+
+#include <SFUI/Button.hpp>
+#include <SFUI/GridDecorator.hpp>
 
 namespace sf
 {
     namespace ui
     {
-        class Button : public Widget, public MouseListener
+        /** \class TextButton
+         *
+         * \brief A basic TextButton widget.
+         */
+        class TextButton : public Button
         {
             public :
-                Button();
+                /** \brief Constructor
+                 *
+                 * Constructor of TextButton class.
+                 * \param caption The textbutton caption.
+                 */
+                TextButton(const Unicode::Text& caption);
 
-                void            SetPressed(bool pressed = true);
-                bool            IsPressed() const;
+                /** \brief Set the button text color.
+                 *
+                 * \param color The new button text color.
+                 */
+                void            SetTextColor(const Color& color);
+
+                /** \brief Get the button text color.
+                 *
+                 * \return The button text color.
+                 */
+                const Color&    GetTextColor() const;
+
+                /** \brief Set the button text size.
+                 *
+                 * \param size The new button text size.
+                 */
+                void            SetTextSize(float size);
+
+                /** \brief Get the button text size.
+                 *
+                 * \return The button text size.
+                 */
+                float           GetTextSize() const;
+
+                virtual void    LoadStyle(const std::string& nameStyle);
 
             protected :
 
-                virtual void    OnPressed() {};
-                virtual void    OnReleased() {};
+                virtual void    OnChange(Widget::Property property);
 
-                // Inherited from MouseListener.
-                virtual void    OnMousePressed(const Event::MouseButtonEvent& button);
-                virtual void    OnMouseReleased(const Event::MouseButtonEvent& button);
-                virtual void    OnMouseEntered(const Event::MouseMoveEvent& mouse);
-                virtual void    OnMouseLeft(const Event::MouseMoveEvent& mouse);
+                Label           mCaption;
 
-            private :
-                bool            mPressed;
+                GridDecorator   mDecorator;
 
         };
-    }
 
+    }
 }
 
-#endif // BUTTON_HPP_INCLUDED
+#endif // TEXTBUTTON_HPP_INCLUDED

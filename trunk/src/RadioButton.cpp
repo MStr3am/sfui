@@ -26,9 +26,10 @@
 
 */
 
-#include "RadioButton.hpp"
 #include <SFML/Window/OpenGL.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
+
+#include <SFUI/RadioButton.hpp>
 
 namespace sf
 {

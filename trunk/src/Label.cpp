@@ -26,12 +26,11 @@
 
 */
 
-#include "Label.hpp"
-
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Window/OpenGL.hpp>
 
-#include "ResourceManager.hpp"
+#include <SFUI/Label.hpp>
+#include <SFUI/ResourceManager.hpp>
 
 namespace sf
 {

@@ -26,11 +26,12 @@
 
 */
 
-#include "Widget.hpp"
 #include <SFML/Window/OpenGL.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
-#include "MouseListener.hpp"
-#include "KeyListener.hpp"
+
+#include <SFUI/Widget.hpp>
+#include <SFUI/MouseListener.hpp>
+#include <SFUI/KeyListener.hpp>
 
 #include <algorithm>
 
