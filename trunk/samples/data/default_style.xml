@@ -1,0 +1,8 @@
+
+<template name="BI_TextButton">
+  <property name="x" value="123" />
+  <property name="y" value="10" />
+  <property name="color" value="rgb: 123, 0, 223" />
+  <property name="textColor" value="rgb: 255, 255, 255" />
+</template>
+

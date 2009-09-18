@@ -37,7 +37,7 @@
 
 #include <SFUI/ResourceManager.hpp>
 
-#include <tinyxml.h>
+#include <TinyXML/tinyxml.h>
 
 namespace sf
 {
