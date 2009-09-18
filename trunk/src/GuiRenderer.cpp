@@ -45,8 +45,6 @@ namespace sf
             mTopWidget.SetColor(Color(0, 0, 0, 0));
 
             Widget::mFocusedWidget = Widget::mHoveredWidget = &mTopWidget;
-
-            ResourceManager::Get()->AddStylesFromFile("./data/test.xml");
         }
 
         GuiRenderer::~GuiRenderer()
