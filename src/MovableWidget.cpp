@@ -126,6 +126,7 @@ namespace sf
                 }
 
                 Move(newPos - absPos);
+                SetAlignment(Align::NONE);
             }
         }
     }
