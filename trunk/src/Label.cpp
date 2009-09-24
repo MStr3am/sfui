@@ -49,12 +49,13 @@ namespace sf
         {
             mCaption.SetText(caption);
 
-            const FloatRect& rect = mCaption.GetRect();
+            const Vector2f& strSize = mCaption.GetRect().GetSize();
 
-            if (rect.GetWidth() > GetWidth())
-                SetWidth(rect.GetWidth());
-            if (rect.GetHeight() > GetHeight())
-                SetHeight(rect.GetHeight());
+            if (strSize.x > GetWidth())
+                SetWidth(strSize.x);
+            if (strSize.y > GetHeight())
+                SetHeight(strSize.y);
+            UpdatePosition();
         }
 
         const Unicode::Text&    Label::GetText() const
@@ -114,12 +115,12 @@ namespace sf
             {
                 SetTextSize(rm->GetValue(properties["textSize"], GetTextSize()));
 
-                const FloatRect& rect = mCaption.GetRect();
+                const Vector2f& strSize = mCaption.GetRect().GetSize();
 
                 if (properties["width"] == "")
-                    SetWidth(rect.GetWidth());
+                    SetWidth(strSize.x);
                 if (properties["height"] == "")
-                    SetHeight(rect.GetHeight());
+                    SetHeight(strSize.y);
             }
 
             Widget::LoadStyle(nameStyle);

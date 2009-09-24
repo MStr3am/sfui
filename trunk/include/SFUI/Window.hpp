@@ -56,19 +56,21 @@ namespace sf
                  */
                 Window(const Unicode::Text& title);
 
-                /** \brief Set the window title.
-                 *
-                 * \param title The new window title Label.
-                 */
-                void                    SetTitle(const Label& title);
-
                 /** \brief Get the window title Label.
                  *
                  * \return The window title Label.
                  */
                 Label&                  GetTitle();
 
+
                 virtual void            LoadStyle(const std::string& nameStyle);
+
+
+                /** \brief Set the window title.
+                 *
+                 * \param title The new window title Label.
+                 */
+                void                    SetTitle(const Label& title);
 
             protected :
 

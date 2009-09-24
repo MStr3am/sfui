@@ -60,11 +60,40 @@ namespace sf
                  */
                 GuiRenderer(RenderWindow& renderWindow);
 
+
                 /** \brief Destructor
                  *
                  * Destructor of GuiRenderer class.
                  */
-                ~GuiRenderer();
+                virtual ~GuiRenderer();
+
+
+                /** \brief Display the widget hierarchy.
+                 *
+                 */
+                virtual void        Display();
+
+
+                /** \brief Get the focused widget.
+                 *
+                 * \return The focused widget (0 if no one has the focus)
+                 */
+                Widget*             GetFocusedWidget() const;
+
+
+                /** \brief Get the hovered widget.
+                 *
+                 * \return The hovered widget (0 if no one has been hovered)
+                 */
+                Widget*             GetHoveredWidget() const;
+
+
+                /** \brief Get the top widget container.
+                 *
+                 * \return The gui top widget.
+                 */
+                Widget&             GetTopWidget();
+
 
                 /** \brief Inject a new event to the gui system.
                  *
@@ -72,11 +101,6 @@ namespace sf
                  */
                 virtual void        InjectEvent(const Event& event);
 
-                /** \brief Resize the gui view.
-                 *
-                 * \param size The new size of the view.
-                 */
-                void                Resize(const Vector2ui& size);
 
                 /** \brief Resize the gui view.
                  *
@@ -85,16 +109,13 @@ namespace sf
                  */
                 void                Resize(unsigned int width, unsigned int height);
 
-                /** \brief Display the widget hierarchy.
-                 *
-                 */
-                virtual void        Display();
 
-                /** \brief Get the top widget container.
+                /** \brief Resize the gui view.
                  *
-                 * \return The gui top widget.
+                 * \param size The new size of the view.
                  */
-                Widget&             GetTopWidget();
+                void                Resize(const Vector2ui& size);
+
 
                 /** \brief Set the widget to be focused.
                  *
@@ -102,32 +123,23 @@ namespace sf
                  */
                 void                SetFocusedWidget(Widget* widget);
 
-                /** \brief Get the focused widget.
-                 *
-                 * \return The focused widget (0 if no one has the focus)
-                 */
-                Widget*             GetFocusedWidget() const;
 
-                /** \brief Get the hovered widget.
-                 *
-                 * \return The hovered widget (0 if no one has been hovered)
-                 */
-                Widget*             GetHoveredWidget() const;
+            protected :
 
-            protected:
                 void                HandleFocus();
 
                 View                mView;
 
-            private:
+            private :
 
                 void                SetHoveredWidget(Widget* widget, const Vector2ui& mouse, Vector2f initialPosition);
+
+                bool                mMouseInside;
 
                 RenderWindow&       mRenderWindow;
 
                 Widget              mTopWidget;
 
-                bool                mMouseInside;
         };
 
     }

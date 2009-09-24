@@ -69,6 +69,17 @@ namespace sf
                  */
                 GridDecorator();
 
+
+                virtual void    LoadStyle(const std::string& nameStyle);
+
+
+                /** \brief Check if the grid is used.
+                 *
+                 * \return The grid state.
+                 */
+                bool            IsGridUsed() const;
+
+
                 /** \brief Set the grid visible or not.
                  *
                  * When the grid isn't use, the GridDecorator works as an Icon widget.
@@ -77,13 +88,6 @@ namespace sf
                  */
                 void            UseGrid(bool useGrid = true);
 
-                /** \brief Check if the grid is used.
-                 *
-                 * \return The grid state.
-                 */
-                bool            IsGridUsed() const;
-
-                virtual void    LoadStyle(const std::string& nameStyle);
 
             protected :
 

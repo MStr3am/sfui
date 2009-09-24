@@ -46,6 +46,7 @@ namespace sf
          */
         typedef std::stack<FloatRect>   Rects;
 
+
         /** \class Area
          *
          * \brief Utility class for widgets clipping.
@@ -55,6 +56,7 @@ namespace sf
         class Area
         {
             public :
+
                 /** \brief Constructor
                  *
                  * Constructor of Area class.
@@ -62,6 +64,27 @@ namespace sf
                 Area()
                     :   mRects()
                 {}
+
+
+                /** \brief Get the top of the stack.
+                 *
+                 * \return The area on the top of the stack.
+                 */
+                const FloatRect&    GetTopArea() const
+                {
+                    return mRects.top();
+                }
+
+                /** \brief Pop the stack and return the top Area.
+                 *
+                 * \return The area on the top of the stack.
+                 */
+                const FloatRect&    PopArea()
+                {
+                    mRects.pop();
+                    return mRects.top();
+                }
+
 
                 /** \brief Push area to the stack.
                  *
@@ -91,24 +114,6 @@ namespace sf
                     }
                 }
 
-                /** \brief Pop the stack and return the top Area.
-                 *
-                 * \return The area on the top of the stack.
-                 */
-                const FloatRect&    PopArea()
-                {
-                    mRects.pop();
-                    return mRects.top();
-                }
-
-                /** \brief Get the top of the stack.
-                 *
-                 * \return The area on the top of the stack.
-                 */
-                const FloatRect&    GetTopArea() const
-                {
-                    return mRects.top();
-                }
 
             private:
 

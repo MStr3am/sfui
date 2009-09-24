@@ -51,29 +51,41 @@ namespace sf
 
     namespace ui
     {
+
+        /** \typedef std::map<std::string, Font*> Fonts;
+         *
+         * Container for Font resources.
+         */
+        typedef std::map<std::string, Font*>                Fonts;
+
+
+        /** \typedef std::map<std::string, Font*> Fonts;
+         *
+         * Container for Font resources.
+         */
+        typedef std::map<std::string, Font*>                Fonts;
+
+
+        /** \typedef std::map<std::string, Image*> Images;
+         *
+         * Container for Image resources.
+         */
+        typedef std::map<std::string, Image*>               Images;
+
+
         /** \typedef std::map<std::string, std::string> StyleProperties
          *
          * Widget style properties with syntax property["name"] = "value".
          */
         typedef std::map<std::string, std::string>          StyleProperties;
 
-        /** \typedef std::map<std::string, StyleProperties> Styles
+
+        /** \typedef std::map< std::string, StyleProperties > Styles
          *
          * Container for Style resources.
          */
         typedef std::map<std::string, StyleProperties>      Styles;
 
-        /** typedef std::map<std::string, Font*> Fonts;
-         *
-         * Container for Font resources.
-         */
-        typedef std::map<std::string, Font*>                Fonts;
-
-        /** typedef std::map<std::string, Image*> Images;
-         *
-         * Container for Image resources.
-         */
-        typedef std::map<std::string, Image*>               Images;
 
         /** \class ResourceManager
          *
@@ -96,12 +108,6 @@ namespace sf
                  */
                 static void                 Kill();
 
-                /** \brief Get a style from memory.
-                 *
-                 * \param name The style name to load.
-                 * \return The wanted named style.
-                 */
-                StyleProperties&            GetStyle(const std::string& name);
 
                 /** \brief Add new styles and resources from an xml file.
                  *
@@ -111,24 +117,6 @@ namespace sf
                  */
                 bool                        AddStylesFromFile(const std::string& filename);
 
-                mutable Area                WidgetArea;
-
-                /** \brief Get a property value from its string value.
-                 *
-                 * \param value The property value to be converted.
-                 * \param defaultValue The property value to be returned if conversion failed.
-                 * \return The property value.
-                 */
-                template<typename T>
-                T           GetValue(const std::string& value, const T& defaultValue)
-                {
-                    T   retValue;
-
-                    std::istringstream iss(value);
-                    if (iss >> retValue)
-                        return retValue;
-                    return (retValue = defaultValue);
-                }
 
                 /** \brief Get a property color value from its string value.
                  *
@@ -144,6 +132,7 @@ namespace sf
                  * \return The property color.
                  */
                 Color                       GetColorValue(const std::string& value, const Color& defaultValue);
+
 
                 /** \brief Get a property font value from its string value.
                  *
@@ -181,6 +170,34 @@ namespace sf
                  */
                 Sprite                      GetImage(const std::string& name);
 
+
+                /** \brief Get a style from memory.
+                 *
+                 * \param name The style name to load.
+                 * \return The wanted named style.
+                 */
+                StyleProperties&            GetStyle(const std::string& name);
+
+
+                /** \brief Get a property value from its string value.
+                 *
+                 * \param value The property value to be converted.
+                 * \param defaultValue The property value to be returned if conversion failed.
+                 * \return The property value.
+                 */
+                template<typename T>
+                T           GetValue(const std::string& value, const T& defaultValue)
+                {
+                    T   retValue;
+
+                    std::istringstream iss(value);
+                    if (iss >> retValue)
+                        return retValue;
+                    return (retValue = defaultValue);
+                }
+
+                mutable Area                WidgetArea;
+
             private :
 
                 ResourceManager();
@@ -191,13 +208,13 @@ namespace sf
 
                 bool                        LoadImage(const std::string& resId, const std::string& filename);
 
-                static  ResourceManager*    mInstance;
-
-                Styles                      mStyles;
-
                 Fonts                       mFonts;
 
                 Images                      mImages;
+
+                static  ResourceManager*    mInstance;
+
+                Styles                      mStyles;
 
         };
     }

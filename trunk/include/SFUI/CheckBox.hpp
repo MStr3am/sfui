@@ -48,6 +48,8 @@ namespace sf
         class CheckBox : public Widget, public MouseListener
         {
             public :
+
+
                 /** \brief Constructor
                  *
                  * Constructor of CheckBox class.
@@ -56,35 +58,6 @@ namespace sf
                  */
                 CheckBox(const Unicode::Text& caption);
 
-                /** \brief Set the checkbox state
-                 *
-                 * \param checked The new checked state.
-                 */
-                void                    SetChecked(bool checked = true);
-
-                /** \brief Check if the checkbox have been checked.
-                 *
-                 * \return The checked state.
-                 */
-                bool                    IsChecked() const;
-
-                /** \brief Set the checkbox caption text.
-                 *
-                 * \param caption The new checkbox text.
-                 */
-                void                    SetText(const Unicode::Text& caption);
-
-                /** \brief Get the checkbox caption text.
-                 *
-                 * \return The checkbox caption text.
-                 */
-                const Unicode::Text&    GetText() const;
-
-                /** \brief Set the checkbox text font.
-                 *
-                 * \param font The new checkbox text font.
-                 */
-                void                    SetFont(const Font& font);
 
                 /** \brief Get the checkbox text font.
                  *
@@ -92,11 +65,13 @@ namespace sf
                  */
                 const Font&             GetFont() const;
 
-                /** \brief Set the checkbox text color.
+
+                /** \brief Get the checkbox caption text.
                  *
-                 * \param color The new checkbox text color.
+                 * \return The checkbox caption text.
                  */
-                void                    SetTextColor(const Color& color);
+                const Unicode::Text&    GetText() const;
+
 
                 /** \brief Get the checkbox text color.
                  *
@@ -104,21 +79,59 @@ namespace sf
                  */
                 const Color&            GetTextColor() const;
 
+
+                /** \brief Check if the checkbox have been checked.
+                 *
+                 * \return The checked state.
+                 */
+                bool                    IsChecked() const;
+
+
                 virtual void            LoadStyle(const std::string& nameStyle);
+
+
+                /** \brief Set the checkbox state
+                 *
+                 * \param checked The new checked state.
+                 */
+                void                    SetChecked(bool checked = true);
+
+
+                /** \brief Set the checkbox text font.
+                 *
+                 * \param font The new checkbox text font.
+                 */
+                void                    SetFont(const Font& font);
+
+
+                /** \brief Set the checkbox caption text.
+                 *
+                 * \param caption The new checkbox text.
+                 */
+                void                    SetText(const Unicode::Text& caption);
+
+
+                /** \brief Set the checkbox text color.
+                 *
+                 * \param color The new checkbox text color.
+                 */
+                void                    SetTextColor(const Color& color);
+
 
             protected :
 
                 virtual void            OnMouseReleased(const Event::MouseButtonEvent& button);
 
+
             private :
-
-                bool                    mChecked;
-
-                GridDecorator           mDecorator;
 
                 Label                   mCaption;
 
+                bool                    mChecked;
+
                 Icon                    mCheckIcon;
+
+                GridDecorator           mDecorator;
 
         };
 

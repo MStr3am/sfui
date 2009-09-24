@@ -55,11 +55,13 @@ namespace sf
                 RadioButton(const Unicode::Text& caption);
         };
 
+
         /** \typedef std::vector<RadioButton*>   RadioButtons
          *
          * A RadioButton container.
          */
         typedef std::vector<RadioButton*>   RadioButtons;
+
 
         /** \class RadioArea
          *
@@ -75,13 +77,17 @@ namespace sf
                  */
                 RadioArea();
 
-                RadioButton*                GetSelectedRadio() const;
-
                 /** \brief Add a new radiobutton to the area.
                  *
                  * \param radioBtn the radiobutton to be added.
                  */
                 void                        AddRadioButton(RadioButton* radioBtn);
+
+
+                RadioButton*                GetSelectedRadio() const;
+
+
+                virtual void                LoadStyle(const std::string& nameStyle);
 
                 /** \brief Remove a radiobutton from the area.
                  *
@@ -89,13 +95,11 @@ namespace sf
                  */
                 void                        RemoveRadioButton(RadioButton* radioBtn);
 
-                virtual void                LoadStyle(const std::string& nameStyle);
-
             protected :
 
-                virtual void                OnMouseReleased(const Event::MouseButtonEvent& mouse);
-
                 virtual void                OnChange(Widget::Property property);
+
+                virtual void                OnMouseReleased(const Event::MouseButtonEvent& mouse);
 
                 GridDecorator               mDecorator;
 

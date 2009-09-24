@@ -53,12 +53,6 @@ namespace sf
 
             protected :
 
-                /** \brief Called when a mouse button has been pressed. */
-                virtual void    OnMousePressed(const Event::MouseButtonEvent& button) {};
-
-                /** \brief Called when a mouse button has been released. */
-                virtual void    OnMouseReleased(const Event::MouseButtonEvent& button) {};
-
                 /** \brief Called when the mouse entered an area. */
                 virtual void    OnMouseEntered(const Event::MouseMoveEvent& mouse) {};
 
@@ -67,6 +61,12 @@ namespace sf
 
                 /** \brief Called when the mouse has been moved. */
                 virtual void    OnMouseMoved(const Event::MouseMoveEvent& mouse) {};
+
+                /** \brief Called when a mouse button has been pressed. */
+                virtual void    OnMousePressed(const Event::MouseButtonEvent& button) {};
+
+                /** \brief Called when a mouse button has been released. */
+                virtual void    OnMouseReleased(const Event::MouseButtonEvent& button) {};
 
         };
     }
