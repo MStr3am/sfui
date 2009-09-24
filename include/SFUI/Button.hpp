@@ -50,17 +50,13 @@ namespace sf
         class Button : public Widget, public MouseListener
         {
             public :
+
                 /** \brief Constructor
                  *
                  * Constructor of Button class.
                  */
                 Button();
 
-                /** \brief Set the button state as pressed.
-                 *
-                 * \param pressed The new pressed state.
-                 */
-                void            SetPressed(bool pressed = true);
 
                 /** \brief Check if the button is pressed.
                  *
@@ -68,7 +64,23 @@ namespace sf
                  */
                 bool            IsPressed() const;
 
+
+                /** \brief Set the button state as pressed.
+                 *
+                 * \param pressed The new pressed state.
+                 */
+                void            SetPressed(bool pressed = true);
+
             protected :
+
+
+                virtual void    OnMouseEntered(const Event::MouseMoveEvent& mouse);
+
+                virtual void    OnMouseLeft(const Event::MouseMoveEvent& mouse);
+
+                virtual void    OnMousePressed(const Event::MouseButtonEvent& button);
+
+                virtual void    OnMouseReleased(const Event::MouseButtonEvent& button);
 
                 /** \brief Called when the button has been pressed */
                 virtual void    OnPressed() {};
@@ -76,13 +88,6 @@ namespace sf
                 /** \brief Class when the button has been released */
                 virtual void    OnReleased() {};
 
-                virtual void    OnMousePressed(const Event::MouseButtonEvent& button);
-
-                virtual void    OnMouseReleased(const Event::MouseButtonEvent& button);
-
-                virtual void    OnMouseEntered(const Event::MouseMoveEvent& mouse);
-
-                virtual void    OnMouseLeft(const Event::MouseMoveEvent& mouse);
 
             private :
 

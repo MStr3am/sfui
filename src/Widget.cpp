@@ -499,13 +499,13 @@ namespace sf
             glEnd();
         }
 
-        void    Widget::Render(RenderTarget& target) const
+        void    Widget::Render(RenderTarget& target, RenderQueue& queue) const
         {
             Area& area = ResourceManager::Get()->WidgetArea;
             area.PushArea(GetRect(true));
 
             const FloatRect& top = area.GetTopArea();
-            glScissor(top.Left, target.GetHeight() - top.Bottom, top.GetWidth(), top.GetHeight());
+            glScissor(top.Left, target.GetHeight() - top.Bottom, top.GetSize().x, top.GetSize().y);
 
             OnPaint(target);
             RenderChildren(target);

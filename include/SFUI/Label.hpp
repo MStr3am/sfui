@@ -58,11 +58,12 @@ namespace sf
                  */
                 Label(const Unicode::Text& caption);
 
-                /** \brief Set the label text.
+                /** \brief Get the label font.
                  *
-                 * \param caption The new label text.
+                 * \return The label font.
                  */
-                void                    SetText(const Unicode::Text& caption);
+                const Font&             GetFont() const;
+
 
                 /** \brief Get the label text.
                  *
@@ -70,35 +71,6 @@ namespace sf
                  */
                 const Unicode::Text&    GetText() const;
 
-                /** \brief Set the label font.
-                 *
-                 * \param font The new label font.
-                 */
-                void                    SetFont(const Font& font);
-
-                /** \brief Get the label font.
-                 *
-                 * \return The label font.
-                 */
-                const Font&             GetFont() const;
-
-                /** \brief Set the label text size.
-                 *
-                 * \param size The new label text size.
-                 */
-                void                    SetTextSize(float size);
-
-                /** \brief Get the label text size.
-                 *
-                 * \return The label text size.
-                 */
-                float                   GetTextSize() const;
-
-                /** \brief Set the label text color.
-                 *
-                 * \param color The new label text color.
-                 */
-                void                    SetTextColor(const Color& color);
 
                 /** \brief Get the label text color.
                  *
@@ -106,14 +78,53 @@ namespace sf
                  */
                 const Color&            GetTextColor() const;
 
+
+                /** \brief Get the label text size.
+                 *
+                 * \return The label text size.
+                 */
+                float                   GetTextSize() const;
+
+
                 /** \brief Get the sf::String used by the widget implementation */
                 const String&           GetString() const;
 
+
                 virtual void            LoadStyle(const std::string& nameStyle);
+
+
+                /** \brief Set the label font.
+                 *
+                 * \param font The new label font.
+                 */
+                void                    SetFont(const Font& font);
+
+
+                /** \brief Set the label text.
+                 *
+                 * \param caption The new label text.
+                 */
+                void                    SetText(const Unicode::Text& caption);
+
+
+                /** \brief Set the label text color.
+                 *
+                 * \param color The new label text color.
+                 */
+                void                    SetTextColor(const Color& color);
+
+
+                /** \brief Set the label text size.
+                 *
+                 * \param size The new label text size.
+                 */
+                void                    SetTextSize(float size);
+
 
             protected :
 
                 virtual void            OnPaint(RenderTarget& target) const;
+
 
             private :
 

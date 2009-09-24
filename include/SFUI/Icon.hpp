@@ -50,11 +50,23 @@ namespace sf
         class Icon : public Widget
         {
             public :
+
                 /** \brief Constructor
                  *
                  * Constructor of Icon class.
                  */
                 Icon();
+
+
+                /** \brief Get the icon image.
+                 *
+                 * \return The icon image (0 if no image has been applied)
+                 */
+                const Image*    GetImage() const;
+
+
+                virtual void    LoadStyle(const std::string& nameStyle);
+
 
                 /** \brief Set the icon image.
                  *
@@ -63,19 +75,13 @@ namespace sf
                  */
                 void            SetImage(const Image& image, bool resize = true);
 
-                /** \brief Get the icon image.
-                 *
-                 * \return The icon image (0 if no image has been applied)
-                 */
-                const Image*    GetImage() const;
-
-                virtual void    LoadStyle(const std::string& nameStyle);
 
             protected :
 
+                virtual void    OnChange(Widget::Property property);
+
                 virtual void    OnPaint(RenderTarget& target) const;
 
-                virtual void    OnChange(Widget::Property property);
 
             private :
 

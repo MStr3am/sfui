@@ -48,6 +48,7 @@ namespace sf
         class TextButton : public Button
         {
             public :
+
                 /** \brief Constructor
                  *
                  * Constructor of TextButton class.
@@ -55,11 +56,6 @@ namespace sf
                  */
                 TextButton(const Unicode::Text& caption);
 
-                /** \brief Set the button text color.
-                 *
-                 * \param color The new button text color.
-                 */
-                void            SetTextColor(const Color& color);
 
                 /** \brief Get the button text color.
                  *
@@ -67,11 +63,6 @@ namespace sf
                  */
                 const Color&    GetTextColor() const;
 
-                /** \brief Set the button text size.
-                 *
-                 * \param size The new button text size.
-                 */
-                void            SetTextSize(float size);
 
                 /** \brief Get the button text size.
                  *
@@ -79,7 +70,23 @@ namespace sf
                  */
                 float           GetTextSize() const;
 
+
                 virtual void    LoadStyle(const std::string& nameStyle);
+
+
+                /** \brief Set the button text color.
+                 *
+                 * \param color The new button text color.
+                 */
+                void            SetTextColor(const Color& color);
+
+
+                /** \brief Set the button text size.
+                 *
+                 * \param size The new button text size.
+                 */
+                void            SetTextSize(float size);
+
 
             protected :
 

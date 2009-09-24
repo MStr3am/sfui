@@ -55,11 +55,23 @@ namespace sf
                  */
                 MovableWidget();
 
-                /** \brief Set the widget to be movable.
+
+                /** \brief Check if the widget can be blocked
                  *
-                 * \param movable The widget movable property.
+                 * \return The widget blocked property.
                  */
-                void            SetMovable(bool movable = true);
+                bool            IsBlocked() const;
+
+
+                /** \brief Check if the widget is movable
+                 *
+                 * \return The widget movable property.
+                 */
+                bool            IsMovable() const;
+
+
+                virtual void    LoadStyle(const std::string& nameStyle);
+
 
                 /** \brief Set the widget to be blocked.
                  *
@@ -69,37 +81,31 @@ namespace sf
                  */
                 void            SetBlocked(bool blocked = true);
 
-                /** \brief Check if the widget is movable
-                 *
-                 * \return The widget movable property.
-                 */
-                bool            IsMovable() const;
 
-                /** \brief Check if the widget can be blocked
+                /** \brief Set the widget to be movable.
                  *
-                 * \return The widget blocked property.
+                 * \param movable The widget movable property.
                  */
-                bool            IsBlocked() const;
+                void            SetMovable(bool movable = true);
 
-                virtual void    LoadStyle(const std::string& nameStyle);
 
             protected :
+
+                virtual void    OnMouseMoved(const Event::MouseMoveEvent& mouse);
 
                 virtual void    OnMousePressed(const Event::MouseButtonEvent& button);
 
                 virtual void    OnMouseReleased(const Event::MouseButtonEvent& button);
 
-                virtual void    OnMouseMoved(const Event::MouseMoveEvent& mouse);
-
             private :
-
-                bool            mMovable;
 
                 bool            mBlocked;
 
                 bool            mDragged;
 
                 Vector2f        mDragOffset;
+
+                bool            mMovable;
 
                 bool            mNeedUpdate;
 
