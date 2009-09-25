@@ -209,7 +209,8 @@ namespace sf
                 const FloatRect& rect = mString.GetString().GetRect();
                 mString.SetText(text);
 
-                if (rect.GetSize().x > xOffset)
+// sfml2        if (rect.GetSize().x > xOffset)
+                if (rect.GetWidth())
                     return i;
             }
             return text.length();
@@ -350,8 +351,8 @@ namespace sf
             const Unicode::UTF16String& text = GetText();
 
             mString.SetText(text.substr(0, mCursorPosition));
-            const Vector2f& strSize = mString.GetString().GetRect().GetSize();
-            mString.SetText(text);
+
+/* sfml2    const Vector2f& strSize = mString.GetString().GetRect().GetSize();
 
             if (strSize.x - mCursorOffset >= GetWidth() - mStringOffset)
             {
@@ -361,6 +362,21 @@ namespace sf
             {
                 mCursorOffset = strSize.x - GetWidth() / (mStringOffset / 2);
             }
+            */
+
+            const FloatRect& rect = mString.GetString().GetRect();
+
+
+            if (rect.GetWidth() - mCursorOffset >= GetWidth() - mStringOffset)
+            {
+                mCursorOffset = rect.GetWidth() - GetWidth() + mStringOffset;
+            }
+            else if (rect.GetWidth() - mCursorOffset <= 0)
+            {
+                mCursorOffset = rect.GetWidth() - GetWidth() / (mStringOffset / 2);
+            }
+            mString.SetText(text);
+
 
             if (mCursorOffset < 0)
                 mCursorOffset = 0;

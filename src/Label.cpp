@@ -49,12 +49,20 @@ namespace sf
         {
             mCaption.SetText(caption);
 
-            const Vector2f& strSize = mCaption.GetRect().GetSize();
+/* sfml 2   const Vector2f& strSize = mCaption.GetRect().GetSize();
 
             if (strSize.x > GetWidth())
                 SetWidth(strSize.x);
             if (strSize.y > GetHeight())
-                SetHeight(strSize.y);
+                SetHeight(strSize.y);*/
+
+            const FloatRect& rect = mCaption.GetRect();
+
+            if (rect.GetWidth() > GetWidth())
+                SetWidth(rect.GetWidth());
+            if (rect.GetHeight() > GetHeight())
+                SetHeight(rect.GetHeight());
+
             UpdatePosition();
         }
 
@@ -115,12 +123,20 @@ namespace sf
             {
                 SetTextSize(rm->GetValue(properties["textSize"], GetTextSize()));
 
-                const Vector2f& strSize = mCaption.GetRect().GetSize();
+/* sfml 2       const Vector2f& strSize = mCaption.GetRect().GetSize();
 
                 if (properties["width"] == "")
                     SetWidth(strSize.x);
                 if (properties["height"] == "")
                     SetHeight(strSize.y);
+                */
+
+                const FloatRect& rect = mCaption.GetRect();
+
+                if (properties["width"] == "")
+                    SetWidth(rect.GetWidth());
+                if (properties["height"] == "")
+                    SetHeight(rect.GetHeight());
             }
 
             Widget::LoadStyle(nameStyle);

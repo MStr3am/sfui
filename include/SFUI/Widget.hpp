@@ -443,7 +443,7 @@ namespace sf
                 virtual void        OnPaint(RenderTarget& target) const;
 
                 /** \brief Render the widget to the screen. */
-                virtual void        Render(RenderTarget& target, RenderQueue& queue) const;
+                virtual void        Render(RenderTarget& target) const;
 
             private:
 
