@@ -156,7 +156,8 @@ namespace sf
         void    GuiRenderer::Resize(unsigned int width, unsigned int height)
         {
             mTopWidget.SetSize(width, height);
-            mView.SetSize(width, height);
+// sfml 2   mView.SetSize(width, height);
+            mView.SetFromRect(FloatRect(0.f, 0.f, width, height));
         }
 
         void    GuiRenderer::Display()
