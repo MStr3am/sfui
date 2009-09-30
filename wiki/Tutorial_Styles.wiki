@@ -67,7 +67,8 @@ There are two ways to load them.
 {{{
 <style name="MyStyle" font="data/myfont.ttf" textColor="#FF0000" />
 }}}
-or 
+In this case, font is loaded when `Widget::LoadStyle("MyStyle")` has been called.<br />
+You can also preload it and then use an alias :
 {{{
 <resources>
     <font name="TitleFont" size="15" src="data/myfont.ttf" />
@@ -79,7 +80,7 @@ The second method allows you to fix a default size, it's useful for having a gre
 
 === Images === 
 
-Images can also be loaded like fonts.
+Images can be preloaded like fonts too.
 {{{
 <resources>
     <image name="ButtonImages" src="data/mybuttons.png" />
@@ -89,16 +90,16 @@ Images can also be loaded like fonts.
 }}}
 
 You can also set a subpart of the image with syntax `sub: ImageName, left, right, top, bottom`
-
 {{{
 <style name="MyStyle" image="sub: ButtonImages, 0, 0, 140, 354" />
 }}}
+This technique allows the designer to create *tileset* for a widget part.
 
 == Manipulating styles in source code ==
 
 Ok, now you should give attention to this part if you want to create your widgets, and especially, add some widget properties.
 
-Widgets offers a virtual method `LoadStyle`. <br />
+Widget class provides a virtual method `LoadStyle`. <br />
 For example, the Label implementation looks like that : (see the comments below)
 {{{
 void    Label::LoadStyle(const std::string& nameTpl)
@@ -115,9 +116,10 @@ void    Label::LoadStyle(const std::string& nameTpl)
 
     /* Here, we need to get the font resource from memory.
        The second argument is the default font size. */
-    if (properties["font"] != "")
-    {
-        SetFont(*rm->GetFont(properties["font"], GetTextSize()));
+    Font* newFont = rm->GetFont(properties["font"], GetTextSize());
+
+    if (newFont)
+        SetFont(*newFont);
     }
 
     if (properties["textSize"] != "")
