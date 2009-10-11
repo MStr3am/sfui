@@ -210,7 +210,7 @@ namespace sf
                 mString.SetText(text);
 
 // sfml2        if (rect.GetSize().x > xOffset)
-                if (rect.GetWidth())
+                if (rect.GetWidth() > xOffset)
                     return i;
             }
             return text.length();

@@ -26,59 +26,56 @@
 
 */
 
-#include <SFUI/Button.hpp>
+#include <SFUI/ButtonPolicy.hpp>
 
 namespace sf
 {
     namespace ui
     {
-        Button::Button()
-            :   Widget(),
+        ButtonPolicy::ButtonPolicy(Widget& widget)
+            :   Policy(widget, "Policy_Button"),
                 mPressed(false)
         {
-            SetDefaultStyle("BI_Button");
-            LoadStyle(GetDefaultStyle());
 
-            AddMouseListener(this);
         }
 
-        void    Button::OnMousePressed(const Event::MouseButtonEvent& button)
+        void    ButtonPolicy::OnMousePressed(const Event::MouseButtonEvent& button)
         {
             if (!mPressed)
             {
                 mPressed = true;
-                LoadStyle(GetDefaultStyle() + "_Pressed");
+                mWidget.LoadStyle(mWidget.GetDefaultStyle() + "_Pressed");
                 OnPressed();
             }
         }
 
-        void    Button::OnMouseReleased(const Event::MouseButtonEvent& button)
+        void    ButtonPolicy::OnMouseReleased(const Event::MouseButtonEvent& button)
         {
             if (mPressed)
             {
                 mPressed = false;
-                LoadStyle(GetDefaultStyle() + "_Hovered");
+                mWidget.LoadStyle(mWidget.GetDefaultStyle() + "_Released");
                 OnReleased();
             }
         }
 
-        void    Button::OnMouseEntered(const Event::MouseMoveEvent& mouse)
-        {
-            LoadStyle(GetDefaultStyle() + "_Hovered");
-        }
-
-        void    Button::OnMouseLeft(const Event::MouseMoveEvent& mouse)
+        void    ButtonPolicy::OnMouseLeft(const Event::MouseMoveEvent& mouse)
         {
             mPressed = false;
-            LoadStyle(GetDefaultStyle());
+            mWidget.LoadStyle(mWidget.GetDefaultStyle());
         }
 
-        void    Button::SetPressed(bool pressed)
+        void    ButtonPolicy::OnMouseEntered(const Event::MouseMoveEvent& mouse)
+        {
+            mWidget.LoadStyle(mWidget.GetDefaultStyle() + "_Hovered");
+        }
+
+        void    ButtonPolicy::SetPressed(bool pressed)
         {
             mPressed = pressed;
         }
 
-        bool    Button::IsPressed() const
+        bool    ButtonPolicy::IsPressed() const
         {
             return mPressed;
         }

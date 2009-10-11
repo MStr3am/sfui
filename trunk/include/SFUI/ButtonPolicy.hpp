@@ -1,5 +1,5 @@
-#ifndef BUTTON_HPP_INCLUDED
-#define BUTTON_HPP_INCLUDED
+#ifndef BUTTONPOLICY_HPP_INCLUDED
+#define BUTTONPOLICY_HPP_INCLUDED
 
 /*
     Copyright (c) 2009, Robin RUAUX
@@ -29,25 +29,13 @@
 
 */
 
-/** \file Button.hpp
- * \brief A basic Button widget
- * \author Robin Ruaux
- */
-
-#include <SFUI/Label.hpp>
-#include <SFUI/MouseListener.hpp>
+#include <SFUI/Policy.hpp>
 
 namespace sf
 {
     namespace ui
     {
-        /** \class Button
-         *
-         * \brief A basic Button widget
-         *
-         * This very basic class is used as a template for other buttons.
-         */
-        class Button : public Widget, public MouseListener
+        class ButtonPolicy : public Policy
         {
             public :
 
@@ -55,7 +43,7 @@ namespace sf
                  *
                  * Constructor of Button class.
                  */
-                Button();
+                ButtonPolicy(Widget& widget);
 
 
                 /** \brief Check if the button is pressed.
@@ -73,14 +61,13 @@ namespace sf
 
             protected :
 
-
-                virtual void    OnMouseEntered(const Event::MouseMoveEvent& mouse);
-
                 virtual void    OnMouseLeft(const Event::MouseMoveEvent& mouse);
 
                 virtual void    OnMousePressed(const Event::MouseButtonEvent& button);
 
                 virtual void    OnMouseReleased(const Event::MouseButtonEvent& button);
+
+                virtual void    OnMouseEntered(const Event::MouseMoveEvent& mouse);
 
                 /** \brief Called when the button has been pressed */
                 virtual void    OnPressed() {};
@@ -88,14 +75,13 @@ namespace sf
                 /** \brief Class when the button has been released */
                 virtual void    OnReleased() {};
 
-
             private :
 
                 bool            mPressed;
-
         };
     }
 
 }
 
-#endif // BUTTON_HPP_INCLUDED
+
+#endif // BUTTONPOLICY_HPP_INCLUDED

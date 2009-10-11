@@ -26,59 +26,54 @@
 
 */
 
-#include <SFUI/MovableWidget.hpp>
+#include <SFUI/MovablePolicy.hpp>
 
 namespace sf
 {
     namespace ui
     {
 
-        MovableWidget::MovableWidget()
-            :   Widget(),
+        MovablePolicy::MovablePolicy(Widget& widget)
+            :   Policy(widget, "MovablePolicy"),
                 mMovable(true),
                 mBlocked(false),
                 mDragged(false),
                 mDragOffset(0.f, 0.f),
                 mNeedUpdate(false)
         {
-            SetDefaultStyle("BI_MovableWidget");
-            LoadStyle(GetDefaultStyle());
-            AddMouseListener(this);
         }
 
-        void    MovableWidget::SetMovable(bool movable)
+        void    MovablePolicy::SetMovable(bool movable)
         {
             mMovable = movable;
         }
 
-        void    MovableWidget::SetBlocked(bool blocked)
+        void    MovablePolicy::SetBlocked(bool blocked)
         {
             mBlocked = blocked;
         }
 
-        bool    MovableWidget::IsMovable() const
+        bool    MovablePolicy::IsMovable() const
         {
             return mMovable;
         }
 
-        bool    MovableWidget::IsBlocked() const
+        bool    MovablePolicy::IsBlocked() const
         {
             return mBlocked;
         }
 
 
-        void    MovableWidget::LoadStyle(const std::string& nameStyle)
+        void    MovablePolicy::LoadStyle(const std::string& styleName)
         {
-            Widget::LoadStyle(nameStyle);
-
             ResourceManager* rm = ResourceManager::Get();
-            StyleProperties& properties = rm->GetStyle(nameStyle);
+            StyleProperties& properties = rm->GetStyle(styleName + "|" + std::string(GetName()));
 
             SetMovable(rm->GetValue(properties["movable"], IsMovable()));
             SetBlocked(rm->GetValue(properties["blocked"], IsBlocked()));
         }
 
-        void    MovableWidget::OnMousePressed(const Event::MouseButtonEvent& button)
+        void    MovablePolicy::OnMousePressed(const Event::MouseButtonEvent& button)
         {
             if (!mMovable)
                 return;
@@ -86,20 +81,20 @@ namespace sf
             mDragged = true;
             mNeedUpdate = true;
 
-            ChangeZIndex(Widget::ALL_ABOVE);
+            mWidget.ChangeZIndex(Widget::ALL_ABOVE);
         }
 
-        void    MovableWidget::OnMouseReleased(const Event::MouseButtonEvent& button)
+        void    MovablePolicy::OnMouseReleased(const Event::MouseButtonEvent& button)
         {
             mDragged = false;
         }
 
-        void    MovableWidget::OnMouseMoved(const Event::MouseMoveEvent& mouse)
+        void    MovablePolicy::OnMouseMoved(const Event::MouseMoveEvent& mouse)
         {
             if (mDragged && mMovable)
             {
                 const Vector2f& mousePos = Vector2f(mouse.X, mouse.Y);
-                const Vector2f& absPos = GetAbsolutePosition();
+                const Vector2f& absPos = mWidget.GetAbsolutePosition();
 
                 if (mNeedUpdate)
                 {
@@ -108,25 +103,25 @@ namespace sf
                 }
 
                 Vector2f newPos = mousePos - mDragOffset;
-                Widget* parent = GetParent();
+                Widget* parent = mWidget.GetParent();
 
                 if (parent && mBlocked)
                 {
-                    const Vector2f& limitPos = absPos - GetPosition();
+                    const Vector2f& limitPos = absPos - mWidget.GetPosition();
 
                     if (newPos.x < limitPos.x)
                         newPos.x = limitPos.x;
-                    else if (newPos.x + GetWidth() > limitPos.x + parent->GetWidth())
-                        newPos.x = limitPos.x + parent->GetWidth() - GetWidth();
+                    else if (newPos.x + mWidget.GetWidth() > limitPos.x + parent->GetWidth())
+                        newPos.x = limitPos.x + parent->GetWidth() - mWidget.GetWidth();
 
                     if (newPos.y < limitPos.y)
                         newPos.y = limitPos.y;
-                    else if (newPos.y + GetHeight() > limitPos.y + parent->GetHeight())
-                        newPos.y = limitPos.y + parent->GetHeight() - GetHeight();
+                    else if (newPos.y + mWidget.GetHeight() > limitPos.y + parent->GetHeight())
+                        newPos.y = limitPos.y + parent->GetHeight() - mWidget.GetHeight();
                 }
 
-                Move(newPos - absPos);
-                SetAlignment(Align::NONE);
+                mWidget.Move(newPos - absPos);
+                mWidget.SetAlignment(Align::NONE);
             }
         }
     }

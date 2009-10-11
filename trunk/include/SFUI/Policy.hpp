@@ -1,5 +1,5 @@
-#ifndef WINDOW_HPP_INCLUDED
-#define WINDOW_HPP_INCLUDED
+#ifndef POLICY_HPP_INCLUDED
+#define POLICY_HPP_INCLUDED
 
 /*
     Copyright (c) 2009, Robin RUAUX
@@ -29,62 +29,51 @@
 
 */
 
-/** \file Window.hpp
- * \brief A basic window widget.
- * \author Robin Ruaux
- */
+#include <SFUI/Widget.hpp>
 
-#include <SFUI/MovablePolicy.hpp>
-#include <SFUI/Label.hpp>
-#include <SFUI/GridDecorator.hpp>
+#include <SFUI/MouseListener.hpp>
+#include <SFUI/KeyListener.hpp>
+
+#include <SFML/System/Unicode.hpp>
 
 namespace sf
 {
     namespace ui
     {
-        /** \class Window
-         *
-         * \brief A basic Window widget.
-         */
-        class Window : public Widget, public MovablePolicy
+        class Policy : public MouseListener, public KeyListener
         {
             public :
 
-                /** \brief Constructor.
-                 *
-                 * \param title The window initial title.
-                 */
-                Window(const Unicode::Text& title);
+                Policy(Widget& widget, const Unicode::Text& name)
+                    :   mWidget(widget),
+                        mName(name)
+                {
+                    mWidget.AddMouseListener(this);
+                    mWidget.AddKeyListener(this);
+                }
 
-                /** \brief Get the window title Label.
-                 *
-                 * \return The window title Label.
-                 */
-                Label&                  GetTitle();
+                ~Policy()
+                {
+                    mWidget.RemoveMouseListener(this);
+                    mWidget.RemoveKeyListener(this);
+                }
 
+                const Unicode::Text&    GetName()
+                {
+                    return mName;
+                }
 
-                virtual void            LoadStyle(const std::string& nameStyle);
-
-
-                /** \brief Set the window title.
-                 *
-                 * \param title The new window title Label.
-                 */
-                void                    SetTitle(const Label& title);
+                virtual void            LoadStyle(const std::string& styleName) {};
 
             protected :
 
-                virtual void            OnChange(Widget::Property property);
+                Widget&                 mWidget;
 
-                GridDecorator           mDecorator;
+            private :
 
-                Label                   mTitle;
-
+                Unicode::Text           mName;
         };
-
     }
-
-
 }
 
-#endif // WINDOW_HPP_INCLUDED
+#endif // POLICY_HPP_INCLUDED

@@ -104,7 +104,7 @@ namespace sf
         {
             friend class GuiRenderer;
 
-            public:
+            public :
 
                 /** \enum Property
                  *
@@ -286,7 +286,6 @@ namespace sf
                  * \return The widget focused state..
                  */
                 bool                HasFocus() const;
-
 
                 /** \brief Check if the widget is enabled.
                  *
