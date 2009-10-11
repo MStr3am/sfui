@@ -1,5 +1,5 @@
-#ifndef MOVABLEWIDGET_HPP_INCLUDED
-#define MOVABLEWIDGET_HPP_INCLUDED
+#ifndef MOVABLEPOLICY_HPP_INCLUDED
+#define MOVABLEPOLICY_HPP_INCLUDED
 
 /*
     Copyright (c) 2009, Robin RUAUX
@@ -29,32 +29,17 @@
 
 */
 
-/** \file MovableWidget.hpp
- * \brief A basic movable widget.
- * \author Robin Ruaux
- */
-
-#include <SFUI/Widget.hpp>
-#include <SFUI/MouseListener.hpp>
+#include <SFUI/Policy.hpp>
 
 namespace sf
 {
     namespace ui
     {
-        /** \class MovableWidget
-         *
-         * \brief A basic movable widget.
-         */
-        class MovableWidget : public Widget, public MouseListener
+        class MovablePolicy : public Policy
         {
             public :
 
-                /** \brief Constructor.
-                 *
-                 * Constructor of MovableWidget class.
-                 */
-                MovableWidget();
-
+                MovablePolicy(Widget& widget);
 
                 /** \brief Check if the widget can be blocked
                  *
@@ -110,9 +95,7 @@ namespace sf
                 bool            mNeedUpdate;
 
         };
-
     }
-
 }
 
-#endif // MOVABLEWIDGET_HPP_INCLUDED
+#endif // MOVABLEPOLICY_HPP_INCLUDED

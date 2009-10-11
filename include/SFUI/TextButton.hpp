@@ -34,8 +34,9 @@
  * \author Robin Ruaux
  */
 
-#include <SFUI/Button.hpp>
 #include <SFUI/GridDecorator.hpp>
+#include <SFUI/Label.hpp>
+#include <SFUI/ButtonPolicy.hpp>
 
 namespace sf
 {
@@ -45,7 +46,7 @@ namespace sf
          *
          * \brief A basic TextButton widget.
          */
-        class TextButton : public Button
+        class TextButton : public Widget, public ButtonPolicy
         {
             public :
 

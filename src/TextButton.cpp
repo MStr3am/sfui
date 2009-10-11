@@ -36,7 +36,8 @@ namespace sf
     namespace ui
     {
         TextButton::TextButton(const Unicode::Text& caption)
-            :   Button(),
+            :   Widget(),
+                ButtonPolicy(*static_cast<Widget*>(this)),
                 mCaption(caption),
                 mDecorator()
         {
@@ -49,7 +50,8 @@ namespace sf
 
         void    TextButton::LoadStyle(const std::string& nameStyle)
         {
-            Button::LoadStyle(nameStyle);
+            Widget::LoadStyle(nameStyle);
+            ButtonPolicy::LoadStyle(nameStyle);
 
             mDecorator.LoadStyle(nameStyle + "->Background");
             mCaption.LoadStyle(nameStyle + "->Label");

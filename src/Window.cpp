@@ -36,7 +36,8 @@ namespace sf
     namespace ui
     {
         Window::Window(const Unicode::Text& title)
-            :   MovableWidget(),
+            :   Widget(),
+                MovablePolicy(*static_cast<Widget*>(this)),
                 mDecorator(),
                 mTitle(title)
         {
@@ -57,12 +58,13 @@ namespace sf
             return mTitle;
         }
 
-        void    Window::LoadStyle(const std::string& nameStyle)
+        void    Window::LoadStyle(const std::string& styleName)
         {
-            mDecorator.LoadStyle(nameStyle + "->Background");
-            mTitle.LoadStyle(nameStyle + "->Title");
+            mDecorator.LoadStyle(styleName + "->Background");
+            mTitle.LoadStyle(styleName + "->Title");
 
-            MovableWidget::LoadStyle(nameStyle);
+            MovablePolicy::LoadStyle(styleName);
+            Widget::LoadStyle(styleName);
         }
 
         void    Window::OnChange(Widget::Property property)

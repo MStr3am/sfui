@@ -30,6 +30,7 @@
 #include <SFML/Graphics/RenderTarget.hpp>
 
 #include <SFUI/Widget.hpp>
+
 #include <SFUI/MouseListener.hpp>
 #include <SFUI/KeyListener.hpp>
 
