@@ -123,7 +123,7 @@ namespace sf
 
             protected :
 
-                virtual void            OnPaint(RenderTarget& target) const;
+                virtual void            OnPaint(RenderTarget& target, RenderQueue& queue) const;
 
 
             private :

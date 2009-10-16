@@ -29,6 +29,7 @@
 #include <SFML/Window/Event.hpp>
 #include <SFML/Window/OpenGL.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
+#include <SFML/Graphics/Shape.hpp>
 
 #include <SFUI/TextInput.hpp>
 
@@ -209,8 +210,7 @@ namespace sf
                 const FloatRect& rect = mString.GetString().GetRect();
                 mString.SetText(text);
 
-// sfml2        if (rect.GetSize().x > xOffset)
-                if (rect.GetWidth() > xOffset)
+                if (rect.GetSize().x > xOffset)
                     return i;
             }
             return text.length();
@@ -352,7 +352,7 @@ namespace sf
 
             mString.SetText(text.substr(0, mCursorPosition));
 
-/* sfml2    const Vector2f& strSize = mString.GetString().GetRect().GetSize();
+            const Vector2f& strSize = mString.GetString().GetRect().GetSize();
 
             if (strSize.x - mCursorOffset >= GetWidth() - mStringOffset)
             {
@@ -362,19 +362,7 @@ namespace sf
             {
                 mCursorOffset = strSize.x - GetWidth() / (mStringOffset / 2);
             }
-            */
 
-            const FloatRect& rect = mString.GetString().GetRect();
-
-
-            if (rect.GetWidth() - mCursorOffset >= GetWidth() - mStringOffset)
-            {
-                mCursorOffset = rect.GetWidth() - GetWidth() + mStringOffset;
-            }
-            else if (rect.GetWidth() - mCursorOffset <= 0)
-            {
-                mCursorOffset = rect.GetWidth() - GetWidth() / (mStringOffset / 2);
-            }
             mString.SetText(text);
 
 
@@ -384,49 +372,46 @@ namespace sf
             mString.SetX(mStringOffset - mCursorOffset);
         }
 
-        void    TextInput::OnPaint(RenderTarget& target) const
+        void    TextInput::OnPaint(RenderTarget& target, RenderQueue& queue) const
         {
-            Widget::OnPaint(target);
+            Widget::OnPaint(target, queue);
 
             // Draws the cursor with real position
             if (HasFocus())
             {
                 const String& rStr = mString.GetString();
                 float factor = rStr.GetSize() / rStr.GetFont().GetCharacterSize();
-                float yPos = 2.f / factor;
-                glScalef(factor, factor, 1.f);
+                float yPos = 2.f;
 
                 Vector2f realPos = rStr.GetCharacterPos(mCursorPosition);
-                realPos.x = (realPos.x - mCursorOffset + mStringOffset) / factor;
-                realPos.y = (GetHeight() - 2.f) / factor;
+                realPos.x = realPos.x - mCursorOffset + mStringOffset;
+                realPos.y = GetHeight() - 2.f;
 
-                glDisable(GL_TEXTURE_2D);
-
-                const Color& colCursor = mString.GetTextColor();
-                glColor4ub(colCursor.r, colCursor.g, colCursor.b, colCursor.a);
-
-                glBegin(GL_LINES);
-                    glVertex2f(realPos.x, yPos);
-                    glVertex2f(realPos.x, realPos.y);
-                glEnd();
+                queue.SetColor(GetTextColor());
+                target.Draw(Shape::Rectangle(realPos.x, yPos, realPos.x + 1, realPos.y, GetTextColor()));
 
                 // Draws the current selection
                 if (mSelectionStart != mCursorPosition)
                 {
                     Vector2f selectionPos(rStr.GetCharacterPos(mSelectionStart).x, rStr.GetCharacterPos(mCursorPosition).x);
-                    selectionPos.x = (selectionPos.x - mCursorOffset + mStringOffset) / factor;
-                    selectionPos.y = (selectionPos.y - mCursorOffset + mStringOffset) / factor;
+                    selectionPos.x = (selectionPos.x - mCursorOffset + mStringOffset);
+                    selectionPos.y = (selectionPos.y - mCursorOffset + mStringOffset);
 
-                    const Color& col = mSelectionColor;
-                    glColor4ub(col.r , col.g , col.b, col.a);
+                    queue.SetColor(mSelectionColor);
+                    queue.SetTexture(0);
 
-                    glBegin(GL_QUADS);
-                        glVertex2f(selectionPos.x, yPos);
-                        glVertex2f(selectionPos.y, yPos);
-                        glVertex2f(selectionPos.y, realPos.y);
-                        glVertex2f(selectionPos.x, realPos.y);
-                    glEnd();
+                    queue.BeginBatch();
+                    {
+                        queue.AddVertex(selectionPos.x, yPos);
+                        queue.AddVertex(selectionPos.y, yPos);
+                        queue.AddVertex(selectionPos.y, realPos.y);
+                        queue.AddVertex(selectionPos.x, realPos.y);
+
+                        queue.AddTriangle(0, 1, 3);
+                        queue.AddTriangle(3, 1, 2);
+                    }
                 }
+
             }
 
         }

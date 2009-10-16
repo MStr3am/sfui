@@ -80,7 +80,7 @@ namespace sf
 
                 virtual void    OnChange(Widget::Property property);
 
-                virtual void    OnPaint(RenderTarget& target) const;
+                virtual void    OnPaint(RenderTarget& target, RenderQueue& queue) const;
 
 
             private :

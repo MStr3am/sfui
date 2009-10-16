@@ -49,19 +49,12 @@ namespace sf
         {
             mCaption.SetText(caption);
 
-/* sfml 2   const Vector2f& strSize = mCaption.GetRect().GetSize();
+            const Vector2f& strSize = mCaption.GetRect().GetSize();
 
             if (strSize.x > GetWidth())
                 SetWidth(strSize.x);
             if (strSize.y > GetHeight())
-                SetHeight(strSize.y);*/
-
-            const FloatRect& rect = mCaption.GetRect();
-
-            if (rect.GetWidth() > GetWidth())
-                SetWidth(rect.GetWidth());
-            if (rect.GetHeight() > GetHeight())
-                SetHeight(rect.GetHeight());
+                SetHeight(strSize.y);
 
             UpdatePosition();
         }
@@ -84,6 +77,13 @@ namespace sf
         void    Label::SetTextSize(float size)
         {
             mCaption.SetSize(size);
+
+            const Vector2f& strSize = mCaption.GetRect().GetSize();
+
+            if (strSize.x > GetWidth())
+                SetWidth(strSize.x);
+            if (strSize.y > GetHeight())
+                SetHeight(strSize.y);
         }
 
         float   Label::GetTextSize() const
@@ -121,73 +121,25 @@ namespace sf
 
             if (properties["textSize"] != "")
             {
-                SetTextSize(rm->GetValue(properties["textSize"], GetTextSize()));
+                mCaption.SetSize(rm->GetValue(properties["textSize"], GetTextSize()));
 
-/* sfml 2       const Vector2f& strSize = mCaption.GetRect().GetSize();
+                const Vector2f& strSize = mCaption.GetRect().GetSize();
 
                 if (properties["width"] == "")
                     SetWidth(strSize.x);
                 if (properties["height"] == "")
                     SetHeight(strSize.y);
-                */
-
-                const FloatRect& rect = mCaption.GetRect();
-
-                if (properties["width"] == "")
-                    SetWidth(rect.GetWidth());
-                if (properties["height"] == "")
-                    SetHeight(rect.GetHeight());
             }
 
             Widget::LoadStyle(nameStyle);
         }
 
-        void    Label::OnPaint(RenderTarget& target) const
+        void    Label::OnPaint(RenderTarget& target, RenderQueue& queue) const
         {
-            Widget::OnPaint(target);
+            Widget::OnPaint(target, queue);
 
-            const Unicode::UTF32String& Text = mCaption.GetText();
-            const Font& font = mCaption.GetFont();
-
-            float CharSize =  static_cast<float>(font.GetCharacterSize());
-            float Factor   = mCaption.GetSize() / CharSize;
-            const Color& color = mCaption.GetColor();
-
-            glColor4ub(color.r, color.g, color.b, color.a);
-            glScalef(Factor, Factor, 1.f);
-
-            font.GetImage().Bind();
-
-            float X = 0.f;
-            float Y = CharSize;
-
-            glBegin(GL_QUADS);
-
-            // Adapted from sf::String (originally coded by Laurent Gomila - SFML)
-            for (std::size_t i = 0; i < Text.size(); ++i)
-            {
-                Uint32           CurChar  = Text[i];
-                const Glyph&     CurGlyph = font.GetGlyph(CurChar);
-                int              Advance  = CurGlyph.Advance;
-                const IntRect&   Rect     = CurGlyph.Rectangle;
-                const FloatRect& Coord    = CurGlyph.TexCoords;
-
-                switch (CurChar)
-                {
-                    case L' ' :  X += Advance;                  continue;
-                    case L'\n' : Y += CharSize; X = 0;          continue;
-                    case L'\t' : X += font.GetGlyph(' ').Advance * 4;   continue;
-                    case L'\v' : Y += CharSize * 4;             continue;
-                }
-
-                glTexCoord2f(Coord.Left,  Coord.Top);    glVertex2f(X + Rect.Left, Y + Rect.Top);
-                glTexCoord2f(Coord.Left,  Coord.Bottom); glVertex2f(X + Rect.Left, Y + Rect.Bottom);
-                glTexCoord2f(Coord.Right, Coord.Bottom); glVertex2f(X + Rect.Right, Y + Rect.Bottom);
-                glTexCoord2f(Coord.Right, Coord.Top);    glVertex2f(X + Rect.Right, Y + Rect.Top);
-
-                X += Advance;
-            }
-            glEnd();
+            queue.SetColor(GetTextColor());
+            target.Draw(mCaption);
         }
     }
 }

@@ -35,17 +35,29 @@ namespace sf
 
         MovablePolicy::MovablePolicy(Widget& widget)
             :   Policy(widget, "MovablePolicy"),
-                mMovable(true),
+                mMovableX(true),
+                mMovableY(true),
                 mBlocked(false),
                 mDragged(false),
                 mDragOffset(0.f, 0.f),
                 mNeedUpdate(false)
         {
+
         }
 
         void    MovablePolicy::SetMovable(bool movable)
         {
-            mMovable = movable;
+            mMovableX = mMovableY = movable;
+        }
+
+        void    MovablePolicy::SetMovableX(bool movable)
+        {
+            mMovableX = movable;
+        }
+
+        void    MovablePolicy::SetMovableY(bool movable)
+        {
+            mMovableY = movable;
         }
 
         void    MovablePolicy::SetBlocked(bool blocked)
@@ -55,7 +67,17 @@ namespace sf
 
         bool    MovablePolicy::IsMovable() const
         {
-            return mMovable;
+            return (mMovableX || mMovableY);
+        }
+
+        bool    MovablePolicy::IsMovableX() const
+        {
+            return mMovableX;
+        }
+
+        bool    MovablePolicy::IsMovableY() const
+        {
+            return mMovableY;
         }
 
         bool    MovablePolicy::IsBlocked() const
@@ -63,19 +85,20 @@ namespace sf
             return mBlocked;
         }
 
-
         void    MovablePolicy::LoadStyle(const std::string& styleName)
         {
             ResourceManager* rm = ResourceManager::Get();
-            StyleProperties& properties = rm->GetStyle(styleName + "|" + std::string(GetName()));
+            StyleProperties& properties = rm->GetStyle(styleName);
 
             SetMovable(rm->GetValue(properties["movable"], IsMovable()));
+            SetMovableX(rm->GetValue(properties["movableX"], IsMovableX()));
+            SetMovableY(rm->GetValue(properties["movableY"], IsMovableY()));
             SetBlocked(rm->GetValue(properties["blocked"], IsBlocked()));
         }
 
         void    MovablePolicy::OnMousePressed(const Event::MouseButtonEvent& button)
         {
-            if (!mMovable)
+            if (!IsMovable())
                 return;
 
             mDragged = true;
@@ -91,7 +114,7 @@ namespace sf
 
         void    MovablePolicy::OnMouseMoved(const Event::MouseMoveEvent& mouse)
         {
-            if (mDragged && mMovable)
+            if (mDragged && IsMovable())
             {
                 const Vector2f& mousePos = Vector2f(mouse.X, mouse.Y);
                 const Vector2f& absPos = mWidget.GetAbsolutePosition();
@@ -119,6 +142,12 @@ namespace sf
                     else if (newPos.y + mWidget.GetHeight() > limitPos.y + parent->GetHeight())
                         newPos.y = limitPos.y + parent->GetHeight() - mWidget.GetHeight();
                 }
+
+                if (!mMovableX)
+                    newPos.x = absPos.x;
+
+                if (!mMovableY)
+                    newPos.y = absPos.y;
 
                 mWidget.Move(newPos - absPos);
                 mWidget.SetAlignment(Align::NONE);

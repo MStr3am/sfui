@@ -19,7 +19,7 @@ int main(int ac, char **av)
     myFirstWidget.SetAlignment(ui::Align::CENTER);
 
     // Finally, we add this widget to our gui top container.
-    myGui.GetTopWidget().Add(&myFirstWidget);
+    myGui.Add(&myFirstWidget);
 
     while (myApp.IsOpened())
     {
