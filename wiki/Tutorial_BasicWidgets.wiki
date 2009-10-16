@@ -5,14 +5,11 @@
 
 _Widget_ is the main concept in ui's.
 This object inherits from [http://www.sfml-dev.org/documentation/1.5/classsf_1_1Drawable.htm sf::Drawable], so it can be drawed by a [http://www.sfml-dev.org/documentation/1.5/classsf_1_1RenderTarget.htm sf::RenderTarget] instance (especially from an [http://www.sfml-dev.org/documentation/1.5/classsf_1_1RenderWindow.htm sf::RenderWindow] in normal use)
-It has a position, a size, a default color for its background and is drawed as a filled-rectangle. It can also have widget childrens (like containers).
+It has a position, a size, a default color for its background and is drawed as a filled-rectangle by default. It can also have widget childrens using STL vector containers.
 
-== The hierarchy in SFUI ==
-
-The root class is not a widget but a GUI frontend ([http://lokk.u7n.org/sfui/doc/html/classsf_1_1ui_1_1GuiRenderer.html sf::ui::GuiRenderer]).
-To add new widgets on the screen, this class offers a global widget named "TopWidget" (reachable by Gui::GetTopWidget()). It is initialized as the screen size, but can be resized.
-
-The gui renderer also use its own [http://www.sfml-dev.org/documentation/1.5/classsf_1_1View.htm sf::View].
+The root class is a widget but also the GUI frontend ([http://lokk.u7n.org/sfui/doc/html/classsf_1_1ui_1_1GuiRenderer.html sf::ui::GuiRenderer]).
+It is initialized as the screen size, without color, but can be resized.
+The gui renderer also use its own [http://www.sfml-dev.org/documentation/1.5/classsf_1_1View.htm sf::View] for rendering.
 
 == An example of application ? ==
 
@@ -26,13 +23,13 @@ using namespace sf;
 int main(int ac, char *av[])
 {
     RenderWindow myApp(sf::VideoMode(200, 200), "SFML Gui");
-    ui::GuiRenderer myGui(myApp); // the gui frontend has a RenderWindow reference.
+    ui::GuiRenderer myGui(myApp); // the frontend widget has a RenderWindow reference.
 
     // We create a new widget
     ui::Widget myWidget;
     myWidget.SetColor(Color(255, 0, 0));
 
-    myGui.GetTopWidget().Add(&myWidget); // we add our widget to the top container.
+    myGui.Add(&myWidget); // we add our widget to the gui root widget.
 
     while (myApp.IsOpened())
     {
@@ -43,7 +40,7 @@ int main(int ac, char *av[])
             if (event.Type == sf::Event::Closed)
                 myApp.Close();
 
-            myGui.InjectEvent(event); // the frontend process and propagate events to the widget hierarchy
+            myGui.InjectEvent(event); // widgets processes and propagates events to their hierarchy
         }
 
         myApp.Clear();
@@ -72,7 +69,7 @@ ui::Label myLbl("that's a test");
 myLbl.SetX(25);
 myLbl.SetTextSize(23.f);
 
-myGui.GetTopWidget().Add(&myLbl);
+myGui.Add(&myLbl);
 ...
 }}}
 
@@ -89,7 +86,7 @@ myWin.SetColor(Color(255, 123, 223));
 myWin.SetSize(100, 100);
 myWin.SetAlignment(ui::Align::CENTER);
 
-myGui.GetTopWidget().Add(&myWin);
+myGui.Add(&myWin);
 ...
 }}}
 
@@ -110,7 +107,7 @@ myInput.SetSelection(0, 3);
 myInput.SetSelectionColor(Color(255, 255, 255, 123));
 
 myGui.SetFocusedWiget(&myInput);
-myGui.GetTopWidget().Add(&myInput);
+myGui.Add(&myInput);
 ...
 }}}
 
@@ -126,7 +123,7 @@ For making another button styles, you should read the tutorials about templating
 ui::TextButton myBtn("Button");
 myBtn.SetAlignment(ui::Align::CENTER);
 
-myGui.GetTopWidget().Add(&myBtn);
+myGui.Add(&myBtn);
 ...
 }}}
 
