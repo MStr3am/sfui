@@ -46,10 +46,8 @@ int main(int ac, char **av)
     window.Add(&area);
     window.Add(&btn);
 
-    ui::Widget& top = myGui.GetTopWidget();
-
-    top.Add(&input);
-    top.Add(&window);
+    myGui.Add(&input);
+    myGui.Add(&window);
 
     while (myApp.IsOpened())
     {

@@ -48,7 +48,7 @@ namespace sf
          *
          * \brief The GUI engine class.
          */
-        class GuiRenderer
+        class GuiRenderer : public Widget
         {
             public:
 
@@ -88,33 +88,11 @@ namespace sf
                 Widget*             GetHoveredWidget() const;
 
 
-                /** \brief Get the top widget container.
-                 *
-                 * \return The gui top widget.
-                 */
-                Widget&             GetTopWidget();
-
-
                 /** \brief Inject a new event to the gui system.
                  *
                  * \param event The event to be injected.
                  */
                 virtual void        InjectEvent(const Event& event);
-
-
-                /** \brief Resize the gui view.
-                 *
-                 * \param width The new width of the view.
-                 * \param height The new height of the view.
-                 */
-                void                Resize(unsigned int width, unsigned int height);
-
-
-                /** \brief Resize the gui view.
-                 *
-                 * \param size The new size of the view.
-                 */
-                void                Resize(const Vector2ui& size);
 
 
                 /** \brief Set the widget to be focused.
@@ -128,6 +106,10 @@ namespace sf
 
                 void                HandleFocus();
 
+                virtual void        OnChange(Widget::Property property);
+
+                virtual void        Render(RenderTarget& target, RenderQueue& queue) const;
+
                 View                mView;
 
             private :
@@ -137,8 +119,6 @@ namespace sf
                 bool                mMouseInside;
 
                 RenderWindow&       mRenderWindow;
-
-                Widget              mTopWidget;
 
         };
 

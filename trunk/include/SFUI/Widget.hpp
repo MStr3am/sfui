@@ -439,10 +439,10 @@ namespace sf
                 virtual void        OnChange(Widget::Property property);
 
                 /** \brief Called when the widget is drawed on screen. */
-                virtual void        OnPaint(RenderTarget& target) const;
+                virtual void        OnPaint(RenderTarget& target, RenderQueue& queue) const;
 
                 /** \brief Render the widget to the screen. */
-                virtual void        Render(RenderTarget& target) const;
+                virtual void        Render(RenderTarget& target, RenderQueue& queue) const;
 
             private:
 
@@ -453,7 +453,7 @@ namespace sf
                 Widgets::iterator   Find(const Widget* widget);
 
                 /** \brief Call children render method. */
-                void                RenderChildren(RenderTarget& target) const;
+                void                RenderChildren(RenderTarget& target, RenderQueue& queue) const;
 
                 Align::Alignment    mAlign;
 

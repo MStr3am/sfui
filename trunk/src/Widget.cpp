@@ -28,6 +28,7 @@
 
 #include <SFML/Window/OpenGL.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
+#include <SFML/Graphics/RenderQueue.hpp>
 
 #include <SFUI/Widget.hpp>
 
@@ -463,7 +464,7 @@ namespace sf
             }
         }
 
-        void    Widget::RenderChildren(RenderTarget& target) const
+        void    Widget::RenderChildren(RenderTarget& target, RenderQueue& queue) const
         {
             if (!mVisible)
                 return;
@@ -488,30 +489,35 @@ namespace sf
             }
         }
 
-        void    Widget::OnPaint(RenderTarget& target) const
+        void    Widget::OnPaint(RenderTarget& target, RenderQueue& queue) const
         {
-            glDisable(GL_TEXTURE_2D);
+            queue.SetColor(GetColor());
+            queue.SetTexture(0);
 
-            glBegin(GL_QUADS);
-                glVertex2f(0,     0);
-                glVertex2f(0,     mSize.y);
-                glVertex2f(mSize.x, mSize.y);
-                glVertex2f(mSize.x, 0);
-            glEnd();
+            queue.BeginBatch();
+            {
+                queue.AddVertex(0, 0);
+                queue.AddVertex(mSize.x, 0);
+                queue.AddVertex(mSize.x, mSize.y);
+                queue.AddVertex(0, mSize.y);
+
+                queue.AddTriangle(0, 1, 3);
+                queue.AddTriangle(3, 1, 2);
+            }
         }
 
-        void    Widget::Render(RenderTarget& target) const
+        void    Widget::Render(RenderTarget& target, RenderQueue& queue) const
         {
-            Area& area = ResourceManager::Get()->WidgetArea;
+            /*Area& area = ResourceManager::Get()->WidgetArea;
             area.PushArea(GetRect(true));
 
             const FloatRect& top = area.GetTopArea();
-            glScissor(top.Left, target.GetHeight() - top.Bottom, top.GetWidth(), top.GetHeight());
+            glScissor(top.Left, target.GetHeight() - top.Bottom, top.GetSize().x, top.GetSize().y);*/
 
-            OnPaint(target);
-            RenderChildren(target);
+            OnPaint(target, queue);
+            RenderChildren(target, queue);
 
-            area.PopArea();
+            //area.PopArea();
         }
     }
 }

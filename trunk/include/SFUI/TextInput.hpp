@@ -200,7 +200,7 @@ namespace sf
 
                 virtual void                OnMouseReleased(const Event::MouseButtonEvent& button);
 
-                virtual void                OnPaint(RenderTarget& target) const;
+                virtual void                OnPaint(RenderTarget& target, RenderQueue& queue) const;
 
                 virtual void                OnTextEntered(const Event::TextEvent& text);
 

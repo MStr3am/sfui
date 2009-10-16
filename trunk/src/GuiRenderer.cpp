@@ -30,6 +30,7 @@
 #include <SFUI/GuiRenderer.hpp>
 
 #include <SFUI/ResourceManager.hpp>
+#include <SFML/Graphics/RenderQueue.hpp>
 
 namespace sf
 {
@@ -38,23 +39,17 @@ namespace sf
         GuiRenderer::GuiRenderer(sf::RenderWindow& renderWindow)
             :   mView(Vector2f(0.f, 0.f), Vector2f(renderWindow.GetWidth(), renderWindow.GetHeight())),
                 mRenderWindow(renderWindow),
-                mTopWidget(),
                 mMouseInside(true)
         {
-            Resize(renderWindow.GetWidth(), renderWindow.GetHeight());
-            mTopWidget.SetColor(Color(0, 0, 0, 0));
+            SetSize(renderWindow.GetWidth(), renderWindow.GetHeight());
+            SetColor(Color(0, 0, 0, 0));
 
-            Widget::mFocusedWidget = Widget::mHoveredWidget = &mTopWidget;
+            Widget::mFocusedWidget = Widget::mHoveredWidget = this;
         }
 
         GuiRenderer::~GuiRenderer()
         {
             ResourceManager::Kill();
-        }
-
-        Widget& GuiRenderer::GetTopWidget()
-        {
-            return mTopWidget;
         }
 
         void    GuiRenderer::SetFocusedWidget(Widget* widget)
@@ -107,7 +102,7 @@ namespace sf
             // If the view need to be resized
             else if (event.Type == Event::Resized)
             {
-                Resize(event.Size.Width, event.Size.Height);
+                SetSize(event.Size.Width, event.Size.Height);
                 return;
             }
             // Handle the focus on click
@@ -118,10 +113,10 @@ namespace sf
             // Set the hovered widget
             else if (event.Type == Event::MouseMoved)
             {
-                static Widget*  lastHovered = &mTopWidget;
+                static Widget*  lastHovered = this;
 
-                Widget::mHoveredWidget = &mTopWidget;
-                SetHoveredWidget(&mTopWidget, Vector2ui(event.MouseMove.X, event.MouseMove.Y), mTopWidget.GetPosition());
+                Widget::mHoveredWidget = this;
+                SetHoveredWidget(this, Vector2ui(event.MouseMove.X, event.MouseMove.Y), GetPosition());
 
                 if (lastHovered != Widget::mHoveredWidget)
                 {
@@ -148,16 +143,19 @@ namespace sf
                     Widget::mFocusedWidget = Widget::mHoveredWidget;
         }
 
-        void    GuiRenderer::Resize(const Vector2ui& size)
+        void    GuiRenderer::OnChange(Widget::Property property)
         {
-            Resize(size.x, size.y);
+            if (property == Widget::SIZE)
+                mView.Reset(FloatRect(0, 0, GetWidth(), GetHeight()));
         }
 
-        void    GuiRenderer::Resize(unsigned int width, unsigned int height)
+        void    GuiRenderer::Render(RenderTarget& target, RenderQueue& queue) const
         {
-            mTopWidget.SetSize(width, height);
-// sfml 2   mView.SetSize(width, height);
-            mView.SetFromRect(FloatRect(0.f, 0.f, width, height));
+            glEnable(GL_SCISSOR_TEST);
+
+            Widget::Render(target, queue);
+
+            glDisable(GL_SCISSOR_TEST);
         }
 
         void    GuiRenderer::Display()
@@ -166,13 +164,10 @@ namespace sf
 
             mRenderWindow.SetView(mView);
 
-            glEnable(GL_SCISSOR_TEST);
-            mRenderWindow.Draw(mTopWidget);
-            glDisable(GL_SCISSOR_TEST);
+            mRenderWindow.Draw(*this);
 
             mRenderWindow.SetView(otherView);
         }
 
     }
-
 }

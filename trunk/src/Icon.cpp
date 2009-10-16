@@ -96,12 +96,15 @@ namespace sf
             }
         }
 
-        void    Icon::OnPaint(RenderTarget& target) const
+        void    Icon::OnPaint(RenderTarget& target, RenderQueue& queue) const
         {
-            Widget::OnPaint(target);
+            Widget::OnPaint(target, queue);
 
             if (mSprite.GetImage())
+            {
+                queue.SetColor(mSprite.GetColor());
                 target.Draw(mSprite);
+            }
         }
 
     }

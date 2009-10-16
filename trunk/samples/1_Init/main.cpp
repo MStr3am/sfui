@@ -8,7 +8,7 @@ int main(int ac, char **av)
     sf::RenderWindow myApp(sf::VideoMode(800, 600), "Demo Init");
 
     // Then we create the Gui renderer (by passing it the context target reference)
-    //    sf::ui::GuiRenderer myGui(myApp);
+    sf::ui::GuiRenderer myGui(myApp);
 
     while (myApp.IsOpened())
     {
@@ -20,13 +20,13 @@ int main(int ac, char **av)
 	                myApp.Close();
 
             // Events are also injected to widget hierarchy (for widget listeners)
-            //myGui.InjectEvent(event);
+            myGui.InjectEvent(event);
         }
 
         myApp.Clear();
 
         // Here, we draw the user interface (with sf::View internal access)
-	//        myGui.Display();
+        myGui.Display();
 
         myApp.Display();
     }
