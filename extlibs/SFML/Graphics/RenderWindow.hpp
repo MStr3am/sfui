@@ -55,22 +55,22 @@ public :
     ////////////////////////////////////////////////////////////
     /// Construct the window
     ///
-    /// \param Mode :        Video mode to use
-    /// \param Title :       Title of the window
-    /// \param WindowStyle : Window style (Resize | Close by default)
-    /// \param Params :      Creation parameters (see default constructor for default values)
+    /// \param mode :     Video mode to use
+    /// \param title :    Title of the window
+    /// \param style :    Window style (Resize | Close by default)
+    /// \param settings : Additional settings for the underlying OpenGL context (see default constructor for default values)
     ///
     ////////////////////////////////////////////////////////////
-    RenderWindow(VideoMode Mode, const std::string& Title, unsigned long WindowStyle = Style::Resize | Style::Close, const WindowSettings& Params = WindowSettings());
+    RenderWindow(VideoMode mode, const std::string& title, unsigned long style = Style::Resize | Style::Close, const ContextSettings& settings = ContextSettings());
 
     ////////////////////////////////////////////////////////////
     /// Construct the window from an existing control
     ///
-    /// \param Handle : Platform-specific handle of the control
-    /// \param Params : Creation parameters (see default constructor for default values)
+    /// \param handle :   Platform-specific handle of the control
+    /// \param settings : Additional settings for the underlying OpenGL context (see default constructor for default values)
     ///
     ////////////////////////////////////////////////////////////
-    RenderWindow(WindowHandle Handle, const WindowSettings& Params = WindowSettings());
+    RenderWindow(WindowHandle handle, const ContextSettings& settings = ContextSettings());
 
     ////////////////////////////////////////////////////////////
     /// Destructor
@@ -94,26 +94,6 @@ public :
     ////////////////////////////////////////////////////////////
     virtual unsigned int GetHeight() const;
 
-    ////////////////////////////////////////////////////////////
-    /// Save the content of the window to an image
-    ///
-    /// \return Image instance containing the contents of the screen
-    ///
-    ////////////////////////////////////////////////////////////
-    Image Capture() const;
-
-    ////////////////////////////////////////////////////////////
-    /// Convert a point in window coordinates into view coordinates
-    ///
-    /// \param WindowX :    X coordinate of the point to convert, relative to the window
-    /// \param WindowY :    Y coordinate of the point to convert, relative to the window
-    /// \param TargetView : Target view to convert the point to (NULL by default -- uses the current view)
-    ///
-    /// \return Converted point
-    ///
-    ////////////////////////////////////////////////////////////
-    sf::Vector2f ConvertCoords(unsigned int WindowX, unsigned int WindowY, const View* TargetView = NULL) const;
-
 private :
 
     ////////////////////////////////////////////////////////////
@@ -123,10 +103,16 @@ private :
     virtual void OnCreate();
 
     ////////////////////////////////////////////////////////////
+    /// /see Window::OnDisplay
+    ///
+    ////////////////////////////////////////////////////////////
+    virtual void OnDisplay();
+
+    ////////////////////////////////////////////////////////////
     /// /see RenderTarget::Activate
     ///
     ////////////////////////////////////////////////////////////
-    virtual bool Activate(bool Active);
+    virtual bool Activate(bool active);
 };
 
 } // namespace sf

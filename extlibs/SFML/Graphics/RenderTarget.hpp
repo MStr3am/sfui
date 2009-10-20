@@ -29,8 +29,9 @@
 // Headers
 ////////////////////////////////////////////////////////////
 #include <SFML/Graphics/Color.hpp>
-#include <SFML/Graphics/View.hpp>
 #include <SFML/Graphics/Rect.hpp>
+#include <SFML/Graphics/RenderQueue.hpp>
+#include <SFML/Graphics/View.hpp>
 
 
 namespace sf
@@ -53,18 +54,34 @@ public :
     ////////////////////////////////////////////////////////////
     /// Clear the entire target with a single color
     ///
-    /// \param FillColor : Color to use to clear the render target
+    /// \param color : Color to use to clear the render target
     ///
     ////////////////////////////////////////////////////////////
-    void Clear(const Color& FillColor = Color(0, 0, 0));
+    void Clear(const Color& color = Color(0, 0, 0));
 
     ////////////////////////////////////////////////////////////
     /// Draw something into the target
     ///
-    /// \param Object : Object to draw
+    /// \param object : Object to draw
     ///
     ////////////////////////////////////////////////////////////
-    virtual void Draw(const Drawable& Object);
+    virtual void Draw(const Drawable& object);
+
+    ////////////////////////////////////////////////////////////
+    /// Make sure that what has been drawn so far is rendered
+    ///
+    /// Use this function if you use OpenGL rendering commands,
+    /// and you want to make sure that things will appear on top
+    /// of all the SFML objects that have been drawn so far.
+    /// This is needed because SFML doesn't use immediate rendering,
+    /// it first accumulates drawables into a queue and
+    /// trigger the actual rendering afterwards.
+    ///
+    /// You don't need to call this function if you're not
+    /// dealing with OpenGL directly.
+    ///
+    ////////////////////////////////////////////////////////////
+    void Flush();
 
     ////////////////////////////////////////////////////////////
     /// Get the width of the rendering region of the target
@@ -85,10 +102,10 @@ public :
     ////////////////////////////////////////////////////////////
     /// Change the current active view.
     ///
-    /// \param NewView : New view to use (pass GetDefaultView() to set the default view)
+    /// \param view : New view to use (pass GetDefaultView() to set the default view)
     ///
     ////////////////////////////////////////////////////////////
-    void SetView(const View& NewView);
+    void SetView(const View& view);
 
     ////////////////////////////////////////////////////////////
     /// Get the current view
@@ -107,17 +124,39 @@ public :
     View& GetDefaultView();
 
     ////////////////////////////////////////////////////////////
-    /// Tell SFML to preserve external OpenGL states, at the expense of
-    /// more CPU charge. Use this function if you don't want SFML
-    /// to mess up your own OpenGL states (if any).
-    /// Don't enable state preservation if not needed, as it will allow
-    /// SFML to do internal optimizations and improve performances.
-    /// This parameter is false by default
+    /// Get the viewport of a view applied to this target
     ///
-    /// \param Preserve : True to preserve OpenGL states, false to let SFML optimize
+    /// \param view Target view
+    ///
+    /// \return Viewport rectangle, expressed in pixels in the current target
     ///
     ////////////////////////////////////////////////////////////
-    void PreserveOpenGLStates(bool Preserve);
+    IntRect GetViewport(const View& view) const;
+
+    ////////////////////////////////////////////////////////////
+    /// Convert a point in target coordinates into view coordinates
+    /// This version uses the current view of the window
+    ///
+    /// \param x : X coordinate of the point to convert, relative to the target
+    /// \param y : Y coordinate of the point to convert, relative to the target
+    ///
+    /// \return Converted point
+    ///
+    ////////////////////////////////////////////////////////////
+    sf::Vector2f ConvertCoords(unsigned int x, unsigned int y) const;
+
+    ////////////////////////////////////////////////////////////
+    /// Convert a point in target coordinates into view coordinates
+    /// This version uses the given view
+    ///
+    /// \param x :    X coordinate of the point to convert, relative to the target
+    /// \param y :    Y coordinate of the point to convert, relative to the target
+    /// \param view : Target view to convert the point to
+    ///
+    /// \return Converted point
+    ///
+    ////////////////////////////////////////////////////////////
+    sf::Vector2f ConvertCoords(unsigned int x, unsigned int y, const View& view) const;
 
 protected :
 
@@ -138,26 +177,19 @@ private :
     ////////////////////////////////////////////////////////////
     /// Activate the target for rendering
     ///
-    /// \param Active : True to activate rendering, false to deactivate
+    /// \param active : True to activate rendering, false to deactivate
     ///
     /// \return True if activation succeeded
     ///
     ////////////////////////////////////////////////////////////
-    virtual bool Activate(bool Active) = 0;
-
-    ////////////////////////////////////////////////////////////
-    /// Set the OpenGL render states needed for the SFML rendering
-    ///
-    ////////////////////////////////////////////////////////////
-    void SetRenderStates();
+    virtual bool Activate(bool active) = 0;
 
     ////////////////////////////////////////////////////////////
     // Member data
     ////////////////////////////////////////////////////////////
-    View        myDefaultView;    ///< Default view
-    const View* myCurrentView;    ///< Current active view
-    bool        myPreserveStates; ///< Should we preserve external OpenGL states ?
-    bool        myIsDrawing;      ///< True when Draw is called from inside, to allow some renderstates optimizations
+    RenderQueue myRenderQueue; ///< Rendering queue storing render commands
+    View        myDefaultView; ///< Default view
+    const View* myCurrentView; ///< Current active view
 };
 
 } // namespace sf

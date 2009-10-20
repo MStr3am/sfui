@@ -29,19 +29,28 @@
 
 */
 
+/** \file ButtonPolicy.hpp
+ * \brief Policy for button widgets's behaviour
+ * \author Robin Ruaux
+ */
+
 #include <SFUI/Policy.hpp>
 
 namespace sf
 {
     namespace ui
     {
+        /** \class ButtonPolicy
+         *
+         * \brief Policy for button widgets's behaviour.
+         */
         class ButtonPolicy : public Policy
         {
             public :
 
                 /** \brief Constructor
                  *
-                 * Constructor of Button class.
+                 * Constructor of ButtonPolicy class.
                  */
                 ButtonPolicy(Widget& widget);
 

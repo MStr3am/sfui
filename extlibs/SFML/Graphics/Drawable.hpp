@@ -35,6 +35,7 @@
 
 namespace sf
 {
+class RenderQueue;
 class RenderTarget;
 
 ////////////////////////////////////////////////////////////
@@ -62,13 +63,13 @@ public :
     ////////////////////////////////////////////////////////////
     /// Default constructor
     ///
-    /// \param Position : Position of the object (0, 0 by default)
-    /// \param Scale :    Scale factor (1, 1 by default)
-    /// \param Rotation : Orientation, in degrees (0 by default)
-    /// \param Col :      Color of the object (white by default)
+    /// \param position : Position of the object ((0, 0) by default)
+    /// \param scale :    Scale factor ((1, 1) by default)
+    /// \param rotation : Orientation, in degrees (0 by default)
+    /// \param color :    Color of the object (white by default)
     ///
     ////////////////////////////////////////////////////////////
-    Drawable(const Vector2f& Position = Vector2f(0, 0), const Vector2f& Scale = Vector2f(1, 1), float Rotation = 0.f, const Color& Col = Color(255, 255, 255, 255));
+    Drawable(const Vector2f& position = Vector2f(0, 0), const Vector2f& scale = Vector2f(1, 1), float rotation = 0.f, const Color& color = Color(255, 255, 255));
 
     ////////////////////////////////////////////////////////////
     /// Virtual destructor
@@ -79,44 +80,44 @@ public :
     ////////////////////////////////////////////////////////////
     /// Set the position of the object (take 2 values)
     ///
-    /// \param X : New X coordinate
-    /// \param Y : New Y coordinate
+    /// \param x : New X coordinate
+    /// \param y : New Y coordinate
     ///
     ////////////////////////////////////////////////////////////
-    void SetPosition(float X, float Y);
+    void SetPosition(float x, float y);
 
     ////////////////////////////////////////////////////////////
     /// Set the position of the object (take a 2D vector)
     ///
-    /// \param Position : New position
+    /// \param position : New position
     ///
     ////////////////////////////////////////////////////////////
-    void SetPosition(const Vector2f& Position);
+    void SetPosition(const Vector2f& position);
 
     ////////////////////////////////////////////////////////////
     /// Set the X position of the object
     ///
-    /// \param X : New X coordinate
+    /// \param x : New X coordinate
     ///
     ////////////////////////////////////////////////////////////
-    void SetX(float X);
+    void SetX(float x);
 
     ////////////////////////////////////////////////////////////
     /// Set the Y position of the object
     ///
-    /// \param Y : New Y coordinate
+    /// \param y : New Y coordinate
     ///
     ////////////////////////////////////////////////////////////
-    void SetY(float Y);
+    void SetY(float y);
 
     ////////////////////////////////////////////////////////////
     /// Set the scale of the object (take 2 values)
     ///
-    /// \param ScaleX : New horizontal scale (must be strictly positive)
-    /// \param ScaleY : New vertical scale (must be strictly positive)
+    /// \param factorX : New horizontal scale (must be strictly positive)
+    /// \param factorY : New vertical scale (must be strictly positive)
     ///
     ////////////////////////////////////////////////////////////
-    void SetScale(float ScaleX, float ScaleY);
+    void SetScale(float factorX, float factorY);
 
     ////////////////////////////////////////////////////////////
     /// Set the scale of the object (take a 2D vector)
@@ -124,70 +125,70 @@ public :
     /// \param Scale : New scale (both values must be strictly positive)
     ///
     ////////////////////////////////////////////////////////////
-    void SetScale(const Vector2f& Scale);
+    void SetScale(const Vector2f& scale);
 
     ////////////////////////////////////////////////////////////
     /// Set the X scale factor of the object
     ///
-    /// \param X : New X scale factor
+    /// \param factor : New X scale factor
     ///
     ////////////////////////////////////////////////////////////
-    void SetScaleX(float FactorX);
+    void SetScaleX(float factor);
 
     ////////////////////////////////////////////////////////////
     /// Set the Y scale factor of the object
     ///
-    /// \param Y : New Y scale factor
+    /// \param factor : New Y scale factor
     ///
     ////////////////////////////////////////////////////////////
-    void SetScaleY(float FactorY);
+    void SetScaleY(float factor);
 
     ////////////////////////////////////////////////////////////
-    /// Set the center of the object, in coordinates relative to the
+    /// Set the local origin of the object, in coordinates relative to the
     /// top-left of the object (take 2 values).
-    /// The default center is (0, 0)
+    /// The default origin is (0, 0)
     ///
-    /// \param CenterX : X coordinate of the center
-    /// \param CenterY : Y coordinate of the center
+    /// \param x : X coordinate of the origin
+    /// \param y : Y coordinate of the origin
     ///
     ////////////////////////////////////////////////////////////
-    void SetCenter(float CenterX, float CenterY);
+    void SetOrigin(float x, float y);
 
     ////////////////////////////////////////////////////////////
-    /// Set the center of the object, in coordinates relative to the
+    /// Set the local origin of the object, in coordinates relative to the
     /// top-left of the object (take a 2D vector).
-    /// The default center is (0, 0)
+    /// The default origin is (0, 0)
     ///
-    /// \param Center : New center
+    /// \param origin : New origin
     ///
     ////////////////////////////////////////////////////////////
-    void SetCenter(const Vector2f& Center);
+    void SetOrigin(const Vector2f& origin);
 
     ////////////////////////////////////////////////////////////
     /// Set the orientation of the object
     ///
-    /// \param Rotation : Angle of rotation, in degrees
+    /// \param angle : Angle of rotation, in degrees
     ///
     ////////////////////////////////////////////////////////////
-    void SetRotation(float Rotation);
+    void SetRotation(float angle);
 
     ////////////////////////////////////////////////////////////
     /// Set the color of the object.
     /// The default color is white
     ///
-    /// \param Col : New color
+    /// \param color : New color
     ///
     ////////////////////////////////////////////////////////////
-    void SetColor(const Color& Col);
+    void SetColor(const Color& color);
 
     ////////////////////////////////////////////////////////////
     /// Set the blending mode for the object.
     /// The default blend mode is Blend::Alpha
     ///
-    /// \param Mode : New blending mode
+    /// \param mode : New blending mode
     ///
     ////////////////////////////////////////////////////////////
-    void SetBlendMode(Blend::Mode Mode);
+    void SetBlendMode(Blend::Mode mode);
 
     ////////////////////////////////////////////////////////////
     /// Get the position of the object
@@ -206,12 +207,12 @@ public :
     const Vector2f& GetScale() const;
 
     ////////////////////////////////////////////////////////////
-    /// Get the center of the object
+    /// Get the local origin of the object
     ///
-    /// \return Current position of the center
+    /// \return Current position of the origin
     ///
     ////////////////////////////////////////////////////////////
-    const Vector2f& GetCenter() const;
+    const Vector2f& GetOrigin() const;
 
     ////////////////////////////////////////////////////////////
     /// Get the orientation of the object.
@@ -241,36 +242,36 @@ public :
     ////////////////////////////////////////////////////////////
     /// Move the object of a given offset (take 2 values)
     ///
-    /// \param OffsetX : X offset
-    /// \param OffsetY : Y offset
+    /// \param offsetX : X offset
+    /// \param offsetY : Y offset
     ///
     ////////////////////////////////////////////////////////////
-    void Move(float OffsetX, float OffsetY);
+    void Move(float offsetX, float offsetY);
 
     ////////////////////////////////////////////////////////////
     /// Move the object of a given offset (take a 2D vector)
     ///
-    /// \param Offset : Amount of units to move the object of
+    /// \param offset : Amount of units to move the object of
     ///
     ////////////////////////////////////////////////////////////
-    void Move(const Vector2f& Offset);
+    void Move(const Vector2f& offset);
 
     ////////////////////////////////////////////////////////////
     /// Scale the object (take 2 values)
     ///
-    /// \param FactorX : Scaling factor on X (must be strictly positive)
-    /// \param FactorY : Scaling factor on Y (must be strictly positive)
+    /// \param factorX : Scaling factor on X (must be strictly positive)
+    /// \param factorY : Scaling factor on Y (must be strictly positive)
     ///
     ////////////////////////////////////////////////////////////
-    void Scale(float FactorX, float FactorY);
+    void Scale(float factorX, float factorY);
 
     ////////////////////////////////////////////////////////////
     /// Scale the object (take a 2D vector)
     ///
-    /// \param Factor : Scaling factors (both values must be strictly positive)
+    /// \param factor : Scaling factors (both values must be strictly positive)
     ///
     ////////////////////////////////////////////////////////////
-    void Scale(const Vector2f& Factor);
+    void Scale(const Vector2f& factor);
 
     ////////////////////////////////////////////////////////////
     /// Rotate the object
@@ -282,25 +283,25 @@ public :
 
     ////////////////////////////////////////////////////////////
     /// Transform a point from global coordinates into local coordinates
-    /// (ie it applies the inverse of object's center, translation, rotation and scale to the point)
+    /// (ie it applies the inverse of object's origin, translation, rotation and scale to the point)
     ///
-    /// \param Point : Point to transform
+    /// \param point : Point to transform
     ///
     /// \return Transformed point
     ///
     ////////////////////////////////////////////////////////////
-    sf::Vector2f TransformToLocal(const sf::Vector2f& Point) const;
+    sf::Vector2f TransformToLocal(const sf::Vector2f& point) const;
 
     ////////////////////////////////////////////////////////////
     /// Transform a point from local coordinates into global coordinates
-    /// (ie it applies the object's center, translation, rotation and scale to the point)
+    /// (ie it applies the object's origin, translation, rotation and scale to the point)
     ///
-    /// \param Point : Point to transform
+    /// \param point : Point to transform
     ///
     /// \return Transformed point
     ///
     ////////////////////////////////////////////////////////////
-    sf::Vector2f TransformToGlobal(const sf::Vector2f& Point) const;
+    sf::Vector2f TransformToGlobal(const sf::Vector2f& point) const;
 
 protected :
 
@@ -325,27 +326,29 @@ private :
     friend class RenderTarget;
 
     ////////////////////////////////////////////////////////////
-    /// Draw the object into the specified window
+    /// Draw the object into the specified render target
     ///
-    /// \param Target : Target into which render the object
+    /// \param target : Target into which render the object
+    /// \param queue :  Render queue to add the rendering commands to
     ///
     ////////////////////////////////////////////////////////////
-    void Draw(RenderTarget& Target) const;
+    void Draw(RenderTarget& target, RenderQueue& queue) const;
 
     ////////////////////////////////////////////////////////////
     /// Render the specific geometry of the object
     ///
-    /// \param Target : Target into which render the object
+    /// \param target : Target into which render the object
+    /// \param queue :  Render queue to add the rendering commands to
     ///
     ////////////////////////////////////////////////////////////
-    virtual void Render(RenderTarget& Target) const = 0;
+    virtual void Render(RenderTarget& target, RenderQueue& queue) const = 0;
 
     ////////////////////////////////////////////////////////////
     // Member data
     ////////////////////////////////////////////////////////////
     Vector2f        myPosition;      ///< Position of the object on screen
     Vector2f        myScale;         ///< Scale of the object
-    Vector2f        myCenter;        ///< Origin of translation / rotation / scaling of the object
+    Vector2f        myOrigin;        ///< Origin of translation / rotation / scaling of the object
     float           myRotation;      ///< Orientation of the object, in degrees
     Color           myColor;         ///< Overlay color of the object
     Blend::Mode     myBlendMode;     ///< Blending mode

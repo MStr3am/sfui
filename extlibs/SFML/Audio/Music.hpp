@@ -29,6 +29,7 @@
 // Headers
 ////////////////////////////////////////////////////////////
 #include <SFML/Audio/SoundStream.hpp>
+#include <SFML/System/Mutex.hpp>
 #include <string>
 #include <vector>
 
@@ -51,11 +52,11 @@ public :
     ////////////////////////////////////////////////////////////
     /// Construct the music with a buffer size
     ///
-    /// \param BufferSize : Size of the internal buffer, expressed in number of samples
+    /// \param bufferSize : Size of the internal buffer, expressed in number of samples
     ///                     (ie. size taken by the music in memory) (44100 by default)
     ///
     ////////////////////////////////////////////////////////////
-    Music(std::size_t BufferSize = 44100);
+    Music(std::size_t bufferSize = 44100);
 
     ////////////////////////////////////////////////////////////
     /// Destructor
@@ -66,23 +67,23 @@ public :
     ////////////////////////////////////////////////////////////
     /// Open a music file (doesn't play it -- call Play() for that)
     ///
-    /// \param Filename : Path of the music file to open
+    /// \param filename : Path of the music file to open
     ///
     /// \return True if loading has been successful
     ///
     ////////////////////////////////////////////////////////////
-    bool OpenFromFile(const std::string& Filename);
+    bool OpenFromFile(const std::string& filename);
 
     ////////////////////////////////////////////////////////////
     /// Open a music file from memory (doesn't play it -- call Play() for that)
     ///
-    /// \param Data :        Pointer to the file data in memory
-    /// \param SizeInBytes : Size of the data to load, in bytes
+    /// \param data :        Pointer to the file data in memory
+    /// \param sizeInBytes : Size of the data to load, in bytes
     ///
     /// \return True if loading has been successful
     ///
     ////////////////////////////////////////////////////////////
-    bool OpenFromMemory(const char* Data, std::size_t SizeInBytes);
+    bool OpenFromMemory(const char* data, std::size_t sizeInBytes);
 
     ////////////////////////////////////////////////////////////
     /// Get the music duration
@@ -95,16 +96,16 @@ public :
 private :
 
     ////////////////////////////////////////////////////////////
-    /// /see SoundStream::OnStart
-    ///
-    ////////////////////////////////////////////////////////////
-    virtual bool OnStart();
-
-    ////////////////////////////////////////////////////////////
     /// /see SoundStream::OnGetData
     ///
     ////////////////////////////////////////////////////////////
-    virtual bool OnGetData(Chunk& Data);
+    virtual bool OnGetData(Chunk& data);
+
+    ////////////////////////////////////////////////////////////
+    /// /see SoundStream::OnSeek
+    ///
+    ////////////////////////////////////////////////////////////
+    virtual void OnSeek(float timeOffset);
 
     ////////////////////////////////////////////////////////////
     // Member data
@@ -112,6 +113,7 @@ private :
     priv::SoundFile*   myFile;     ///< Sound file
     float              myDuration; ///< Music duration, in seconds
     std::vector<Int16> mySamples;  ///< Temporary buffer of samples
+    Mutex              myMutex;    ///< Mutex protecting the data
 };
 
 } // namespace sf

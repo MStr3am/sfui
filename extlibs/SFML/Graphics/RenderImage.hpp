@@ -22,26 +22,29 @@
 //
 ////////////////////////////////////////////////////////////
 
-#ifndef SFML_INPUT_HPP
-#define SFML_INPUT_HPP
+#ifndef SFML_RENDERIMAGE_HPP
+#define SFML_RENDERIMAGE_HPP
 
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
-#include <SFML/Config.hpp>
 #include <SFML/System/NonCopyable.hpp>
-#include <SFML/Window/Event.hpp>
-#include <SFML/Window/WindowListener.hpp>
+#include <SFML/Graphics/Image.hpp>
+#include <SFML/Graphics/RenderTarget.hpp>
 
 
 namespace sf
 {
+namespace priv
+{
+    class RenderImageImpl;
+}
+
 ////////////////////////////////////////////////////////////
-/// Input handles real-time input from keyboard and mouse.
-/// Use it instead of events to handle continuous moves and more
-/// game-friendly inputs
+/// Target for 2D rendering into an image that can be reused
+/// in a sprite
 ////////////////////////////////////////////////////////////
-class SFML_API Input : public WindowListener, NonCopyable
+class SFML_API RenderImage : public RenderTarget, NonCopyable
 {
 public :
 
@@ -49,86 +52,91 @@ public :
     /// Default constructor
     ///
     ////////////////////////////////////////////////////////////
-    Input();
+    RenderImage();
 
     ////////////////////////////////////////////////////////////
-    /// Get the state of a key
-    ///
-    /// \param key : Key to check
-    ///
-    /// \return True if key is down, false if key is up
+    /// Destructor
     ///
     ////////////////////////////////////////////////////////////
-    bool IsKeyDown(Key::Code key) const;
+    virtual ~RenderImage();
 
     ////////////////////////////////////////////////////////////
-    /// Get the state of a mouse button
+    /// Create the render image from its dimensions
     ///
-    /// \param button : Button to check
+    /// \param width :       Width of the render image
+    /// \param height :      Height of the render image
+    /// \param depthBuffer : Do you want this render image to have a depth buffer?
     ///
-    /// \return True if button is down, false if button is up
+    /// \return True if creation has been successful
     ///
     ////////////////////////////////////////////////////////////
-    bool IsMouseButtonDown(Mouse::Button button) const;
+    bool Create(unsigned int width, unsigned int height, bool depthBuffer = false);
 
     ////////////////////////////////////////////////////////////
-    /// Get the state of a joystick button
+    /// Activate of deactivate the render-image as the current target
+    /// for rendering
     ///
-    /// \param joystick : Identifier of the joystick to check (0 or 1)
-    /// \param button :   Button to check
+    /// \param active : True to activate, false to deactivate (true by default)
     ///
-    /// \return True if button is down, false if button is up
+    /// \return True if operation was successful, false otherwise
     ///
     ////////////////////////////////////////////////////////////
-    bool IsJoystickButtonDown(unsigned int joystick, unsigned int button) const;
+    bool SetActive(bool active = true);
 
     ////////////////////////////////////////////////////////////
-    /// Get the mouse X position
-    ///
-    /// \return Current mouse left position, relative to owner window
+    /// Update the contents of the target image
     ///
     ////////////////////////////////////////////////////////////
-    int GetMouseX() const;
+    void Display();
 
     ////////////////////////////////////////////////////////////
-    /// Get the mouse Y position
+    /// Get the width of the rendering region of the image
     ///
-    /// \return Current mouse top position, relative to owner window
+    /// \return Width in pixels
     ///
     ////////////////////////////////////////////////////////////
-    int GetMouseY() const;
+    virtual unsigned int GetWidth() const;
 
     ////////////////////////////////////////////////////////////
-    /// Get a joystick axis position
+    /// Get the height of the rendering region of the image
     ///
-    /// \param joystick : Identifier of the joystick to check (0 or 1)
-    /// \param axis :     Axis to get
-    ///
-    /// \return Current axis position, in the range [-100, 100] (except for POV, which is [0, 360])
+    /// \return Height in pixels
     ///
     ////////////////////////////////////////////////////////////
-    float GetJoystickAxis(unsigned int joystick, Joy::Axis axis) const;
+    virtual unsigned int GetHeight() const;
+
+    ////////////////////////////////////////////////////////////
+    /// Get the target image
+    ///
+    /// \return Target image
+    ///
+    ////////////////////////////////////////////////////////////
+    const Image& GetImage() const;
+
+    ////////////////////////////////////////////////////////////
+    /// Check whether the system supports render images or not
+    ///
+    /// \return True if the RenderImage class can be used
+    ///
+    ////////////////////////////////////////////////////////////
+    static bool CanUseRenderImage();
 
 private :
 
     ////////////////////////////////////////////////////////////
-    /// /see WindowListener::OnEvent
+    /// /see RenderTarget::Activate
     ///
     ////////////////////////////////////////////////////////////
-    virtual void OnEvent(const Event& event);
+    virtual bool Activate(bool active);
 
     ////////////////////////////////////////////////////////////
     // Member data
     ////////////////////////////////////////////////////////////
-    bool  myKeys[Key::Count];            ///< Array containing the state of all keyboard keys
-    bool  myMouseButtons[Mouse::Count];  ///< Array containing the state of all mouse buttons
-    bool  myJoystickButtons[2][16];      ///< Array containing the state of all joysticks buttons
-    int   myMouseX;                      ///< Mouse position on X
-    int   myMouseY;                      ///< Mouse position on Y
-    float myJoystickAxis[2][Joy::Count]; ///< Joysticks position on each axis
+    Image                  myImage;       ///< Target image to draw on
+    priv::RenderImageImpl* myRenderImage; ///< Platform / hardware specific implementation
 };
 
 } // namespace sf
 
 
-#endif // SFML_INPUT_HPP
+#endif // SFML_RENDERIMAGE_HPP

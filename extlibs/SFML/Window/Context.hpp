@@ -36,62 +36,70 @@ namespace sf
 {
 namespace priv
 {
-    class WindowImpl;
+    class ContextGL;
 }
 
 ////////////////////////////////////////////////////////////
-/// Class wrapping an OpenGL context.
-/// All SFML windows already have their own context, so
-/// this class is more a helper for specific issues involving
-/// OpenGL and multi-threading.
-/// It's meant to be used internally.
+/// Class holding a valid drawing context
+///
+/// If you need to make OpenGL / graphics calls without
+/// having an active window (like in a thread), you can use
+/// an instance of this class to get a valid context.
+///
+/// Having a valid context is necessary for *every* OpenGL call,
+/// and for most of the classes from the Graphics package.
+///
+/// Note that a context is only active in its current thread,
+/// if you create a new thread it will have no valid context
+/// by default.
+///
+/// \code
+/// void ThreadFunction(void*)
+/// {
+///    sf::Context context;
+///    // from now on, you have a valid context
+///
+///    // you can make OpenGL calls
+///    glClear(GL_DEPTH_BUFFER_BIT);
+///
+///    // as well as using objects from the graphics package
+///    sf::Image Img;
+///    Img.LoadFromFile("image.png");
+/// }
+/// // the context is automatically deactivated and destroyed
+/// // by the sf::Context destructor
+/// \endcode
 ////////////////////////////////////////////////////////////
 class SFML_API Context : NonCopyable
 {
 public :
 
     ////////////////////////////////////////////////////////////
-    /// Default constructor, create the context
+    /// Default constructor -- creates and activates the context
     ///
     ////////////////////////////////////////////////////////////
     Context();
 
     ////////////////////////////////////////////////////////////
-    /// Destructor, destroy the context
+    /// Destructor -- deactivates and destroys the context
     ///
     ////////////////////////////////////////////////////////////
     ~Context();
 
     ////////////////////////////////////////////////////////////
-    /// Activate or deactivate the context
+    /// Activate or deactivate explicitely the context
     ///
-    /// \param Active : True to activate the context, false to deactivate it
-    ///
-    ////////////////////////////////////////////////////////////
-    void SetActive(bool Active);
-
-    ////////////////////////////////////////////////////////////
-    /// Check if there's a context bound to the current thread
-    ///
-    /// \return True if there's a context bound to the current thread
+    /// \param active : True to activate, false to deactivate
     ///
     ////////////////////////////////////////////////////////////
-    static bool IsContextActive();
-
-    ////////////////////////////////////////////////////////////
-    /// Get the global context
-    ///
-    /// \return Reference to the global context
-    ///
-    ////////////////////////////////////////////////////////////
-    static Context& GetGlobal();
+    void SetActive(bool active);
 
 private :
 
     ////////////////////////////////////////////////////////////
     // Member data
     ////////////////////////////////////////////////////////////
-    priv::WindowImpl* myDummyWindow; ///< Dummy window holding the context
+    priv::ContextGL* myContext; ///< Internal OpenGL context
 };
 
 } // namespace sf

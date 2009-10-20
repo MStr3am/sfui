@@ -40,6 +40,7 @@
 #include <SFUI/TextButton.hpp>
 #include <SFUI/TextInput.hpp>
 #include <SFUI/Window.hpp>
+#include <SFUI/Slider.hpp>
 
 /** \mainpage SFUI Documentation
  *

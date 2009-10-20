@@ -27,7 +27,6 @@
 */
 
 #include <SFML/Window/Event.hpp>
-#include <SFML/Window/OpenGL.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/Shape.hpp>
 
@@ -58,6 +57,8 @@ namespace sf
 
             AddKeyListener(this);
             AddMouseListener(this);
+
+            UseScissor(true);
         }
 
         void    TextInput::SetText(const Unicode::Text& text)

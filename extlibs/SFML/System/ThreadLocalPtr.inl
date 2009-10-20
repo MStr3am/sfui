@@ -22,26 +22,56 @@
 //
 ////////////////////////////////////////////////////////////
 
-#ifndef SFML_GRAPHICS_HPP
-#define SFML_GRAPHICS_HPP
+
+namespace sf
+{
+////////////////////////////////////////////////////////////
+template <typename T>
+ThreadLocalPtr<T>::ThreadLocalPtr(T* Value) :
+ThreadLocal(Value)
+{
+}
+
 
 ////////////////////////////////////////////////////////////
-// Headers
+template <typename T>
+T& ThreadLocalPtr<T>::operator *() const
+{
+    return *static_cast<T*>(GetValue());
+}
+
+
 ////////////////////////////////////////////////////////////
-
-#include <SFML/Window.hpp>
-#include <SFML/Graphics/Color.hpp>
-#include <SFML/Graphics/Font.hpp>
-#include <SFML/Graphics/Glyph.hpp>
-#include <SFML/Graphics/Image.hpp>
-#include <SFML/Graphics/PostFX.hpp>
-#include <SFML/Graphics/RenderImage.hpp>
-#include <SFML/Graphics/RenderQueue.hpp>
-#include <SFML/Graphics/RenderWindow.hpp>
-#include <SFML/Graphics/Shape.hpp>
-#include <SFML/Graphics/Sprite.hpp>
-#include <SFML/Graphics/String.hpp>
-#include <SFML/Graphics/View.hpp>
+template <typename T>
+T* ThreadLocalPtr<T>::operator ->() const
+{
+    return static_cast<T*>(GetValue());
+}
 
 
-#endif // SFML_GRAPHICS_HPP
+////////////////////////////////////////////////////////////
+template <typename T>
+ThreadLocalPtr<T>::operator T*() const
+{
+    return static_cast<T*>(GetValue());
+}
+
+
+////////////////////////////////////////////////////////////
+template <typename T>
+ThreadLocalPtr<T>& ThreadLocalPtr<T>::operator =(T* Value)
+{
+    SetValue(Value);
+    return *this;
+}
+
+
+////////////////////////////////////////////////////////////
+template <typename T>
+ThreadLocalPtr<T>& ThreadLocalPtr<T>::operator =(const ThreadLocalPtr<T>& Other)
+{
+    SetValue(Other.GetValue());
+    return *this;
+}
+
+} // namespace sf

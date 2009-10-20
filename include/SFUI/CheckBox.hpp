@@ -49,7 +49,6 @@ namespace sf
         {
             public :
 
-
                 /** \brief Constructor
                  *
                  * Constructor of CheckBox class.

@@ -22,62 +22,42 @@
 //
 ////////////////////////////////////////////////////////////
 
-#ifndef SFML_SOUNDBUFFERRECORDER_HPP
-#define SFML_SOUNDBUFFERRECORDER_HPP
-
-////////////////////////////////////////////////////////////
-// Headers
-////////////////////////////////////////////////////////////
-#include <SFML/Audio/SoundBuffer.hpp>
-#include <SFML/Audio/SoundRecorder.hpp>
-#include <vector>
+#ifndef SFML_CONTEXTSETTINGS_HPP
+#define SFML_CONTEXTSETTINGS_HPP
 
 
 namespace sf
 {
 ////////////////////////////////////////////////////////////
-/// Specialized SoundRecorder which saves the captured
-/// audio data into a sound buffer
+/// Structure defining the settings of the OpenGL
+/// context attached to a window
 ////////////////////////////////////////////////////////////
-class SFML_API SoundBufferRecorder : public SoundRecorder
+struct ContextSettings
 {
-public :
-
     ////////////////////////////////////////////////////////////
-    /// Get the sound buffer containing the captured audio data
+    /// Default constructor
     ///
-    /// \return Constant reference to the sound buffer
-    ///
-    ////////////////////////////////////////////////////////////
-    const SoundBuffer& GetBuffer() const;
-
-private :
-
-    ////////////////////////////////////////////////////////////
-    /// /see SoundBuffer::OnStart
+    /// \param depth :        Depth buffer bits (24 by default)
+    /// \param stencil :      Stencil buffer bits (8 by default)
+    /// \param antialiasing : Antialiasing level (0 by default)
     ///
     ////////////////////////////////////////////////////////////
-    virtual bool OnStart();
-
-    ////////////////////////////////////////////////////////////
-    /// /see SoundBuffer::OnProcessSamples
-    ///
-    ////////////////////////////////////////////////////////////
-    virtual bool OnProcessSamples(const Int16* samples, std::size_t samplesCount);
-
-    ////////////////////////////////////////////////////////////
-    /// /see SoundBuffer::OnStop
-    ///
-    ////////////////////////////////////////////////////////////
-    virtual void OnStop();
+    explicit ContextSettings(unsigned int depth = 24, unsigned int stencil = 8, unsigned int antialiasing = 0) :
+    DepthBits        (depth),
+    StencilBits      (stencil),
+    AntialiasingLevel(antialiasing)
+    {
+    }
 
     ////////////////////////////////////////////////////////////
     // Member data
     ////////////////////////////////////////////////////////////
-    std::vector<Int16> mySamples; ///< Temporary sample buffer to hold the recorded data
-    SoundBuffer        myBuffer;  ///< Sound buffer that will contain the recorded data
+    unsigned int DepthBits;         ///< Bits of the depth buffer
+    unsigned int StencilBits;       ///< Bits of the stencil buffer
+    unsigned int AntialiasingLevel; ///< Level of antialiasing
 };
 
 } // namespace sf
 
-#endif // SFML_SOUNDBUFFERRECORDER_HPP
+
+#endif // SFML_CONTEXTSETTINGS_HPP

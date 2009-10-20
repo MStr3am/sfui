@@ -26,7 +26,6 @@
 
 */
 
-#include <SFML/Window/OpenGL.hpp>
 #include <SFUI/GuiRenderer.hpp>
 
 #include <SFUI/ResourceManager.hpp>
@@ -147,15 +146,6 @@ namespace sf
         {
             if (property == Widget::SIZE)
                 mView.Reset(FloatRect(0, 0, GetWidth(), GetHeight()));
-        }
-
-        void    GuiRenderer::Render(RenderTarget& target, RenderQueue& queue) const
-        {
-            glEnable(GL_SCISSOR_TEST);
-
-            Widget::Render(target, queue);
-
-            glDisable(GL_SCISSOR_TEST);
         }
 
         void    GuiRenderer::Display()

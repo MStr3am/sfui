@@ -25,13 +25,11 @@
     SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
-
-#include <SFML/Window/OpenGL.hpp>
+#include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/RenderQueue.hpp>
 
 #include <SFUI/Widget.hpp>
-
 #include <SFUI/MouseListener.hpp>
 #include <SFUI/KeyListener.hpp>
 
@@ -52,7 +50,8 @@ namespace sf
                 mFocusable(true),
                 mDefaultStyle("BI_Widget"),
                 mAlign(Align::NONE),
-                mAlignOffset(0.f, 0.f)
+                mAlignOffset(0.f, 0.f),
+                mUseScissor(false)
         {
             mParent = 0;
         }
@@ -489,6 +488,11 @@ namespace sf
             }
         }
 
+        void    Widget::UseScissor(bool useScissor)
+        {
+            mUseScissor = useScissor;
+        }
+
         void    Widget::OnPaint(RenderTarget& target, RenderQueue& queue) const
         {
             queue.SetColor(GetColor());
@@ -508,16 +512,27 @@ namespace sf
 
         void    Widget::Render(RenderTarget& target, RenderQueue& queue) const
         {
-            /*Area& area = ResourceManager::Get()->WidgetArea;
-            area.PushArea(GetRect(true));
-
-            const FloatRect& top = area.GetTopArea();
-            glScissor(top.Left, target.GetHeight() - top.Bottom, top.GetSize().x, top.GetSize().y);*/
-
             OnPaint(target, queue);
-            RenderChildren(target, queue);
 
-            //area.PopArea();
+            if (mUseScissor)
+            {
+                Area& area = ResourceManager::Get()->WidgetArea;
+                area.PushArea(GetRect(true));
+                const FloatRect& top = area.GetTopArea();
+
+                target.Flush();
+
+                RenderChildren(target, queue);
+
+                queue.SetScissor(true, Vector2f(top.Left, target.GetHeight() - top.Bottom), Vector2f(top.GetSize().x, top.GetSize().y));
+                target.Flush();
+                area.PopArea();
+            }
+            else
+            {
+                queue.SetScissor(false);
+                RenderChildren(target, queue);
+            }
         }
     }
 }

@@ -33,13 +33,16 @@
 
 namespace sf
 {
-    ////////////////////////////////////////////////////////////
-    /// Make the current thread sleep for a given time
-    ///
-    /// \param Duration : Time to sleep, in seconds (must be >= 0)
-    ///
-    ////////////////////////////////////////////////////////////
-    void SFML_API Sleep(float Duration);
+////////////////////////////////////////////////////////////
+/// \brief Make the current thread sleep for a given time
+///
+/// sf::Sleep is the best way to block a program or one of its
+/// threads, as it doesn't consume any CPU power.
+///
+/// \param duration Time to sleep, in seconds (must be positive)
+///
+////////////////////////////////////////////////////////////
+void SFML_API Sleep(float duration);
 
 } // namespace sf
 

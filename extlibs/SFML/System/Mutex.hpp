@@ -29,17 +29,108 @@
 // Headers
 ////////////////////////////////////////////////////////////
 #include <SFML/Config.hpp>
+#include <SFML/System/NonCopyable.hpp>
 
 
-#ifdef SFML_SYSTEM_WINDOWS
+namespace sf
+{
+namespace priv
+{
+    class MutexImpl;
+}
 
-    #include <SFML/System/Win32/Mutex.hpp>
+////////////////////////////////////////////////////////////
+/// \brief Blocks concurrent access to shared resources
+///        from multiple threads
+///
+////////////////////////////////////////////////////////////
+class SFML_API Mutex : NonCopyable
+{
+public :
 
-#else
+    ////////////////////////////////////////////////////////////
+    /// \brief Default constructor
+    ///
+    ////////////////////////////////////////////////////////////
+    Mutex();
 
-    #include <SFML/System/Unix/Mutex.hpp>
+    ////////////////////////////////////////////////////////////
+    /// \brief Destructor
+    ///
+    ////////////////////////////////////////////////////////////
+    ~Mutex();
 
-#endif
+    ////////////////////////////////////////////////////////////
+    /// \brief Lock the mutex
+    ///
+    /// If the mutex is already locked in another thread,
+    /// this call will block the execution until the mutex
+    /// is released.
+    ///
+    ////////////////////////////////////////////////////////////
+    void Lock();
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Unlock the mutex
+    ///
+    ////////////////////////////////////////////////////////////
+    void Unlock();
+
+private :
+
+    ////////////////////////////////////////////////////////////
+    // Member data
+    ////////////////////////////////////////////////////////////
+    priv::MutexImpl* myMutexImpl; ///< OS-specific implementation
+};
+
+} // namespace sf
 
 
 #endif // SFML_MUTEX_HPP
+
+
+////////////////////////////////////////////////////////////
+/// \class sf::Mutex
+///
+/// Mutex stands for "MUTual EXclusion". A mutex is a
+/// synchronization object, used when multiple threads are involved.
+///
+/// When you want to protect a part of the code from being accessed
+/// simultaneously by multiple threads, you typically use a
+/// mutex. When a thread is locked by a thread, any other thread
+/// trying to lock it will be blocked until the mutex is released
+/// by the thread that locked it. This way, you can allow only
+/// one thread at a time to access a critical region of your code.
+///
+/// Usage example:
+/// \code
+/// Database db; // this is a critical resource that needs some protection
+/// sf::Mutex mutex;
+///
+/// void thread1()
+/// {
+///     mutex.Lock(); // this call will block the thread if the mutex is already locked by thread2
+///     db.write(...);
+///     mutex.Unlock(); // if thread2 was waiting, it will now be unblocked
+/// }
+/// 
+/// void thread2()
+/// {
+///     mutex.Lock(); // this call will block the thread if the mutex is already locked by thread1
+///     db.write(...);
+///     mutex.Unlock(); // if thread1 was waiting, it will now be unblocked
+/// }
+/// \endcode
+///
+/// Be very careful with mutexes. A bad usage can lead to bad problems,
+/// like deadlocks (two threads are waiting for each other and the
+/// application is stuck).
+///
+/// To make the usage of mutexes more robust, particularly in
+/// environments where exceptions can be thrown, you should
+/// use the helper class sf::Lock to lock/unlock mutexes.
+///
+/// \see sf::Lock
+///
+////////////////////////////////////////////////////////////
