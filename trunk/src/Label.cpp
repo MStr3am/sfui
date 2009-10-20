@@ -27,7 +27,6 @@
 */
 
 #include <SFML/Graphics/RenderTarget.hpp>
-#include <SFML/Window/OpenGL.hpp>
 
 #include <SFUI/Label.hpp>
 #include <SFUI/ResourceManager.hpp>

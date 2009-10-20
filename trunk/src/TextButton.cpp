@@ -26,7 +26,6 @@
 
 */
 
-#include <SFML/Window/OpenGL.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
 
 #include <SFUI/TextButton.hpp>

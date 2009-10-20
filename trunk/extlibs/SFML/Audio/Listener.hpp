@@ -47,10 +47,10 @@ public :
     /// Change the global volume of all the sounds.
     /// The default volume is 100
     ///
-    /// \param Volume : New global volume, in the range [0, 100]
+    /// \param volume : New global volume, in the range [0, 100]
     ///
     ////////////////////////////////////////////////////////////
-    static void SetGlobalVolume(float Volume);
+    static void SetGlobalVolume(float volume);
 
     ////////////////////////////////////////////////////////////
     /// Get the current value of the global volume of all the sounds
@@ -64,19 +64,19 @@ public :
     /// Change the position of the listener (take 3 values).
     /// The default position is (0, 0, 0)
     ///
-    /// \param X, Y, Z : Position of the listener in the world
+    /// \param x, y, z : Position of the listener in the world
     ///
     ////////////////////////////////////////////////////////////
-    static void SetPosition(float X, float Y, float Z);
+    static void SetPosition(float x, float y, float z);
 
     ////////////////////////////////////////////////////////////
     /// Change the position of the listener (take a 3D vector).
     /// The default position is (0, 0, 0)
     ///
-    /// \param Position : Position of the listener in the world
+    /// \param position : Position of the listener in the world
     ///
     ////////////////////////////////////////////////////////////
-    static void SetPosition(const Vector3f& Position);
+    static void SetPosition(const Vector3f& position);
 
     ////////////////////////////////////////////////////////////
     /// Get the current position of the listener
@@ -87,33 +87,32 @@ public :
     static Vector3f GetPosition();
 
     ////////////////////////////////////////////////////////////
-    /// Change the orientation of the listener (the point
-    /// he must look at) (take 3 values).
-    /// The default target is (0, 0, -1)
+    /// Change the orientation of the listener (take 3 values);
+    /// the direction does not need to be normalized.
+    /// The default direction is (0, 0, -1)
     ///
-    /// \param X, Y, Z : Position of the point the listener must look at
+    /// \param x, y, z : Orientation of the listener
     ///
     ////////////////////////////////////////////////////////////
-    static void SetTarget(float X, float Y, float Z);
+    static void SetDirection(float x, float y, float z);
 
     ////////////////////////////////////////////////////////////
-    /// Change the orientation of the listener (the point
-    /// he must look at) (take a 3D vector).
-    /// The default target is (0, 0, -1)
+    /// Change the orientation of the listener (take a 3D vector);
+    /// the direction does not need to be normalized.
+    /// The default direction is (0, 0, -1)
     ///
-    /// \param Target : Position of the point the listener must look at
+    /// \param direction : Orientation of the listener
     ///
     ////////////////////////////////////////////////////////////
-    static void SetTarget(const Vector3f& Target);
+    static void SetDirection(const Vector3f& direction);
 
     ////////////////////////////////////////////////////////////
-    /// Get the current orientation of the listener (the point
-    /// he's looking at)
+    /// Get the current orientation of the listener.
     ///
-    /// \return : Position of the point the listener is looking at
+    /// \return Current direction of the listener
     ///
     ////////////////////////////////////////////////////////////
-    static Vector3f GetTarget();
+    static Vector3f GetDirection();
 };
 
 } // namespace sf

@@ -22,62 +22,81 @@
 //
 ////////////////////////////////////////////////////////////
 
-#ifndef SFML_SOUNDBUFFERRECORDER_HPP
-#define SFML_SOUNDBUFFERRECORDER_HPP
+#ifndef SFML_THREADLOCAL_HPP
+#define SFML_THREADLOCAL_HPP
 
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
-#include <SFML/Audio/SoundBuffer.hpp>
-#include <SFML/Audio/SoundRecorder.hpp>
-#include <vector>
+#include <SFML/Config.hpp>
+#include <SFML/System/NonCopyable.hpp>
+#include <cstdlib>
 
 
 namespace sf
 {
+namespace priv
+{
+    class ThreadLocalImpl;
+}
+
 ////////////////////////////////////////////////////////////
-/// Specialized SoundRecorder which saves the captured
-/// audio data into a sound buffer
+/// \brief Defines variables with thread-local storage
+///
 ////////////////////////////////////////////////////////////
-class SFML_API SoundBufferRecorder : public SoundRecorder
+class SFML_API ThreadLocal : NonCopyable
 {
 public :
 
     ////////////////////////////////////////////////////////////
-    /// Get the sound buffer containing the captured audio data
+    /// \brief Default constructor
     ///
-    /// \return Constant reference to the sound buffer
+    /// \param value Optional value to initalize the variable (NULL by default)
     ///
     ////////////////////////////////////////////////////////////
-    const SoundBuffer& GetBuffer() const;
+    ThreadLocal(void* value = NULL);
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Destructor
+    ///
+    ////////////////////////////////////////////////////////////
+    ~ThreadLocal();
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Set the thread-specific value of the variable
+    ///
+    /// \param value Value of the variable for the current thread
+    ///
+    ////////////////////////////////////////////////////////////
+    void SetValue(void* value);
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Retrieve the thread-specific value of the variable
+    ///
+    /// \return Value of the variable for the current thread
+    ///
+    ////////////////////////////////////////////////////////////
+    void* GetValue() const;
 
 private :
 
     ////////////////////////////////////////////////////////////
-    /// /see SoundBuffer::OnStart
-    ///
-    ////////////////////////////////////////////////////////////
-    virtual bool OnStart();
-
-    ////////////////////////////////////////////////////////////
-    /// /see SoundBuffer::OnProcessSamples
-    ///
-    ////////////////////////////////////////////////////////////
-    virtual bool OnProcessSamples(const Int16* samples, std::size_t samplesCount);
-
-    ////////////////////////////////////////////////////////////
-    /// /see SoundBuffer::OnStop
-    ///
-    ////////////////////////////////////////////////////////////
-    virtual void OnStop();
-
-    ////////////////////////////////////////////////////////////
     // Member data
     ////////////////////////////////////////////////////////////
-    std::vector<Int16> mySamples; ///< Temporary sample buffer to hold the recorded data
-    SoundBuffer        myBuffer;  ///< Sound buffer that will contain the recorded data
+    priv::ThreadLocalImpl* myImpl; ///< Pointer to the OS specific implementation
 };
 
 } // namespace sf
 
-#endif // SFML_SOUNDBUFFERRECORDER_HPP
+
+#endif // SFML_THREADLOCAL_HPP
+
+
+////////////////////////////////////////////////////////////
+/// \class sf::ThreadLocal
+///
+/// This class manipulates void* parameters and thus is not
+/// appropriate for strongly-typed variables. You should rather
+/// use the sf::ThreadLocalPtr template class.
+///
+////////////////////////////////////////////////////////////

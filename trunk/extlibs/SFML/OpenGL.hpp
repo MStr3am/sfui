@@ -22,26 +22,37 @@
 //
 ////////////////////////////////////////////////////////////
 
-#ifndef SFML_GRAPHICS_HPP
-#define SFML_GRAPHICS_HPP
+#ifndef SFML_OPENGL_HPP
+#define SFML_OPENGL_HPP
+
 
 ////////////////////////////////////////////////////////////
-// Headers
+/// Headers
 ////////////////////////////////////////////////////////////
-
-#include <SFML/Window.hpp>
-#include <SFML/Graphics/Color.hpp>
-#include <SFML/Graphics/Font.hpp>
-#include <SFML/Graphics/Glyph.hpp>
-#include <SFML/Graphics/Image.hpp>
-#include <SFML/Graphics/PostFX.hpp>
-#include <SFML/Graphics/RenderImage.hpp>
-#include <SFML/Graphics/RenderQueue.hpp>
-#include <SFML/Graphics/RenderWindow.hpp>
-#include <SFML/Graphics/Shape.hpp>
-#include <SFML/Graphics/Sprite.hpp>
-#include <SFML/Graphics/String.hpp>
-#include <SFML/Graphics/View.hpp>
+#include <SFML/Config.hpp>
 
 
-#endif // SFML_GRAPHICS_HPP
+////////////////////////////////////////////////////////////
+/// This file just includes the OpenGL (GL and GLU) headers,
+/// which have actually different paths on each system
+////////////////////////////////////////////////////////////
+#if defined(SFML_SYSTEM_WINDOWS)
+
+    #include <windows.h>
+    #include <GL/gl.h>
+    #include <GL/glu.h>
+
+#elif defined(SFML_SYSTEM_LINUX) || defined(SFML_SYSTEM_FREEBSD)
+
+    #include <GL/gl.h>
+    #include <GL/glu.h>
+
+#elif defined(SFML_SYSTEM_MACOS)
+
+    #include <OpenGL/gl.h>
+    #include <OpenGL/glu.h>
+
+#endif
+
+
+#endif // SFML_OPENGL_HPP

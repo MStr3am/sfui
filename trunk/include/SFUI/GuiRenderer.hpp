@@ -108,8 +108,6 @@ namespace sf
 
                 virtual void        OnChange(Widget::Property property);
 
-                virtual void        Render(RenderTarget& target, RenderQueue& queue) const;
-
                 View                mView;
 
             private :

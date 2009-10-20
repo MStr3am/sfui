@@ -29,19 +29,31 @@
 
 */
 
+/** \file MovablePolicy.hpp
+ * \brief Policy for movable, drag and drop (...) widgets's behaviour
+ * \author Robin Ruaux
+ */
+
 #include <SFUI/Policy.hpp>
 
 namespace sf
 {
     namespace ui
     {
+        /** \class MovablePolicy
+         *
+         * \brief Policy for movable, drag and drop (...) widgets's behaviour
+         */
         class MovablePolicy : public Policy
         {
             public :
 
+                /** \brief Constructor.
+                 *
+                 * Constructor of MovablePolicy class.
+                 */
                 MovablePolicy(Widget& widget);
 
-                /** \brief Get the collision box of the widget area.
 
                 /** \brief Check if the widget can be blocked.
                  *
@@ -56,11 +68,13 @@ namespace sf
                  */
                 bool            IsMovable() const;
 
+
                 /** \brief Check if the widget is movable on X coords.
                  *
                  * \return The widget movable property.
                  */
                 bool            IsMovableX() const;
+
 
                 /** \brief Check if the widget is movable on Y coords.
                  *
@@ -68,20 +82,8 @@ namespace sf
                  */
                 bool            IsMovableY() const;
 
+
                 virtual void    LoadStyle(const std::string& nameStyle);
-
-
-                /** \brief Set the widget collision box
-                 *
-                 * The box property is needed by the blocked boolean property.
-                 *
-                 * By default,
-                 *
-                 * Widget parent's size (Left, Top, Right, Bottom)
-                 *
-                 * \param box The widget rectangle of the box property.
-                 */
-                void            SetCollisionBox(FloatRect boxRect);
 
 
                 /** \brief Set the widget to be blocked.
@@ -99,11 +101,13 @@ namespace sf
                  */
                 void            SetMovable(bool movable = true);
 
+
                 /** \brief Set the widget to be movable on X coords.
                  *
                  * \param movable The widget x movable property.
                  */
                 void            SetMovableX(bool movable = true);
+
 
                 /** \brief Set the widget to be movable on Y coords.
                  *
@@ -122,8 +126,6 @@ namespace sf
             private :
 
                 bool            mBlocked;
-
-                FloatRect       mCollisionBox;
 
                 bool            mDragged;
 

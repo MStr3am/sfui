@@ -29,6 +29,11 @@
 
 */
 
+/** \file Policy.hpp
+ * \brief Basic policy class.
+ * \author Robin Ruaux
+ */
+
 #include <SFUI/Widget.hpp>
 
 #include <SFUI/MouseListener.hpp>
@@ -40,10 +45,21 @@ namespace sf
 {
     namespace ui
     {
+        /** \class Policy
+         *
+         * \brief Basic policy class for widgets
+         */
         class Policy : public MouseListener, public KeyListener
         {
             public :
 
+                /** \brief Constructor.
+                 *
+                 * Constructor of Policy class.
+                 *
+                 * \param widget Attached widget to the policy.
+                 * \param name Policy name.
+                 */
                 Policy(Widget& widget, const Unicode::Text& name)
                     :   mWidget(widget),
                         mName(name)
@@ -52,17 +68,30 @@ namespace sf
                     mWidget.AddKeyListener(this);
                 }
 
+                /** \brief Destructor.
+                 *
+                 * Destructor of Policy class
+                 */
                 ~Policy()
                 {
                     mWidget.RemoveMouseListener(this);
                     mWidget.RemoveKeyListener(this);
                 }
 
+                /** \brief Get the policy name.
+                 *
+                 * \return The policy name.
+                 */
                 const Unicode::Text&    GetName()
                 {
                     return mName;
                 }
 
+                /** \brief Load a new style for the policy.
+                 *
+                 * This method is virtual and could be reimplemented by other policies to load properties.
+                 * \param styleName The style name value to load.
+                 */
                 virtual void            LoadStyle(const std::string& styleName) {};
 
             protected :

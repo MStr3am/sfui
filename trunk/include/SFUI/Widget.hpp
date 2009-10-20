@@ -432,6 +432,12 @@ namespace sf
                  */
                 void                UpdatePosition();
 
+                /** \brief Enable the scissor test to render the widget
+                 *
+                 * \param useScissor Enable or not the scissor test.
+                 */
+                void                UseScissor(bool useScissor);
+
 
             protected:
 
@@ -479,7 +485,10 @@ namespace sf
 
                 Vector2f            mSize;
 
+                bool                mUseScissor;
+
                 bool                mVisible;
+
         };
 
     }
