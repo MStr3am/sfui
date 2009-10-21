@@ -27,12 +27,12 @@
 <style name="BI_Icon" color="rgba: 0, 0, 0, 0" width="16" height="16" />
 
 <!-- WINDOW -->
-<style name="BI_Window" movable="1" blocked="1" color="rgba: 123, 123, 223, 255" />
+<style name="BI_Window" movable="1" blocked="1" color="rgba: 255, 169, 223, 225" />
 <style name="BI_Window->Title" font="TitleFont" textSize="23" align="top_center" />
 <style name="BI_Window->Background" useGrid="0" />
 
 <!-- TEXT INPUT -->
-<style name="BI_TextInput" width="200" height="20" color="#666666" maxLength="0" selectionColor="rgba:255,255,255,123" textColor="#FFFFFF" editable="1" />
+<style name="BI_TextInput" width="200" height="20" color="#CCCCCC" borderColor="#000000" maxLength="0" selectionColor="rgba:255,255,255,123" textColor="#FFFFFF" editable="1" />
 
 <!-- TEXT BUTTON -->
 <style name="BI_TextButton" color="rgba:0,0,0,0" width="70" height="30" />
@@ -44,9 +44,14 @@
 <style name="BI_TextButton_Hovered->Label" textColor="#000000" align="center" x="0" y="0" />
 <style name="BI_TextButton_Hovered->Background" image="HoveredButton" useGrid="0" />
 
+<style name="BI_TextButton_Released" from="BI_TextButton_Hovered" />
+<style name="BI_TextButton_Released->Label" from="BI_TextButton_Hovered->Label" />
+<style name="BI_TextButton_Released->Background" from="BI_TextButton_Hovered->Background" />
+
 <style name="BI_TextButton_Pressed" />
 <style name="BI_TextButton_Pressed->Label" textColor="rgba: 0,0,0,123" align="center" x="1" y="1" />
 <style name="BI_TextButton_Pressed->Background" image="PressedButton" useGrid="0" />
+
 
 <!-- CHECKBOX -->
 <style name="BI_CheckBox" width="200" color="rgba:0,0,0,0" />
@@ -81,4 +86,11 @@
 <style name="BI_GridDecorator->bottomLeft" image="sub:NormalButton, 0,23,7,30" width="8" height="8" align="bottom_left" />
 <style name="BI_GridDecorator->bottomCenter" image="sub:NormalButton, 8,23,51,30" height="8" align="bottom_center" />
 <style name="BI_GridDecorator->bottomRight" image="sub:NormalButton, 52,23,59,30" width="8" height="8" align="bottom_right" />
+
+<!-- SLIDER -->
+<style name="BI_HSlider" width="200" height="25" color="rgba:0,0,0,0" />
+<style name="BI_HSlider->Slider" width="20" height="21" image="HoveredButton" align="center" y="1" />
+
+<style name="BI_VSlider" width="25" height="200" color="rgba:0,0,0,0" />
+<style name="BI_VSlider->Slider" width="21" height="20" image="HoveredButton" align="center" x="1" />
 
