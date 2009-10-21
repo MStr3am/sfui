@@ -25,7 +25,7 @@
     SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
-#include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/Graphics/Shape.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/RenderQueue.hpp>
 
@@ -51,6 +51,7 @@ namespace sf
                 mDefaultStyle("BI_Widget"),
                 mAlign(Align::NONE),
                 mAlignOffset(0.f, 0.f),
+                mBorderColor(Color(0,0,0,0)),
                 mUseScissor(false)
         {
             mParent = 0;
@@ -76,6 +77,9 @@ namespace sf
             ResourceManager* rm = ResourceManager::Get();
 
             StyleProperties& properties = rm->GetStyle(style);
+
+            if (properties["from"] != "")
+                LoadStyle(properties["from"]);
 
             SetX(rm->GetValue(properties["x"], GetPosition().x));
             SetY(rm->GetValue(properties["y"], GetPosition().y));
@@ -114,12 +118,18 @@ namespace sf
             }
 
             SetColor(rm->GetColorValue(properties["color"], GetColor()));
+            SetBorderColor(rm->GetColorValue(properties["borderColor"], GetBorderColor()));
 
             SetEnabled(rm->GetValue(properties["enabled"], IsEnabled()));
             SetVisible(rm->GetValue(properties["visible"], IsVisible()));
             SetFocusable(rm->GetValue(properties["focusable"], IsFocusable()));
 
             UpdatePosition();
+        }
+
+        void    Widget::SetBorderColor(const Color& borderColor)
+        {
+            mBorderColor = borderColor;
         }
 
         void    Widget::SetColor(const Color& color)
@@ -152,7 +162,12 @@ namespace sf
             OnChange(Widget::SIZE);
         }
 
-        const Vector2f&    Widget::GetSize() const
+        const Color&        Widget::GetBorderColor() const
+        {
+            return mBorderColor;
+        }
+
+        const Vector2f&     Widget::GetSize() const
         {
             return mSize;
         }
@@ -167,9 +182,10 @@ namespace sf
             return mSize.y;
         }
 
-        void        Widget::SetAlignment(Align::Alignment align)
+        void        Widget::SetAlignment(Align::Alignment align, const Vector2f& alignOffset)
         {
             mAlign = align;
+            mAlignOffset = alignOffset;
             OnChange(Widget::ALIGNMENT);
         }
 
@@ -496,18 +512,7 @@ namespace sf
         void    Widget::OnPaint(RenderTarget& target, RenderQueue& queue) const
         {
             queue.SetColor(GetColor());
-            queue.SetTexture(0);
-
-            queue.BeginBatch();
-            {
-                queue.AddVertex(0, 0);
-                queue.AddVertex(mSize.x, 0);
-                queue.AddVertex(mSize.x, mSize.y);
-                queue.AddVertex(0, mSize.y);
-
-                queue.AddTriangle(0, 1, 3);
-                queue.AddTriangle(3, 1, 2);
-            }
+            target.Draw(Shape::Rectangle(0, 0, mSize.x, mSize.y, GetColor(), 1.f, GetBorderColor()));
         }
 
         void    Widget::Render(RenderTarget& target, RenderQueue& queue) const

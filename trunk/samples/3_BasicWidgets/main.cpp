@@ -23,9 +23,14 @@ int main(int ac, char **av)
     ui::RadioArea area;
     ui::RadioButton opt1(L"Option 1"), opt2(L"Option 2"), opt3(L"Option 3");
 
-    window.SetColor(Color(255, 255, 255, 123));
+    ui::Slider slider1(ui::Slider::HORIZONTAL);
+    ui::Slider slider2(ui::Slider::VERTICAL);
+    slider1.Move(20, 340);
+    slider2.Move(240, 20);
+
     window.SetSize(200, 300);
-    window.SetAlignment(ui::Align::CENTER);
+    window.SetAlignment(ui::Align::TOP_LEFT, Vector2f(20, 20));
+
 
     label.Move(20, 40);
     checkbox.Move(20, 100);
@@ -38,7 +43,7 @@ int main(int ac, char **av)
     area.SetColor(Color(255, 255, 255, 123));
     area.SetAlignment(ui::Align::BOTTOM_CENTER);
 
-    input.SetAlignment(ui::Align::BOTTOM_LEFT);
+    input.SetAlignment(ui::Align::BOTTOM_LEFT, Vector2f(5, -5));
 
     // Then we add all of them to their wanted parent =)
     window.Add(&label);
@@ -48,6 +53,8 @@ int main(int ac, char **av)
 
     myGui.Add(&input);
     myGui.Add(&window);
+    myGui.Add(&slider1);
+    myGui.Add(&slider2);
 
     while (myApp.IsOpened())
     {
@@ -61,7 +68,7 @@ int main(int ac, char **av)
             myGui.InjectEvent(event);
         }
 
-        myApp.Clear();
+        myApp.Clear(Color(255, 255, 255));
 
         myGui.Display();
 

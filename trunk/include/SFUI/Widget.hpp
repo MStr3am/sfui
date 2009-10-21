@@ -209,6 +209,12 @@ namespace sf
                 Align::Alignment    GetAlignment() const;
 
 
+                /** \brief Get the widget border color.
+                 *
+                 * \return The widget border color.
+                 */
+                const Color&        GetBorderColor() const;
+
                 /** \brief Get a widget brother with z-index operation.
                  *
                  * You can get a widget brother by selecting it with a z-index operation.
@@ -347,10 +353,18 @@ namespace sf
                 /** \brief Set the widget alignment.
                  *
                  * Alignment is just a relation between a widget and its direct parent.
-                 * This method don't update the widget position to its parent. You should use UpdatePosition() for it.
+                 * This method do not update the widget position to its parent. You should use UpdatePosition() for it.
                  * \param align The new widget alignment.
+                 * \param alignOffset The alignment offset.
                  */
-                void                SetAlignment(Align::Alignment align);
+                void                SetAlignment(Align::Alignment align, const Vector2f& alignOffset = Vector2f(0, 0));
+
+
+                /** \brief Set the border color of the widget.
+                 *
+                 * \param borderColor The new widget border color.
+                 */
+                void                SetBorderColor(const Color& borderColor);
 
 
                 /** \brief Set the base color of the widget.
@@ -464,6 +478,8 @@ namespace sf
                 Align::Alignment    mAlign;
 
                 Vector2f            mAlignOffset;
+
+                Color               mBorderColor;
 
                 Widgets             mChildren;
 
